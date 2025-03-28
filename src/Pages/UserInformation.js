@@ -74,30 +74,33 @@ const UserInformation = () => {
        <div className="data-content">
         {/* User Data Table */}
         <section className="user-table">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Institution</th>
-                <th>E-mail</th>
-                <th>Phone</th>
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.institution}</td>
-                  <td>{user.email}</td>
-                  <td>{user.phone}</td>
-                  <td>{user.role}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+		
+		<div class="table-container">
+			  <table className="table">
+				<thead>
+				  <tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Institution</th>
+					<th>E-mail</th>
+					<th>Phone</th>
+					<th>Role</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  {users.map((user) => (
+					<tr key={user.id}>
+					  <td>{user.id}</td>
+					  <td>{user.name}</td>
+					  <td>{user.institution}</td>
+					  <td>{user.email}</td>
+					  <td>{user.phone}</td>
+					  <td>{user.role}</td>
+					</tr>
+				  ))}
+				</tbody>
+			  </table>
+		  </div>
         </section>
       </div>
     </div>
