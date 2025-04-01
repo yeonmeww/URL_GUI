@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Outlet, useLocation } from 'react-router-dom';
-import HomeDashBoard from './Pages/HomeDashBoard';
+import HomeDashBoard from './Pages/Home/HomeDashBoard';
 import UserInformation from './Pages/UserInformation';
 import Login from './Pages/Login';
 import Recipe from './Pages/Recipe/Recipe';
