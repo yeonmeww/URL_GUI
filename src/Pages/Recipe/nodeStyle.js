@@ -1,84 +1,100 @@
+import { Position } from "reactflow";
+
 const nodeStyles = {
-    Material: {
-      label: 'Material',
-      style: {
-        background: '#B7D2DE',
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        border: 'none',  // 테두리 제거
-        borderRadius: '10px',
-        padding: '10px',
-        fontWeight: 'bold',
-      },
-        sourcePosition: 'bottom',
-        targetPosition: 'top',
+  Material: {
+    label: 'Material',
+    style: {
+      background: '#B7D2DE',
+      borderRadius: '50%', // 동그라미
+      width: 100,
+      height: 100,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      
+    }, 
+
+    
+  },
+  Product: {
+    label: 'Product',
+    style: {
+      background: '#DEDCDC',
+      borderRadius: '0px', // 네모
+      width: 200,
+      height: 80,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-    Product: {
-      label: 'Product',
-      style: {
-        background: '#DEDCDC',
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        border: 'none',  // 테두리 제거
-        borderRadius: '10px',
-        padding: '10px',
-        fontWeight: 'bold',
-      },
-      sourcePosition: 'bottom',
-      targetPosition: 'top',
+  },
+  Process: {
+    label: 'Process',
+    style: {
+      background: '#EBCDCF',
+      borderRadius: '10px', // 살짝 둥근 네모
+      width: 100,
+      height: 80,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-    Process: {
-      label: 'Process',
-      style: {
-        background: '#EBCDCF',
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        border: 'none',  // 테두리 제거
-        borderRadius: '10px',
-        padding: '10px',
-        fontWeight: 'bold',
-      },
-      sourcePosition: 'bottom',
-      targetPosition: 'top',
+  },
+  Simulation: {
+    label: 'Simulation',
+    style: {
+      background: '#D6CCD9',
+      borderRadius: '25% 0', // 비대칭 스타일
+      width: 100,
+      height: 80,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-    //
-    Simulation: {
-        label: 'Simulation',
-        style: {
-            background: '#D6CCD9',
-            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-            border: 'none',  // 테두리 제거
-            borderRadius: '10px',
-            padding: '10px',
-            fontWeight: 'bold',
-          },
-          sourcePosition: 'bottom',
-          targetPosition: 'top',
-      },
-      Analysis: {
-        label: 'Analysis',
-        style: {
-            background: '#CEE4B4',
-            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-            border: 'none',  // 테두리 제거
-            borderRadius: '10px',
-            padding: '10px',
-            fontWeight: 'bold',
-          },
-          sourcePosition: 'bottom',
-          targetPosition: 'top',
-      },
-      Result: {
-        label: 'Result',
-        style: {
-            background: '#F7E3C4',
-            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-            border: 'none',  // 테두리 제거
-            borderRadius: '10px',
-            padding: '10px',
-            fontWeight: 'bold',
-          },
-          sourcePosition: 'bottom',
-          targetPosition: 'top',
-      },
-  };
-  
-  export default nodeStyles;
-  
+  },
+  Analysis: {
+    label: 'Analysis',
+    style: {
+      background: '#CEE4B4',
+      borderRadius: '10px', // 살짝 둥근 네모
+      width: 80,
+      height: 80,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      
+    },
+  },
+  Result: {
+    label: 'Result',
+    style: {
+      background: '#F7E3C4',
+      borderRadius: '50% 0', // 독특한 모양
+      width: 100,
+      height: 80,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  },
+};
+
+export default nodeStyles;

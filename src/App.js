@@ -10,7 +10,7 @@ import WorkOrder from './Pages/WorkOrder';
 import EquipmentCode from './Pages/Code/EquipmentCode'
 import MaterialCodeAliasGroup from './Pages/Code/MaterialCode/MaterialCodeAliasGroup'
 import MaterialInventory from './Pages/Code/MaterialInventory'
-import ProcessAnalysisSimulationCode from './Pages/Code/ProcessAnalysisSimulationCode'
+import ProcessAnalysisSimulationCode from './Pages/Code/ProcessAnalysisSimulationCode/ProcessAnalysisSimulationCode'
 import ProviderCode from './Pages/Code/ProviderCode'
 import Analysis from './Pages/Search/Analysis'
 import Literature from './Pages/Search/Literature'
@@ -39,6 +39,8 @@ const Layout = () => {
         return 'Code';
       case '/Code/MaterialCodeAliasGroup':
         return 'Material Code / Alias / Group';
+      case '/Code/ProcessAnalysisSimulationCode':
+        return 'Process / Analysis / Simulation Code';
       case '/Search':
         return 'Search';
       case '/Work%20Order':

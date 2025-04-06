@@ -12,6 +12,20 @@ import nodeStyles from './nodeStyle';
 import 'reactflow/dist/style.css';
 import Sidebar from './Sidebar';
 import { useDnD } from './DnDContext';
+import CustomNode from './CustomNode';
+import { MarkerType } from 'reactflow';
+
+const nodeTypes = {
+  custom: CustomNode,
+  Material: CustomNode,
+  Product: CustomNode,
+  Process: CustomNode,
+  Simulation: CustomNode,
+  Analysis: CustomNode,
+  Result: CustomNode,
+  default: CustomNode
+};
+
 
 const defaultViewport = { x: 0, y: 0, zoom: 0.5 };
 
@@ -55,26 +69,59 @@ const DnDFlow = () => {
         return {
           ...node,
           style: nodeStyle.style, 
-          sourcePosition: nodeStyle.sourcePosition,
-          targetPosition: nodeStyle.targetPosition,
+          sourcePosition: node.sourcePosition ?? 'right',
+          targetPosition: node.targetPosition ?? 'left',
         };
       });
 
       setNodes(updatedNodes);
-      setEdges(initialData.edges);  // 엣지 정보도 설정
+      const updatedEdges = initialData.edges.map((edge) => ({
+        ...edge,
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 20,
+          height: 20,
+          color: '#222',
+        },
+      }));
+      setEdges(updatedEdges);
+      
     }
   }, [initialData, setNodes, setEdges]);
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params) =>
+      setEdges((eds) =>
+        addEdge(
+          {
+            ...params,
+            type: 'smoothstep',
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              width: 20,
+              height: 20,
+              color: '#222',
+            },
+          },
+          eds
+        )
+      ),
     []
   );
+  
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
-
+  const onNodeClick = useCallback((event, node) => {
+    console.log('🟦 Node clicked:', node);
+  }, []);
+  
+  const onEdgeClick = useCallback((event, edge) => {
+    console.log('🟥 Edge clicked:', edge);
+  }, []);
+  
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
@@ -94,8 +141,6 @@ const DnDFlow = () => {
         position,
         data: { label: nodeStyles[type]?.label },
         style: nodeStyles[type]?.style ?? nodeStyles.default.style,
-        sourcePosition: nodeStyles[type]?.sourcePosition,
-        targetPosition: nodeStyles[type]?.targetPosition,
       };
 
       const node = document.getElementById(newNode.id);
@@ -120,11 +165,14 @@ const DnDFlow = () => {
         <ReactFlow
           nodes={nodes}
           edges={edges}
+          nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          onNodeClick={onNodeClick}     
+          onEdgeClick={onEdgeClick}
           defaultViewport={defaultViewport}
           minZoom={0.2}
           style={{ backgroundColor: '#F7F9FB', height: '100vh', width: '100%' }}
