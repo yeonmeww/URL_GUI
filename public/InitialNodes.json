@@ -4,43 +4,45 @@
       "id": "1",
       "type": "Material",
       "data": { "label": "Material" },
-      "position": { "x": 250, "y": 0 }
+      "position": { "x": 100, "y": -50 },
+      "sourceHandle": "bottom",
+      "targetHandle": "top"
     },
     {
       "id": "2",
       "type": "Product",
       "data": { "label": "Product" },
-      "position": { "x": 250, "y": 70 }
+      "position": { "x": 50, "y": 100 }
     },
     {
       "id": "3",
       "type": "Process",
       "data": { "label": "Process" },
-      "position": { "x": 50, "y": 140 }
+      "position": { "x": -100, "y": 300 }
     },
     {
       "id": "4",
       "type": "Simulation",
       "data": { "label": "Simulation" },
-      "position": { "x": 250, "y": 210 }
+      "position": { "x": 100, "y": 500 }
     },
     {
       "id": "5",
       "type": "Analysis",
       "data": { "label": "Analysis" },
-      "position": { "x": 250, "y": 280 }
+      "position": { "x": 110, "y": 630 }
     },
     {
       "id": "6",
       "type": "Result",
       "data": { "label": "Result" },
-      "position": { "x": 250, "y": 350 }
+      "position": { "x": 100, "y": 780 }
     },
     {
       "id": "7",
       "type": "Process",
       "data": { "label": "Process" },
-      "position": { "x": 450, "y": 140 }
+      "position": { "x": 300, "y": 300 }
     }
   ],
   "edges": [
@@ -48,56 +50,62 @@
       "id": "e1",  
       "source": "1",  
       "target": "2",  
-      "type": "bezier",  
-      "animated": true
+      "sourceHandle": "1-source-bottom",
+      "targetHandle": "2-target-top",
+      "type": "smoothstep"
 
     },
     {
       "id": "e2",  
       "source": "2",  
       "target": "3",  
-      "type": "bezier",  
-      "animated": true
+      "sourceHandle": "2-source-bottom",
+      "targetHandle": "3-target-top",
+      "type": "smoothstep"
 
     },
     {
       "id": "e3",  
       "source": "3",  
       "target": "4",  
-      "type": "bezier",  
-      "animated": true
+      "sourceHandle": "3-source-bottom",
+      "targetHandle": "4-target-top",
+      "type": "smoothstep"
 
     },
     {
       "id": "e4",  
       "source": "4",  
       "target": "5",  
-      "type": "bezier",  
-      "animated": true
+      "sourceHandle": "4-source-bottom",
+      "targetHandle": "5-target-top",
+      "type": "smoothstep"
 
     },
     {
       "id": "e5",  
       "source": "5",  
       "target": "6",  
-      "type": "bezier",  
-      "animated": true
+      "sourceHandle": "5-source-bottom",
+      "targetHandle": "6-target-top",
+      "type": "smoothstep"
 
     },
     {
       "id": "e6",  
       "source": "2",  
       "target": "7",  
-      "type": "bezier",  
-      "animated": true
-
+      "sourceHandle": "2-source-bottom",
+      "targetHandle": "7-target-top",
+      "type": "smoothstep"
     },
     {
       "id": "e7",  
       "source": "7",  
       "target": "4",  
-      "type": "bezier",  
-      "animated": true
+      "sourceHandle": "7-source-bottom",
+      "targetHandle": "4-target-top",
+      "type": "smoothstep"
 
     }
   ]
