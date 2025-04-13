@@ -3,46 +3,46 @@
     {
       "id": "1",
       "type": "Material",
-      "data": { "label": "Material" },
-      "position": { "x": 100, "y": -50 },
+      "data": { "label": "Material" , "bullets": ["Equipment: Solid", "Operation: AAA"]},
+      "position": { "x": 25, "y": -50 },
       "sourceHandle": "bottom",
       "targetHandle": "top"
     },
     {
       "id": "2",
       "type": "Product",
-      "data": { "label": "Product" },
-      "position": { "x": 50, "y": 100 }
+      "data": { "label": "Product" , "bullets": ["Equipment: Liquid", "Operation: AAA"]},
+      "position": { "x": 0, "y": 100 }
     },
     {
       "id": "3",
       "type": "Process",
-      "data": { "label": "Process" },
-      "position": { "x": -100, "y": 300 }
+      "data": { "label": "Process" , "bullets": ["Equipment: Solid", "Operation: BBBBB"]},
+      "position": { "x": -200, "y": 300 }
     },
     {
       "id": "4",
       "type": "Simulation",
-      "data": { "label": "Simulation" },
-      "position": { "x": 100, "y": 500 }
+      "data": { "label": "Simulation" , "bullets": ["Equipment: Solid", "Operation: CCCC"]},
+      "position": { "x": 0, "y": 500 }
     },
     {
       "id": "5",
       "type": "Analysis",
       "data": { "label": "Analysis" },
-      "position": { "x": 110, "y": 630 }
+      "position": { "x": 0, "y": 650 }
     },
     {
       "id": "6",
       "type": "Result",
       "data": { "label": "Result" },
-      "position": { "x": 100, "y": 780 }
+      "position": { "x": 0, "y": 800 }
     },
     {
       "id": "7",
       "type": "Process",
       "data": { "label": "Process" },
-      "position": { "x": 300, "y": 300 }
+      "position": { "x": 200, "y": 300 }
     }
   ],
   "edges": [
