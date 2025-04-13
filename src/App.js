@@ -37,6 +37,8 @@ const Layout = () => {
         return 'Recipe';
       case '/Code':
         return 'Code';
+      case '/Code/EquipmentCode':
+        return 'Equipment Code';
       case '/Code/MaterialCodeAliasGroup':
         return 'Material Code / Alias / Group';
       case '/Code/ProcessAnalysisSimulationCode':
