@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Outlet, useLocation } from 'react-router-dom';
 import HomeDashBoard from './Pages/Home/HomeDashBoard';
@@ -19,7 +20,7 @@ import Property from './Pages/Search/Property'
 
 import './App.css';
 
-const Layout = () => {
+const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
   const location = useLocation(); // 현재 경로 정보 가져오기
   const [hovered, setHovered] = useState(null); // 상태 관리: 현재 호버링한 메뉴
 
@@ -93,13 +94,44 @@ const Layout = () => {
         <Link to="/Search/ProcessSimulation" className="dropdown-item">Process Simulation</Link>
       </div>
     </div>
-    {['Work Order', 'Recipe', 'User Information', 'Login'].map((page) => (
+    {['Work Order', 'Recipe', 'User Information'].map((page) => (
       <div className="nav-item" key={page}>
         <Link to={`/${page}`} className="nav-button">
           {page}
         </Link>
       </div>
     ))}
+    <div className="nav-item">
+      {
+        isLoggedIn ? (
+        <button
+        className="nav-button"
+        onClick={() => {
+        setIsLoggedIn(false);
+        alert('로그아웃 되었습니다.');
+      }}
+        style={{
+          background: 'none',
+          color: '#ecf0f1',
+          border: 'none',
+          fontSize: '18px',
+          fontWeight: 'bold',
+          padding: '10px',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          textDecoration: 'none',
+          fontFamily: 'Arial, sans-serif', // 나머지 메뉴와 일치하도록 지정
+          display: 'inline-block',
+          lineHeight: 'normal'
+        }}
+    >
+      Logout
+    </button>
+    ) : (
+    <Link to="/Login" className="nav-button">Login</Link>
+    )
+    }
+  </div>
   </div>
 </header>
 
@@ -110,14 +142,15 @@ const Layout = () => {
 };
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
           <Route index element={<HomeDashBoard />} />
           <Route path="PCECHUB" element={<HomeDashBoard />} />
           <Route path="User Information" element={<UserInformation />} />
-          <Route path="Login" element={<Login />} />
+          <Route path="Login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="Recipe" element={<Recipe />} /> 
           <Route path="Search" element={<Search />} /> 
           <Route path="Code" element={<Code />} /> 
