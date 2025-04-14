@@ -15,7 +15,7 @@ import Sidebar from './Sidebar';
 
 import { DnDProvider } from './DnDContext';
 import DnDFlow from './DnDFlow';
-
+import JSONDisplay from './JSONDisplay';
 
 const Recipe = () => {
   return (
@@ -25,7 +25,9 @@ const Recipe = () => {
           <DnDFlow />
         </div>
       </DnDProvider>
+       <JSONDisplay />  {/* 오른쪽에 JSON 데이터를 표시 */}
     </ReactFlowProvider>
+    
   );
 };
 

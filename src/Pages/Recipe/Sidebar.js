@@ -18,7 +18,7 @@ const Sidebar = () => {
           style={{
             ...nodeStyles[type].style, // 스타일을 nodeStyles에서 가져와 적용
             cursor: 'grab',
-            // width: '70%',
+            width: '70%',
             textAlign: 'center',
           }}
         >

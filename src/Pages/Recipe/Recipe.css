@@ -2,14 +2,47 @@
 /* 전체 컨테이너: 좌측 사이드바 + 우측 그래프 영역 */
 .recipe-container {
   display: flex;
-  width: 100%;
+  width: 70%;
   height: 85vh;
   /* overflow: hidden; */
 }
 
+
+/* JSONDisplay.css */
+.json-display-container {
+  padding: 10px;
+  background-color: #fff;
+  border-left: 2px solid #ddd;
+  width: 30%;
+  height: 85vh;
+  overflow-y: auto;
+  position: absolute;
+  top: 125px; /* 상단 바 높이만큼 내려주기 */
+  right: 0;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+
+.json-display-container h3 {
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  border-bottom: dashed 2px #4E5058;
+}
+
+.json-display-text {
+  /* text-align: center; */
+  padding: 20px;
+  font-family: 'monospace';
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+
 /* 왼쪽 사이드바 */
 .sidebar {
-  width: 220px;
+  width: 200px;
   background: #FFFFFF;
   padding: 20px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
@@ -30,7 +63,7 @@
   padding: 10px 12px;  /* 기존 패딩 */
   margin-bottom: 10px;
   font-size: 14px;
-  width: 180px;
+  width: 80%;
   height: 40px;  /* 높이를 직접 설정 */
 }
 
@@ -62,11 +95,16 @@
 
 
 
+
+
 /* 오른쪽 그래프 컨테이너 */
 .reactflow-wrapper {
   flex-grow: 1;
   height: 100%;
 }
+
+
+
 
 
 /* 전체 ReactFlow 배경 */
@@ -76,7 +114,7 @@
   width: 100%;
 }
 
-h3 {
+.sidebar h3 {
   height: 30px;
   width: 200px;
   margin-bottom: 15px;
@@ -89,3 +127,6 @@ h3 {
   bottom: 10px;
   right: 10px;
 }
+
+
+
