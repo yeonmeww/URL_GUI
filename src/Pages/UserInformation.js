@@ -1,106 +1,74 @@
+// React 및 훅(hooks) import
 import React, { useState, useEffect } from 'react';
-import './UserInformation.css';
+// 스타일 시트 import
+import './Code.css';
+// Table 컴포넌트 import - 사용자 목록을 테이블 형식으로 출력
+import Table from './Table';
+// Info 컴포넌트 import - 사용자 입력 폼 관련 컴포넌트
+import Info from './Info';
 
-// UserInformation 컴포넌트
+// UserInformation 컴포넌트 정의
 const UserInformation = () => {
-  // 상태 관리: 사용자 정보
-  const [userInfo, setUserInfo] = useState({
-    id: '',
-    email: '',
-    name: '',
-    phone: '',
-    institution: ''
-  });
+  // 폼에 표시할 필드 정의
+  const infoFields = ['id', 'name','institution','email','phone'];
   
-  // 상태 관리: 사용자 데이터 목록
+  // 테이블에 표시할 헤더 정의
+  const tableHeaders = ['id', 'name','institution','email','phone'];
+  
+  // 사용자 정보 상태 초기화 (입력 폼용)
+  const [userInfo, setUserInfo] = useState(
+    infoFields.reduce((obj, field) => ({...obj, [field]: ''}), {})
+  );
+  
+  // 전체 사용자 목록 상태 (테이블 데이터용)
   const [users, setUsers] = useState([]);
-
-  // 상태 관리: 테이블 데이터 로드
+  
+  // 컴포넌트가 처음 렌더링될 때 실행되는 useEffect 훅
   useEffect(() => {
-    // JSON 파일에서 데이터 가져오기
-    fetch('/UserInformation.json')  // user.json 파일이 공개 폴더에 있어야 정상적으로 동작합니다.
+    // JSON 파일에서 사용자 데이터 fetch
+    fetch('/UserInformation.json')
       .then((response) => response.json())
       .then((data) => {
-        setUsers(data.user);  // JSON에서 유저 데이터를 가져와 상태에 저장
+        // 필요한 속성만 필터링하여 테이블 데이터 준비
+        const filteredUsers = data.user.map((user, index) => {
+          const filteredUser = { Id: index + 1 }; // 임의 ID 생성
+          
+          // 테이블 헤더에 정의된 필드만 추출
+          tableHeaders.forEach(header => {
+            if (header !== 'Id') { // Id는 이미 설정했으므로 제외
+              filteredUser[header] = user[header] || '';
+            }
+          });
+          
+          return filteredUser;
+        });
+        setUsers(filteredUsers);
       })
       .catch((error) => console.error('Error loading user data:', error));
-  }, []);  // 빈 배열을 두면 컴포넌트 마운트 시 한 번만 실행됩니다.
-
-  // 폼 값 변경 핸들러
-  const handleChange = (e) => {
-    setUserInfo({
-      ...userInfo,
-      [e.target.id]: e.target.value
-    });
-  };
-
-  // 폼 제출 핸들러
+  }, [tableHeaders]); // tableHeaders가 변경되면 다시 실행
+  
+  // 사용자 정보 저장 버튼 클릭 시 호출되는 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 폼 제출 처리 (예: API 호출)
     alert('정보가 저장되었습니다!');
+    console.log('저장된 정보:', userInfo);
   };
-
+  
+  // 컴포넌트 UI 반환
   return (
     <div className="user-info">
-      <div className="info-content">
-      <div className="info-box">
-        {/* User Information Form */}
-        <form className="user-form" onSubmit={handleSubmit}>
-          {['id', 'email', 'name', 'phone', 'institution'].map((field) => (
-            <div className="info-form-group" key={field}>
-              <div className="form-label">{field.charAt(0).toUpperCase() + field.slice(1)}</div>
-              <div className="form-input">
-                <input
-                  type="text"
-                  id={field}
-                  value={userInfo[field]}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
-          ))}
-          
-        </form>
-      </div>
-          
-      <div className="button-content">
-          <button type="search" className="btn-search">Search</button>
-          <button type="submit" className="btn-save">Save</button>
-          <button type="delete" className="btn-delete">Delete</button>
-      </div>
-      </div>
-       <div className="data-content">
-        {/* User Data Table */}
+      {/* 동적 필드를 가진 Info 컴포넌트 */}
+      <Info 
+        userInfo={userInfo} 
+        setUserInfo={setUserInfo} 
+        onSubmit={handleSubmit}
+        fields={infoFields} // 동적으로 필드 전달
+      />
+      
+      <div className="data-content">
         <section className="user-table">
-		
-		<div class="table-container">
-			  <table className="table">
-				<thead>
-				  <tr>
-					<th>ID</th>
-					<th>Name</th>
-					<th>Institution</th>
-					<th>E-mail</th>
-					<th>Phone</th>
-					<th>Role</th>
-				  </tr>
-				</thead>
-				<tbody>
-				  {users.map((user) => (
-					<tr key={user.id}>
-					  <td>{user.id}</td>
-					  <td>{user.name}</td>
-					  <td>{user.institution}</td>
-					  <td>{user.email}</td>
-					  <td>{user.phone}</td>
-					  <td>{user.role}</td>
-					</tr>
-				  ))}
-				</tbody>
-			  </table>
-		  </div>
+          {/* 동적 헤더와 데이터를 가진 Table 컴포넌트 */}
+          <Table headers={tableHeaders} data={users} />
         </section>
       </div>
     </div>

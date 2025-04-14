@@ -1,112 +1,78 @@
+// React 및 훅(hooks) import
 import React, { useState, useEffect } from 'react';
-import './ProAnaSimulCode.css';
+// 스타일 시트 import
+import '../Code.css';
+// Table 컴포넌트 import - 사용자 목록을 테이블 형식으로 출력
+import Table from '../../Table';
+// Info 컴포넌트 import - 사용자 입력 폼 관련 컴포넌트
+import Info from '../../Info';
 
-const ProcessCodeForm = () => {
-  const [processInfo, setProcessInfo] = useState({
-    processId: '',
-    processName: '',
-    AppClass1: '',
-    AppClass2: '',
-    AppClass3: '',
-    EquipId: ''
-  });
+// UserInformation 컴포넌트 정의
+const UserInformation = () => {
+  // 폼에 표시할 필드 정의
+  const infoFields = ['id', 'name', 'app_class_1', 'app_class_2','app_class_3'];
   
-  const [process, setProcess] = useState([]);
-
+  // 테이블에 표시할 헤더 정의
+  const tableHeaders = ['id', 'name', 'app_class_1', 'app_class_2','app_class_3'];
+  
+  // 사용자 정보 상태 초기화 (입력 폼용)
+  const [userInfo, setUserInfo] = useState(
+    infoFields.reduce((obj, field) => ({...obj, [field]: ''}), {})
+  );
+  
+  // 전체 사용자 목록 상태 (테이블 데이터용)
+  const [users, setUsers] = useState([]);
+  
+  // 컴포넌트가 처음 렌더링될 때 실행되는 useEffect 훅
   useEffect(() => {
-    fetch('./ProcessInformation.json')
+    // JSON 파일에서 사용자 데이터 fetch
+    fetch('/UserInformation.json')
       .then((response) => response.json())
       .then((data) => {
-        setProcess(data.process);
+        // 필요한 속성만 필터링하여 테이블 데이터 준비
+        const filteredUsers = data.user.map((user, index) => {
+          const filteredUser = { Id: index + 1 }; // 임의 ID 생성
+          
+          // 테이블 헤더에 정의된 필드만 추출
+          tableHeaders.forEach(header => {
+            if (header !== 'Id') { // Id는 이미 설정했으므로 제외
+              filteredUser[header] = user[header] || '';
+            }
+          });
+          
+          return filteredUser;
+        });
+        setUsers(filteredUsers);
       })
-      .catch((error) => console.error('Error loading process data:', error));
-  }, []);
-
-  const handleChange = (e) => {
-    setProcessInfo({
-      ...processInfo,
-      [e.target.name]: e.target.value
-    });
-  };
-
+      .catch((error) => console.error('Error loading user data:', error));
+  }, [tableHeaders]); // tableHeaders가 변경되면 다시 실행
+  
+  // 사용자 정보 저장 버튼 클릭 시 호출되는 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
     alert('정보가 저장되었습니다!');
+    console.log('저장된 정보:', userInfo);
   };
-
+  
+  // 컴포넌트 UI 반환
   return (
-    <div className="material-info">
-      <div className="info-content">
-        <div className="info-box">
-          <form className="material-form" onSubmit={handleSubmit}>
-            {['process Id', 'process Name', 'process App Class 1', 'process App Class 2', 'process App Class 3', 'equipment Id'].map((field) => (
-              <div className="info-form-group" key={field}>
-                <div className="form-label">{field.charAt(0).toUpperCase() + field.slice(1)}</div>
-                <div className="form-input">
-                  <input
-                    type="text"
-                    name={field}
-                    value={processInfo[field]}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
-            ))}
-            
-            {/* Dropdown for Material Type */}
-            {/* <div className="info-form-group">
-              <div className="form-label">Default Process?</div>
-              <div className="form-input">
-                <select name="materialType" value={processInfo.materialType} onChange={handleChange} required>
-                  <option value="">Y/N</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </div>
-            </div> */}
-
-          </form>
-        </div>
-        
-        <div className="button-content">
-          <button type="button" className="btn-search">Search</button>
-          <button type="submit" className="btn-save">Save</button>
-          <button type="button" className="btn-delete">Delete</button>
-        </div>
-      </div>
+    <div className="user-info">
+      {/* 동적 필드를 가진 Info 컴포넌트 */}
+      <Info 
+        userInfo={userInfo} 
+        setUserInfo={setUserInfo} 
+        onSubmit={handleSubmit}
+        fields={infoFields} // 동적으로 필드 전달
+      />
       
       <div className="data-content">
-        <section className="material-table">
-          <div className="table-container">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Process Id</th>
-                  <th>Process Name</th>
-                  <th>App Class 1</th>
-                  <th>App Class 2</th>
-                  <th>App Class 3</th>
-                  <th>Equipment Id</th>
-                </tr>
-              </thead>
-              <tbody>
-                {process.map((process) => (
-                  <tr key={process.processId}>
-                    <td>{process.processName}</td>
-                    <td>{process.AppClass1}</td>
-                    <td>{process.AppClass2}</td>
-                    <td>{process.AppClass3}</td>
-                    <td>{process.EquipId}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <section className="user-table">
+          {/* 동적 헤더와 데이터를 가진 Table 컴포넌트 */}
+          <Table headers={tableHeaders} data={users} />
         </section>
       </div>
     </div>
   );
 };
 
-export default ProcessCodeForm;
+export default UserInformation;

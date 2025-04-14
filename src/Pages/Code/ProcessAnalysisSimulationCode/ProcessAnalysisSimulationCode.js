@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./ProAnaSimulCode.css"; // 스타일 파일 불러오기
+import React, { useState } from "react";
+import "./ProAnaSimulCode.css";
 import ProcessCodeForm from "./ProcessCodeForm";
 import AnalysisCodeForm from "./AnalysisCodeForm";
 import SimulationCodeForm from "./SimulationCodeForm";
@@ -7,7 +7,6 @@ import SimulationCodeForm from "./SimulationCodeForm";
 const ProcessAnalysisSimulationCode = () => {
   return (
     <div className="material-code-container">
-      {/* <h1>Material Code/Alias/Group</h1> */}
       <ProAnaSimulTab />
     </div>
   );
