@@ -9,7 +9,7 @@ const Home = () => {
     const [BottomData, setBottomData] = useState(null);
 
     useEffect(() => {
-        fetch('/TopOutput.json')
+        fetch('/ChartData.json')
             .then(res => res.json())
             .then(setTopData)
             .catch(err => console.error('TopOutput.json 로딩 실패:', err));

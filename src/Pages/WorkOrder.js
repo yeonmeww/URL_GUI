@@ -1,7 +1,7 @@
 // React 및 훅(hooks) import
 import React, { useState, useEffect } from 'react';
 // 스타일 시트 import
-import './Code.css';
+// import './Code.css';
 // Table 컴포넌트 import - 사용자 목록을 테이블 형식으로 출력
 import Table from './Table';
 // Info 컴포넌트 import - 사용자 입력 폼 관련 컴포넌트
