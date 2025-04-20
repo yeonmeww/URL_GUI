@@ -1,0 +1,16 @@
+{
+  "user": [
+    {
+      "Provider_Name": "ABC Corp",
+      "Address": "123 Industrial Ave, Seoul",
+      "email": "contact@abccorp.com",
+      "phone": "+82-2-1234-5678"
+    },
+    {
+      "Provider_Name": "XYZ Ltd",
+      "Address": "456 Science Rd, Busan",
+      "email": "info@xyzltd.co.kr",
+      "phone": "+82-51-9876-5432"
+    }
+  ]
+}

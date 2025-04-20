@@ -1,0 +1,18 @@
+{
+  "info": [
+    {
+      "aliasId": "AL001",
+      "materialId": "MT001",
+      "materialAlias": "Copper Wire",
+      "aliasType": "Short Name",
+      "isDefault": "Yes"
+    },
+    {
+      "aliasId": "AL002",
+      "materialId": "MT002",
+      "materialAlias": "Steel Rod",
+      "aliasType": "Internal Code",
+      "isDefault": "No"
+    }
+  ]
+}

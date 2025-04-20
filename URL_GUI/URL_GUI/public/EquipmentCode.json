@@ -1,0 +1,15 @@
+{
+  "user": [
+    {
+      "equip_id": "1",
+      "equip_name" : "2",
+      "model_number" : "3",
+      "manifacturer" :  "4",
+      "app_class_1" : "5",
+      "app_class_2" : "5",
+      "app_class_3" : "5",
+      "registration_date" : "6",
+      "contributor_id": "7"
+    }
+  ]
+}

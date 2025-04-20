@@ -1,0 +1,13 @@
+{
+  "user": [
+    {
+      "Material_ID": "M001",
+      "Material_Name": "Silicon",
+      "Chemical_formula": "Si",
+      "Data": "2025-04-19",
+      "Provider_ID": "P001",
+      "Provider_Name": "ABC Corp",
+      "Quantity": 100
+    }
+  ]
+}

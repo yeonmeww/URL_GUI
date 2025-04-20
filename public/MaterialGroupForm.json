@@ -1,0 +1,16 @@
+{
+  "info": [
+    {
+      "materialGroupId": "MG001",
+      "materialGroupName": "Aromatic Compounds",
+      "groupName": "Group A",
+      "chemicalFormula": "C6H6"
+    },
+    {
+      "materialGroupId": "MG002",
+      "materialGroupName": "Inorganic Salts",
+      "groupName": "Group B",
+      "chemicalFormula": "NaCl"
+    }
+  ]
+}

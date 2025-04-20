@@ -1,0 +1,132 @@
+.contents {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+  }
+  
+  .container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: -100px; /* 원하는 만큼 조절 가능 */
+  }
+  
+  .container form {
+    width: 100%;
+  }
+  
+  .container h3 {
+    height: 40px;
+    font-size: 24px;
+    margin-bottom: 40px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .id-row, .pw-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .id-row label, .pw-row label {
+    display: flex;
+    flex-direction: column;  /* 세로 정렬 */
+    justify-content: center;  /* 세로 가운데 정렬 */
+    align-items: left;  /* 가로 가운데 정렬 */
+    height: 30px;
+    width: 100px;
+    font-weight: bold;
+    border-right: 5px solid #000000;
+    margin-right: 10px;
+  }
+  
+  .id-row input, .pw-input-wrap input {
+    max-width: 200px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  
+
+  .pw-input-wrap {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    position: relative;
+  }
+  
+  .pw-input-wrap input {
+    width: 100%;
+  }
+  
+  .pw-input-wrap .btn-hide {
+    position: absolute;
+    right: 5px;
+    background: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #CCDDED;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .btn-login:hover {
+    background-color: #afcce7;
+  }
+  
+  .register-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  
+  .btn-register {
+    margin-top: 10px;
+    width: 30%;
+    padding: 12px;
+    background-color: #EBCDCF;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .btn-register:hover {
+    background-color: #e69ca1;
+  }
+  

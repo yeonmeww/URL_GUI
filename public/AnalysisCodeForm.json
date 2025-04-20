@@ -1,0 +1,13 @@
+{
+  "info": [
+    {
+      "analysisId": "AN001",
+      "analysisName": "Analysis A",
+      "analysisPurpose": "Purpose A",
+      "appClass1": "Class A1",
+      "appClass2": "Class A2",
+      "appClass3": "Class A3",
+      "equipId": "EQ001"
+    }
+  ]
+}

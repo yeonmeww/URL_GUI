@@ -1,0 +1,112 @@
+{
+  "nodes": [
+    {
+      "id": "1",
+      "type": "Material",
+      "data": { "label": "Material" , "bullets": ["Equipment: Solid", "Operation: AAA"]},
+      "position": { "x": 25, "y": -50 },
+      "sourceHandle": "bottom",
+      "targetHandle": "top"
+    },
+    {
+      "id": "2",
+      "type": "Product",
+      "data": { "label": "Product" , "bullets": ["Equipment: Liquid", "Operation: AAA"]},
+      "position": { "x": 0, "y": 100 }
+    },
+    {
+      "id": "3",
+      "type": "Process",
+      "data": { "label": "Process" , "bullets": ["Equipment: Solid", "Operation: BBBBB"]},
+      "position": { "x": -200, "y": 300 }
+    },
+    {
+      "id": "4",
+      "type": "Simulation",
+      "data": { "label": "Simulation" , "bullets": ["Equipment: Solid", "Operation: CCCC"]},
+      "position": { "x": 0, "y": 500 }
+    },
+    {
+      "id": "5",
+      "type": "Analysis",
+      "data": { "label": "Analysis" },
+      "position": { "x": 0, "y": 650 }
+    },
+    {
+      "id": "6",
+      "type": "Result",
+      "data": { "label": "Result" },
+      "position": { "x": 0, "y": 800 }
+    },
+    {
+      "id": "7",
+      "type": "Process",
+      "data": { "label": "Process" },
+      "position": { "x": 200, "y": 300 }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",  
+      "source": "1",  
+      "target": "2",  
+      "sourceHandle": "1-source-bottom",
+      "targetHandle": "2-target-top",
+      "type": "smoothstep"
+
+    },
+    {
+      "id": "e2",  
+      "source": "2",  
+      "target": "3",  
+      "sourceHandle": "2-source-bottom",
+      "targetHandle": "3-target-top",
+      "type": "smoothstep"
+
+    },
+    {
+      "id": "e3",  
+      "source": "3",  
+      "target": "4",  
+      "sourceHandle": "3-source-bottom",
+      "targetHandle": "4-target-top",
+      "type": "smoothstep"
+
+    },
+    {
+      "id": "e4",  
+      "source": "4",  
+      "target": "5",  
+      "sourceHandle": "4-source-bottom",
+      "targetHandle": "5-target-top",
+      "type": "smoothstep"
+
+    },
+    {
+      "id": "e5",  
+      "source": "5",  
+      "target": "6",  
+      "sourceHandle": "5-source-bottom",
+      "targetHandle": "6-target-top",
+      "type": "smoothstep"
+
+    },
+    {
+      "id": "e6",  
+      "source": "2",  
+      "target": "7",  
+      "sourceHandle": "2-source-bottom",
+      "targetHandle": "7-target-top",
+      "type": "smoothstep"
+    },
+    {
+      "id": "e7",  
+      "source": "7",  
+      "target": "4",  
+      "sourceHandle": "7-source-bottom",
+      "targetHandle": "4-target-top",
+      "type": "smoothstep"
+
+    }
+  ]
+}
