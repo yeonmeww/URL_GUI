@@ -1,8 +1,8 @@
 import React from 'react';
-import './Table.css';
+import './InfoTable.css';
 
-// 더 유연한 Table 컴포넌트 (텍스트 줄바꿈 기능 강화)
-const Table = ({ 
+// 더 유연한 InfoTable 컴포넌트 (텍스트 줄바꿈 기능 강화)
+const InfoTable = ({
   headers = [], // 테이블 헤더를 동적으로 받음
   data = [],    // 테이블 데이터를 동적으로 받음
   containerClassName = "table-container",
@@ -49,4 +49,4 @@ const Table = ({
   );
 };
 
-export default Table;
+export default InfoTable;

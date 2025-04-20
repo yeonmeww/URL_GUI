@@ -47,7 +47,19 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
       case '/Search':
         return 'Search';
       case '/Work%20Order':
-        return 'Work Order';        
+        return 'Work Order';
+      case '/Code/MaterialInventory':
+        return 'Material Inventory';
+      case '/Code/ProviderCode':
+        return 'Provider Code';
+      case '/Search/Property':
+        return 'Property';
+      case '/Search/Analysis':
+        return 'Analysis';
+      case '/Search/Literature':
+        return 'Literature';
+      case '/Search/ProcessSimulation':
+        return 'ProcessSimulation';
       default:
         return 'Hello'; // 기본 텍스트
     }

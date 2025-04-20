@@ -1,0 +1,74 @@
+{
+  "info": [
+    {
+      "id": "app1",
+      "name": "Application 1",
+      "app_class_1": "Class A0",
+      "app_class_2": "Category B0",
+      "app_class_3": "Label C0"
+    },
+    {
+      "id": "app2",
+      "name": "Application 2",
+      "app_class_1": "Class A1",
+      "app_class_2": "Category B1",
+      "app_class_3": "Label C1"
+    },
+    {
+      "id": "app3",
+      "name": "Application 3",
+      "app_class_1": "Class A2",
+      "app_class_2": "Category B0",
+      "app_class_3": "Label C2"
+    },
+    {
+      "id": "app4",
+      "name": "Application 4",
+      "app_class_1": "Class A0",
+      "app_class_2": "Category B1",
+      "app_class_3": "Label C3"
+    },
+    {
+      "id": "app5",
+      "name": "Application 5",
+      "app_class_1": "Class A1",
+      "app_class_2": "Category B0",
+      "app_class_3": "Label C0"
+    },
+    {
+      "id": "app6",
+      "name": "Application 6",
+      "app_class_1": "Class A2",
+      "app_class_2": "Category B1",
+      "app_class_3": "Label C1"
+    },
+    {
+      "id": "app7",
+      "name": "Application 7",
+      "app_class_1": "Class A0",
+      "app_class_2": "Category B0",
+      "app_class_3": "Label C2"
+    },
+    {
+      "id": "app8",
+      "name": "Application 8",
+      "app_class_1": "Class A1",
+      "app_class_2": "Category B1",
+      "app_class_3": "Label C3"
+    },
+    {
+      "id": "app9",
+      "name": "Application 9",
+      "app_class_1": "Class A2",
+      "app_class_2": "Category B0",
+      "app_class_3": "Label C0"
+    },
+    {
+      "id": "app10",
+      "name": "Application 10",
+      "app_class_1": "Class A0",
+      "app_class_2": "Category B1",
+      "app_class_3": "Label C1"
+    }
+  ]
+}

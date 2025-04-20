@@ -1,0 +1,13 @@
+{
+  "info": [
+    {
+      "simulationId": "SIM1",
+      "simulationName": "Simulation 1",
+      "simulationPurpose": "Purpose A",
+      "simulationType": "Type B",
+      "simulationAppClass1": "Class A1",
+      "simulationAppClass2": "Class A2",
+      "simulationAppClass3": "Class A3"
+    }
+  ]
+}
