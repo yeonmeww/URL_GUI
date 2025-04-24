@@ -11,8 +11,12 @@ import WorkOrder from './Pages/WorkOrder';
 import EquipmentCode from './Pages/Code/EquipmentCode'
 import MaterialCodeAliasGroup from './Pages/Code/MaterialCode/MaterialCodeAliasGroup'
 import MaterialInventory from './Pages/Code/MaterialInventory'
-import ProcessAnalysisSimulationCode from './Pages/Code/ProcessAnalysisSimulationCode/ProcessAnalysisSimulationCode'
-import ProviderCode from './Pages/Code/ProviderCode'
+import AnalysisCodeForm from './Pages/Code/ProcessAnalysisSimulationCode/AnalysisCodeForm';
+import ProcessAliasForm from './Pages/Code/ProcessAnalysisSimulationCode/ProcessAliasForm';
+import ProcessCodeForm from './Pages/Code/ProcessAnalysisSimulationCode/ProcessCodeForm';
+import MaterialAliasForm from './Pages/Code/MaterialCode/MaterialAliasForm';
+import MaterialCodeForm from './Pages/Code/MaterialCode/MaterialCodeForm';
+import ProviderCode from './Pages/Code/ProviderCode';
 import Analysis from './Pages/Search/Analysis'
 import Literature from './Pages/Search/Literature'
 import ProcessSimulation from './Pages/Search/ProcessSimulation'
@@ -170,9 +174,13 @@ export default function App() {
           <Route path="Code/EquipmentCode" element={<EquipmentCode />} /> 
           <Route path="Code/MaterialCodeAliasGroup" element={<MaterialCodeAliasGroup />} /> 
           <Route path="Code/MaterialInventory" element={<MaterialInventory />} /> 
-          <Route path="Code/ProcessAnalysisSimulationCode" element={<ProcessAnalysisSimulationCode />} /> 
-          <Route path="Code/ProviderCode" element={<ProviderCode />} /> 
-          <Route path="Search/Analysis" element={<Analysis />} /> 
+          <Route path="Code/ProcessAnalysisSimulationCode" element={<ProcessCodeForm />} />
+          <Route path="Code/ProcessAnalysisSimulationCode" element={<ProcessAliasForm />} />
+          <Route path="Code/ProcessAnalysisSimulationCode" element={<AnalysisCodeForm />} />
+          <Route path="Code/MaterialAlias" element={<MaterialAliasForm />} />
+          <Route path="Code/MaterialCode" element={<MaterialCodeForm />} />
+          <Route path="Code/ProviderCode" element={<ProviderCode />} />
+          <Route path="Search/Analysis" element={<Analysis />} /> xw
           <Route path="Search/Literature" element={<Literature />} /> 
           <Route path="Search/ProcessSimulation" element={<ProcessSimulation />} /> 
           <Route path="Search/Property" element={<Property />} /> 
