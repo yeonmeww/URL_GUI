@@ -2,7 +2,7 @@
 /* 전체 컨테이너: 좌측 사이드바 + 우측 그래프 영역 */
 .recipe-container {
   display: flex;
-  width: 70%;
+  width: 60%;
   height: 85vh;
   /* overflow: hidden; */
 }
@@ -13,7 +13,7 @@
   padding: 10px;
   background-color: #fff;
   border-left: 2px solid #ddd;
-  width: 30%;
+  width: 40%;
   height: 85vh;
   overflow-y: auto;
   position: absolute;
@@ -42,7 +42,7 @@
 
 /* 왼쪽 사이드바 */
 .sidebar {
-  width: 200px;
+  width: 160px;
   background: #FFFFFF;
   padding: 20px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
