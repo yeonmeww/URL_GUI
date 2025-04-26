@@ -10,6 +10,34 @@ const HomeDashBoard = () => {
     const [BinaryFileData, setBinaryFileData] = useState(null);
     const [RecipeData, setRecipeData] = useState(null);
 
+    // News 관련 상태 추가
+    const topNewsList = [
+       
+        '📢 금오공대 Binary File Data 생성 최다!',
+        '📢 홍익대 Image File Data 생성 최다!',
+        '📢 성균관대 Work Order 생성 최다!',
+        '📢 성균관대 Process Recipe 생성 최다!'
+    ];
+    const bottomNewsList = [
+        '🔔 서버 점검 예정 : 5월 2일 (목) 00:00~04:00',
+        '📢 신규 기능 업데이트 : 이미지 업로드 개선',
+        '📰 새로운 대시보드 기능 추가 예정!',
+        '📣 긴급 공지 : 일부 기능 일시 중단 안내',
+        '🔔 긴급 공지: 데이터베이스 점검 예정'
+    ];
+    const [currentTopNewsIndex, setCurrentTopNewsIndex] = useState(0);
+
+    // ⏰ 3초마다 상단 뉴스가 변경
+    useEffect(() => {
+        const topNewsInterval = setInterval(() => {
+            setCurrentTopNewsIndex(prevIndex => (prevIndex + 1) % topNewsList.length);
+        }, 3000); // 상단 뉴스 3초마다 변경
+
+        return () => {
+            clearInterval(topNewsInterval);
+        };
+    }, [topNewsList.length]);
+
     useEffect(() => {
         fetch('/TotalData.json')
             .then(res => res.json())
@@ -33,7 +61,6 @@ const HomeDashBoard = () => {
             .catch(err => console.error('RecipeData.json 로딩 실패:', err));
     }, []);
 
-    // Custom legend names mapping
     const legendNamesMapping = {
         'Image': 'Image 수',
         'Work_Order': 'WorkOrder 실행 수',
@@ -46,11 +73,8 @@ const HomeDashBoard = () => {
             <div className="main-panel">
                 <h3 className="dashboard-title">Data Dash Board</h3>
                 {TopData && (
-                    <div className="centered-section">
-                        <BarChartComponent 
-                            data={TopData} 
-                            legendNames={legendNamesMapping} // Pass the legend names here
-                        />
+                    <div className="totaldata-section">
+                        <BarChartComponent data={TopData} legendNames={legendNamesMapping} />
                     </div>
                 )}
                 {ImageData && (
@@ -80,12 +104,22 @@ const HomeDashBoard = () => {
             </div>
             <div className="side-panel">
                 <div className="news-section">
-                    <h4><b>News!</b></h4>
-                    <div className="news-box" />
+                    <h3 className="dashboard-title">News</h3>
+                    <div className="news-box-top">
+                        <div className="news-text">
+                            {topNewsList[currentTopNewsIndex]}
+                        </div>
+                    </div>
                 </div>
                 <div className="news-section">
-                    <h4><b>News!</b></h4>
-                    <div className="news-box" />
+                    <h3 className="dashboard-title"></h3>
+                    <div className="news-box-bottom">
+                        <div className="news-text">
+                            {bottomNewsList.map((news, index) => (
+                                <p key={index}>{news}</p> // 각각의 뉴스 항목을 <p>로 나열
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

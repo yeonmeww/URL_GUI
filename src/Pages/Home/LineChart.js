@@ -19,12 +19,24 @@ const LineChart = ({ data }) => {
     // 전체 y값 중 최대값 계산
     const allValues = formattedData.flatMap(series => series.data.map(point => point.y));
     const maxY = Math.max(...allValues);
-    const yMaxRounded = Math.ceil((maxY + 10) / 10) * 10;
 
-    // 10단위로 눈금 생성
+     // 최대값에 따라 interval 설정
+     let interval;
+     if (maxY <= 10) {
+         interval = 1;
+     } else if (maxY <= 30) {
+         interval = 5;
+     } else {
+         interval = 10;
+     }
+
+    // y축 최대값 (올림 처리)
+    const yMaxRounded = Math.ceil((maxY + interval) / interval) * interval;
+
+    // tickValues 생성
     const tickValues = Array.from(
-        { length: Math.ceil(yMaxRounded / 10) + 1 },
-        (_, i) => i * 10
+        { length: Math.ceil(yMaxRounded / interval) + 1 },
+        (_, i) => i * interval
     );
 
     return (
@@ -61,6 +73,20 @@ const LineChart = ({ data }) => {
                     legendPosition: 'middle',
                     tickValues: tickValues,
                 }}
+                tooltip={({ point }) => (
+                    <div
+                        style={{
+                            background: 'white',
+                            padding: '6px 9px',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
+                            fontSize: '12px',
+                        }}
+                    >
+                        <strong>{point.serieId}</strong><br />
+                        {point.data.xFormatted}, {point.data.yFormatted}개
+                    </div>
+                )}
                 gridYValues={tickValues}
                 colors={{ scheme: 'category10' }}
                 pointSize={5}
@@ -76,7 +102,7 @@ const LineChart = ({ data }) => {
                         translateX: 100,
                         itemWidth: 80,
                         itemHeight: 20,
-                        symbolSize: 6, // 동그라미 절반 크기
+                        symbolSize: 6,
                         symbolShape: 'circle',
                         effects: [
                             {
@@ -87,23 +113,6 @@ const LineChart = ({ data }) => {
                                 },
                             },
                         ],
-                        items: formattedData.map((serie) => ({
-                            ...serie,
-                            legendSymbol: (
-								<svg width="85" height="20">
-									<line
-										x1="0"
-										y1="10"
-										x2="75" // 동그라미 중심보다 살짝 더 뒤까지
-										y2="10"
-										stroke={serie.color}
-										strokeWidth="2"
-									/>
-									<circle cx="70" cy="10" r="2.5" fill={serie.color} />
-								</svg>
-
-                            ),
-                        })),
                     },
                 ]}
             />

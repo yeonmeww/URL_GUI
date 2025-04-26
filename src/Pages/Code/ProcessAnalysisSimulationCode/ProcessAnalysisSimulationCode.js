@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./ProAnaSimulCode.css";
 import ProcessCodeForm from "./ProcessCodeForm";
 import AnalysisCodeForm from "./AnalysisCodeForm";
 import SimulationCodeForm from "./SimulationCodeForm";

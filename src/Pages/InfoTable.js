@@ -1,20 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './InfoTable.css';
 
-// 더 유연한 InfoTable 컴포넌트 (텍스트 줄바꿈 기능 강화)
+// 텍스트 포맷팅 함수
+const formatHeaderText = (text) => {
+  if (!text) return '';
+  // 1. 언더바 제거
+  let noUnderscore = text.replace(/_/g, '');
+  // 2. 대문자 앞에 띄어쓰기 삽입 (맨 첫 글자는 제외)
+  let spacedText = noUnderscore.replace(/([A-Z])/g, ' $1').trim();
+  // 3. 첫 글자 대문자로 변환
+  return spacedText.charAt(0).toUpperCase() + spacedText.slice(1);
+};
+
 const InfoTable = ({
-  headers = [], // 테이블 헤더를 동적으로 받음
-  data = [],    // 테이블 데이터를 동적으로 받음
+  headers = [],
+  data = [],
   containerClassName = "table-container",
   tableClassName = "table"
 }) => {
+  const [containerHeight, setContainerHeight] = useState(window.innerHeight * 0.47); // 70% of viewport height
+  const containerRef = useRef(null);
+
+  // Update the height dynamically if the window size changes
+  useEffect(() => {
+    const handleResize = () => {
+      setContainerHeight(window.innerHeight * 0.6); // Adjust to 70% of viewport height
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
-    <div className={containerClassName}>
+    <div 
+      ref={containerRef} 
+      className={containerClassName} 
+      style={{ height: containerHeight }}
+    >
       <table className={tableClassName}>
         <thead>
           <tr>
             {headers.map((header, index) => (
-              <th key={index}>{header}</th>
+              <th key={index} className={header.length > 10 ? 'small-text' : ''}>
+                {formatHeaderText(header)}
+              </th> 
             ))}
           </tr>
         </thead>
@@ -25,9 +58,7 @@ const InfoTable = ({
                 const cellContent = row[header] || '';
                 return (
                   <td key={colIndex} className="table-cell">
-                    {/* 텍스트 줄바꿈이 유지되도록 함 */}
                     <div className="cell-content">
-                      {/* 줄바꿈 문자가 있는 경우 처리 */}
                       {typeof cellContent === 'string' && cellContent.includes('\n')
                         ? cellContent.split('\n').map((line, i) => (
                             <React.Fragment key={i}>

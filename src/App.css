@@ -6,6 +6,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
+  height: 100%;
 }
 
 /* 레이아웃 컨테이너 */
@@ -14,6 +15,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background-color: #F5F5F5;
+  overflow-y: hidden;
 }
 
 /* 상단 네비게이션 바 */
@@ -75,10 +77,12 @@ subHeader {
 
 /* 메인 콘텐츠 스타일 */
 .content {
-  flex-grow: 1;
-  padding: 20px;
-  background-color: #ecf0f1;
+  flex-grow: 1;            /* 그대로 유지 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;        /* 부모 넘치지 않게 설정 */
 }
+
 
 /* 각 페이지의 세부 스타일 */
 h1 {
@@ -149,4 +153,32 @@ h1 {
 
 .dropdown-item:hover {
   background-color: #D9D9D9;
+}
+
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  flex-grow: 1;
+  overflow: hidden; /* 자체 스크롤 없애고, 넘치지 않게 강제 차단 */
+}
+
+
+
+.SearchBox-content {
+  flex-shrink: 0; /* 줄어들지 않게 고정 */
+  margin: 20px;
+}
+
+
+
+
+
+.tab-content-container .data-content {
+  flex-grow: 1; /* 남은 공간 전부 차지 */
+  overflow-y: auto;
+  overflow-x: auto;
+  background-color: white;
+  margin: 20px;
 }

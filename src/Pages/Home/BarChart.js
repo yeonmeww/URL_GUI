@@ -16,10 +16,11 @@ const BarChart = ({
   showLegends = true,
 }) => {
   return (
-    <div style={{ height: `${chartHeight}px`, marginBottom: '10px' }}>
+    <div style={{ width: '950px', height: `${chartHeight}px`, marginBottom: '10px' }}>
+
       {/* 차트 제목을 '데이터집계'로 변경 */}
       <h3 style={{ textAlign: 'center', marginBottom: '10px' }}>
-        데이터집계
+        기관별 데이터집계
       </h3>
       <ResponsiveBar
         data={data}
@@ -62,7 +63,7 @@ const BarChart = ({
                   itemWidth: 120, // Increased width for longer Korean text
                   itemHeight: 20,
                   itemOpacity: 0.75,
-                  symbolSize: 6,
+                  symbolSize: 10,
                   symbolShape: 'circle',
                   // Custom mapping for legend labels
                   itemsFormat: items => 
