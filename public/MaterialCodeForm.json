@@ -11,6 +11,90 @@
       "applicationClass2": "Chip",
       "applicationClass3": "Wafer",
       "role": "Base"
+    },
+    {
+      "materialId": "MT001",
+      "chemicalName": "Silicon Dioxide",
+      "materialChemicalFormula": "SiO2",
+      "materialGroupId": "MG001",
+      "materialType": "Raw",
+      "materialForm": "Powder",
+      "applicationClass1": "Elec",
+      "applicationClass2": "Chip",
+      "applicationClass3": "Wafer",
+      "role": "Base"
+    },
+    {
+      "materialId": "MT001",
+      "chemicalName": "Silicon Dioxide",
+      "materialChemicalFormula": "SiO2",
+      "materialGroupId": "MG001",
+      "materialType": "Raw",
+      "materialForm": "Powder",
+      "applicationClass1": "Elec",
+      "applicationClass2": "Chip",
+      "applicationClass3": "Wafer",
+      "role": "Base"
+    },
+    {
+      "materialId": "MT001",
+      "chemicalName": "Silicon Dioxide",
+      "materialChemicalFormula": "SiO2",
+      "materialGroupId": "MG001",
+      "materialType": "Raw",
+      "materialForm": "Powder",
+      "applicationClass1": "Elec",
+      "applicationClass2": "Chip",
+      "applicationClass3": "Wafer",
+      "role": "Base"
+    },
+    {
+      "materialId": "MT001",
+      "chemicalName": "Silicon Dioxide",
+      "materialChemicalFormula": "SiO2",
+      "materialGroupId": "MG001",
+      "materialType": "Raw",
+      "materialForm": "Powder",
+      "applicationClass1": "Elec",
+      "applicationClass2": "Chip",
+      "applicationClass3": "Wafer",
+      "role": "Base"
+    },
+    {
+      "materialId": "MT001",
+      "chemicalName": "Silicon Dioxide",
+      "materialChemicalFormula": "SiO2",
+      "materialGroupId": "MG001",
+      "materialType": "Raw",
+      "materialForm": "Powder",
+      "applicationClass1": "Elec",
+      "applicationClass2": "Chip",
+      "applicationClass3": "Wafer",
+      "role": "Base"
+    },
+    {
+      "materialId": "MT001",
+      "chemicalName": "Silicon Dioxide",
+      "materialChemicalFormula": "SiO2",
+      "materialGroupId": "MG001",
+      "materialType": "Raw",
+      "materialForm": "Powder",
+      "applicationClass1": "Elec",
+      "applicationClass2": "Chip",
+      "applicationClass3": "Wafer",
+      "role": "Base"
+    },
+    {
+      "materialId": "MT001",
+      "chemicalName": "Silicon Dioxide",
+      "materialChemicalFormula": "SiO2",
+      "materialGroupId": "MG001",
+      "materialType": "Raw",
+      "materialForm": "Powder",
+      "applicationClass1": "Elec",
+      "applicationClass2": "Chip",
+      "applicationClass3": "Wafer",
+      "role": "Base"
     }
   ]
 }
