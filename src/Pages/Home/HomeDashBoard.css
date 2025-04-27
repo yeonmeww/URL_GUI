@@ -1,0 +1,92 @@
+/* Home.css */
+
+.HomeDashBoard-container {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+.main-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+/* 
+.dashboard-title {
+    border-bottom: none;
+    text-decoration: none;
+} */
+
+.side-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.news-section {
+    padding-left: 25px;
+    gap: 20px;
+}
+
+.news-box-top {
+    background-color: #dfe9f3;
+    position: relative;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+
+}
+
+.news-box-bottom {
+    background-color: #dfe9f3;
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+
+}
+
+.news-text {
+    transition: transform 1.5s ease-in-out, opacity 0.5s ease-in-out;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+
+.totaldata-section{
+    text-align: center;
+    margin-bottom: 60px; /* 섹션 사이 간격 크게 */
+    border: 2px solid black;
+    border-radius: 16px;
+    padding-bottom: 25px;
+    background-color: #ffffff;
+   
+    
+}
+.centered-section {
+    text-align: center;
+    margin-bottom: 60px; /* 섹션 사이 간격 크게 */
+    border: 2px solid black;
+    border-radius: 16px;
+    padding-bottom: 25px;
+    background-color: #ffffff;
+}
+
+/* .centered-section h4 {
+    margin: 0; 
+} 
+*/

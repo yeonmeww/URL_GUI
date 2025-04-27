@@ -44,19 +44,22 @@ const DnDFlow = () => {
   useEffect(() => {
     const fetchNodesData = async () => {
       try {
-        const response = await fetch('InitialNodes.json');
+        const response = await fetch('InitialRecipeData.json');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
-        setInitialData(data);
+        const rawData = await response.json();
+        
+        // 여기에 변환 추가
+        const processedData = generateNodesAndEdges(rawData);
+        setInitialData(processedData);
       } catch (error) {
         console.error('Failed to load nodes data:', error);
       }
     };
     fetchNodesData();
   }, []);
-
+  
   useEffect(() => {
     if (initialData.nodes.length > 0) {
       const updatedNodes = initialData.nodes.map((node) => {
@@ -87,6 +90,72 @@ const DnDFlow = () => {
       setEdges(updatedEdges);
     }
   }, [initialData, setNodes, setEdges]);
+
+
+  // 1. 가공 함수 추가
+const generateNodesAndEdges = (data) => {
+  const nodes = [];
+  const edges = [];
+
+  let posY = 0;
+  const posXStart = 0;
+
+  const typeMapping = {
+    M: 'Material',
+    P: 'Process',
+    A: 'Analysis',
+    R: 'Result',
+    S: 'Simulation',
+    PR: 'Product',
+  };
+
+  data.forEach((item, index) => {
+    const id = (index + 1).toString();
+    const type = typeMapping[item.block_type] || 'default';
+
+    const bullets = [];
+    if (item.condition_info2) {
+        // Remove curly braces and trim any extra spaces
+        bullets.push(item.condition_info2.replace(/[{}]/g, '').trim());
+    }
+
+    // if (item.reference_info2) bullets.push(`Reference: ${item.reference_info2}`);
+
+    const node = {
+      id: id,
+      type: type,
+      data: {
+        label: type,
+        ...(bullets.length > 0 && { bullets: bullets }),
+      },
+      position: {
+        x: (type === 'Material') ? posXStart + 25 : posXStart,
+        y: posY,
+      },
+      sourceHandle: 'bottom',
+      targetHandle: 'top',
+    };
+
+    nodes.push(node);
+    
+    posY += 150; // 다음 노드 Y축 이동
+
+    if (index < data.length - 1) {
+      edges.push({
+        id: `e${id}`,
+        source: id,
+        target: (index + 2).toString(),
+        sourceHandle: `${id}-source-bottom`,
+        targetHandle: `${index + 2}-target-top`,
+        type: 'smoothstep',
+      });
+    }
+  });
+
+  return { nodes, edges };
+};
+
+
 
   const onConnect = useCallback(
     (params) =>
@@ -195,10 +264,10 @@ const DnDFlow = () => {
           onNodeClick={onNodeClick}
           onEdgeClick={onEdgeClick}
           defaultViewport={defaultViewport}
-          minZoom={0.6}
+          minZoom={0.3}
           maxZoom={4}
           fitView
-          fitViewOptions={{ padding: 0.5 }}
+          fitViewOptions={{ padding: 0.1 }}
           style={{ backgroundColor: '#F7F9FB', height: '100vh', width: '100%' }}
         >
           <Controls />
