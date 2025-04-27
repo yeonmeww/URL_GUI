@@ -1,27 +1,45 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './SearchBox.css';
 
 const SearchBox = ({
-  SearchBoxData = {},
-  setSearchBoxData = () => {},
-  onSubmit = () => {},
-  fields = [],
-  formClassName = "SearchBox-form",
-  buttonConfig = {
-    showSearch: true,
-    showSave: true,
-    showDelete: true
-  }
-}) => {
-  const handleChange = (e) => {
-    if (!e?.target) return;
-    const { id, value } = e.target;
-    setSearchBoxData(prev => ({ ...prev, [id]: value }));
-  };
+                     SearchBoxData = {},
+                     setSearchBoxData = () => {},
+                     onSubmit = () => {},
+                     fields = [],
+                     formClassName = "SearchBox-form",
+                     buttonConfig = {
+                       showSearch: true,
+                       showSave: true,
+                       showDelete: true
+                     }
+                   }) => {
+  const formRef = useRef(null); // form을 참조할 ref 생성
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(e);
+  };
+
+  const handleSearchClick = () => {
+    if (!formRef.current) return;
+
+    const newData = {};
+    fields.forEach((field) => {
+      const element = formRef.current.querySelector(`#${field}`);
+      if (element) {
+        if (element.tagName === 'SELECT') {
+          // SELECT 박스일 경우
+          newData[field] = element.options[element.selectedIndex]?.value || '';
+        } else {
+          // INPUT 박스일 경우
+          newData[field] = element.value || '';
+        }
+      }
+    });
+
+    setSearchBoxData(newData); // 여기서 최종적으로 저장
+    console.log('🔍 Search 버튼 클릭!');
+    console.log('현재 입력값:', newData);
   };
 
   const formatLabel = (field) => {
@@ -31,10 +49,8 @@ const SearchBox = ({
     return spacedText.charAt(0).toUpperCase() + spacedText.slice(1);
   };
 
-  // 토글로 표시할 필드 목록
   const toggleFields = ['materialType', 'materialForm', 'role', 'isDefault'];
 
-  // 토글 옵션 값도 여기 설정 (필요에 따라 수정 가능)
   const toggleOptions = {
     materialType: ['Raw', 'Product'],
     materialForm: ['Powder', 'Liquid', 'Slurry', 'Pellet'],
@@ -43,57 +59,59 @@ const SearchBox = ({
   };
 
   return (
-    <div className="SearchBox-content">
-      <div className="SearchBox-box">
-        <form className={formClassName} onSubmit={handleSubmit}>
-          {fields.map((field) => (
-            <div className="info-form-group" key={field}>
-              <label htmlFor={field} className="form-label">
-                {formatLabel(field)}
-              </label>
-              <div className="form-input">
-                {toggleFields.includes(field) ? (
-                  // 🔥 토글(dropdown)로 렌더링
-                  <select
-                    id={field}
-                    value={SearchBoxData[field] || ''}
-                    onChange={handleChange}
-                  >
-                    <option value="">Select {formatLabel(field)}</option>
-                    {(toggleOptions[field] || []).map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  // 🔥 기본 텍스트 인풋
-                  <input
-                    type="text"
-                    id={field}
-                    value={SearchBoxData[field] || ''}
-                    onChange={handleChange}
-                    required
-                  />
-                )}
-              </div>
-            </div>
-          ))}
-        </form>
-      </div>
+      <div className="SearchBox-content">
+        <div className="SearchBox-box">
+          <form ref={formRef} className={formClassName} onSubmit={handleSubmit}>
+            {fields.map((field) => (
+                <div className="info-form-group" key={field}>
+                  <label htmlFor={field} className="form-label">{formatLabel(field)}
+                  </label>
+                  <div className="form-input">
+                    {toggleFields.includes(field) ? (
+                        <select id={field} defaultValue={SearchBoxData[field] || ''}>
+                          <option value="">Select {formatLabel(field)}</option>
+                          {(toggleOptions[field] || []).map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                          ))}
+                        </select>
+                    ) : (
+                        <input
+                            type="text"
+                            id={field}
+                            defaultValue={SearchBoxData[field] || ''}
+                            required
+                        />
+                    )}
+                  </div>
+                </div>
+            ))}
+          </form>
+        </div>
 
-      <div className="button-content">
-        {buttonConfig.showSearch && (
-          <button type="button" className="btn-search">Search</button>
-        )}
-        {buttonConfig.showSave && (
-          <button type="submit" className="btn-save" onClick={handleSubmit}>Save</button>
-        )}
-        {buttonConfig.showDelete && (
-          <button type="button" className="btn-delete">Delete</button>
-        )}
+        <div className="button-content">
+          {buttonConfig.showSearch && (
+              <button
+                  type="button"
+                  className="btn-search"
+                  onClick={handleSearchClick}
+              >
+                Search
+              </button>
+          )}
+          {buttonConfig.showSave && (
+              <button type="submit" className="btn-save" onClick={handleSubmit}>
+                Save
+              </button>
+          )}
+          {buttonConfig.showDelete && (
+              <button type="button" className="btn-delete">
+                Delete
+              </button>
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 
