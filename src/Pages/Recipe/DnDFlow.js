@@ -36,6 +36,8 @@ const DnDFlow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { screenToFlowPosition } = useReactFlow();
+  const { project } = useReactFlow();
+
   const { type } = useDnD();
 
   const [initialData, setInitialData] = useState({ nodes: [], edges: [] });
@@ -49,8 +51,6 @@ const DnDFlow = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const rawData = await response.json();
-        
-        // 여기에 변환 추가
         const processedData = generateNodesAndEdges(rawData);
         setInitialData(processedData);
       } catch (error) {
@@ -59,7 +59,7 @@ const DnDFlow = () => {
     };
     fetchNodesData();
   }, []);
-  
+
   useEffect(() => {
     if (initialData.nodes.length > 0) {
       const updatedNodes = initialData.nodes.map((node) => {
@@ -91,71 +91,69 @@ const DnDFlow = () => {
     }
   }, [initialData, setNodes, setEdges]);
 
+  const generateNodesAndEdges = (data) => {
+    const nodes = [];
+    const edges = [];
 
-  // 1. 가공 함수 추가
-const generateNodesAndEdges = (data) => {
-  const nodes = [];
-  const edges = [];
+    const posXStart = 0;
+    let posX = posXStart;
+    let posY = 0;
 
-  let posY = 0;
-  const posXStart = 0;
-
-  const typeMapping = {
-    M: 'Material',
-    P: 'Process',
-    A: 'Analysis',
-    R: 'Result',
-    S: 'Simulation',
-    PR: 'Product',
-  };
-
-  data.forEach((item, index) => {
-    const id = (index + 1).toString();
-    const type = typeMapping[item.block_type] || 'default';
-
-    const bullets = [];
-    if (item.condition_info2) {
-        // Remove curly braces and trim any extra spaces
-        bullets.push(item.condition_info2.replace(/[{}]/g, '').trim());
-    }
-
-    // if (item.reference_info2) bullets.push(`Reference: ${item.reference_info2}`);
-
-    const node = {
-      id: id,
-      type: type,
-      data: {
-        label: type,
-        ...(bullets.length > 0 && { bullets: bullets }),
-      },
-      position: {
-        x: (type === 'Material') ? posXStart + 25 : posXStart,
-        y: posY,
-      },
-      sourceHandle: 'bottom',
-      targetHandle: 'top',
+    const typeMapping = {
+      M: 'Material',
+      P: 'Process',
+      A: 'Analysis',
+      R: 'Result',
+      S: 'Simulation',
+      PR: 'Product',
     };
 
-    nodes.push(node);
-    
-    posY += 150; // 다음 노드 Y축 이동
+    data.forEach((item, index) => {
+      const id = (index + 1).toString();
+      const type = typeMapping[item.block_type] || 'default';
 
-    if (index < data.length - 1) {
-      edges.push({
-        id: `e${id}`,
-        source: id,
-        target: (index + 2).toString(),
-        sourceHandle: `${id}-source-bottom`,
-        targetHandle: `${index + 2}-target-top`,
-        type: 'smoothstep',
-      });
-    }
-  });
+      const bullets = [];
+      if (item.condition_info2) {
+        bullets.push(item.condition_info2.replace(/[{}]/g, '').trim());
+      }
 
-  return { nodes, edges };
-};
+      const node = {
+        id: id,
+        type: type,
+        data: {
+          label: type,
+          ...(bullets.length > 0 && { bullets: bullets }),
+        },
+        position: {
+          x: (type === 'Material') ? posX + 25 : posX,
+          y: posY,
+        },
+        sourceHandle: 'bottom',
+        targetHandle: 'top',
+      };
 
+      nodes.push(node);
 
+      posY += 150;
+      if ((index + 1) % 5 === 0) {
+        posY = 0;
+        posX += 250;
+      }
+
+      if (index < data.length - 1) {
+        edges.push({
+          id: `e${id}`,
+          source: id,
+          target: (index + 2).toString(),
+          sourceHandle: `${id}-source-bottom`,
+          targetHandle: `${index + 2}-target-top`,
+          type: 'smoothstep',
+        });
+      }
+    });
+
+    return { nodes, edges };
+  };
 
   const onConnect = useCallback(
     (params) =>
@@ -218,28 +216,28 @@ const generateNodesAndEdges = (data) => {
     [screenToFlowPosition, type]
   );
 
+  const { getViewport } = useReactFlow();
+
   const onNodeClick = useCallback((event, node) => {
-    event.stopPropagation(); // Prevent event bubbling
-
-    const wrapperRect = reactFlowWrapper.current.getBoundingClientRect();
-
-    const overlayPosition = {
-      x: node.position.x * defaultViewport.zoom + wrapperRect.left + 300,
-      y: node.position.y * defaultViewport.zoom + wrapperRect.top - 10,
-    };
-
+    event.stopPropagation();
+    
+    const viewport = getViewport();
+  
     setSelectedNode({
       id: node.id,
       data: node.data,
-      position: overlayPosition,
+      position: {
+        x: node.position.x * viewport.zoom + viewport.x,
+        y: node.position.y * viewport.zoom + viewport.y,
+      },
     });
-  }, []);
+  }, [getViewport]);
+  
 
   const onEdgeClick = useCallback((event, edge) => {
     console.log('🟥 Edge clicked:', edge);
   }, []);
 
-  // Click outside closes node info box
   useEffect(() => {
     const handleClickOutside = () => {
       setSelectedNode(null);
@@ -274,13 +272,13 @@ const generateNodesAndEdges = (data) => {
           <Background />
         </ReactFlow>
 
-        {/* 선택된 노드 정보창 */}
         {selectedNode && (
           <div
             style={{
               position: 'absolute',
               top: selectedNode.position.y,
               left: selectedNode.position.x,
+              transform: 'translate(0, -100%)',
               background: '#ffffff',
               border: '1px solid #ccc',
               borderRadius: '8px',
@@ -290,7 +288,7 @@ const generateNodesAndEdges = (data) => {
               fontSize: '14px',
               minWidth: '180px',
             }}
-            onClick={(e) => e.stopPropagation()} // prevent closing on click inside
+            onClick={(e) => e.stopPropagation()}
           >
             <strong>{selectedNode.data.label}</strong>
             <ul style={{ marginTop: '6px', paddingLeft: '20px' }}>

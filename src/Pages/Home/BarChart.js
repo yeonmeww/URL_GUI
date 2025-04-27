@@ -8,7 +8,7 @@ const BarChart = ({
   legendNames = {}, // Add legendNames prop to customize legend display names
   xLegend = 'X축 항목',
   yLegend = 'Y축 값',
-  chartHeight = 270,
+  chartHeight = 370,
   margin = { top: 50, right: 130, bottom: 50, left: 60 }, // Increased right margin for longer legend text
   padding = 0.2,
   groupMode = 'grouped', // or 'stacked'
@@ -16,7 +16,7 @@ const BarChart = ({
   showLegends = true,
 }) => {
   return (
-    <div style={{ width: '950px', height: `${chartHeight}px`, marginBottom: '10px' }}>
+    <div style={{  height: `${chartHeight}px`, marginBottom: '10px' }}>
 
       {/* 차트 제목을 '데이터집계'로 변경 */}
       <h3 style={{ textAlign: 'center', marginBottom: '10px' }}>
