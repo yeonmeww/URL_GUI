@@ -15,7 +15,7 @@ const MaterialCodeForm = () => {
                 console.log(res);
             })
             .catch((err) => {
-                console.error('❌ 소재 코드 불러오기 실패:', err);
+                console.error('소재 코드 불러오기 실패:', err);
             });
     }, []); // 빈 배열 → 최초 렌더링 시 1번만 실행됨
 

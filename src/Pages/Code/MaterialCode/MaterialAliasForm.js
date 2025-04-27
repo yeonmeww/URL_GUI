@@ -12,15 +12,15 @@ const MaterialAliasForm = () => {
                 if (res.data && res.data.data) {
                     setRows(res.data.data);
                 }
-                console.log('📦 API 원본 응답:', res);
+                console.log('API 원본 응답:', res);
             })
             .catch((err) => {
-                console.error('❌ 소재 코드 불러오기 실패:', err);
+                console.error('소재 코드 불러오기 실패:', err);
             });
     }, []);
 
-    // 👇 렌더링 시 현재 rows 값 확인
-    console.log('📋 rows 상태:', rows);
+    // 렌더링 시 현재 rows 값 확인
+    console.log('rows 상태:', rows);
 
     return (
         <FormAndTable jsonPath="/MaterialAliasForm.json" />
