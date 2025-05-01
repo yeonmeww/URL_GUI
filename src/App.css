@@ -20,6 +20,7 @@ body {
 
 /* 상단 네비게이션 바 */
 .navbar {
+  
   display: flex;
   justify-content: space-between;
   background-color: #141D57;

@@ -43,7 +43,7 @@ const LineChart = ({ data }) => {
         <div style={{ height: 400 }}>
             <ResponsiveLine
                 data={formattedData}
-                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+                margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
                 xScale={{ type: 'point' }}
                 yScale={{
                     type: 'linear',

@@ -9,6 +9,7 @@ const HomeDashBoard = () => {
     const [WorkOrderData, setWorkOrderData] = useState(null);
     const [BinaryFileData, setBinaryFileData] = useState(null);
     const [RecipeData, setRecipeData] = useState(null);
+    const [currentTopNewsIndex, setCurrentTopNewsIndex] = useState(0);
 
     const topNewsList = [
         '📢 금오공대 Binary File Data 생성 최다!',
@@ -25,36 +26,53 @@ const HomeDashBoard = () => {
         '🔔 긴급 공지: 데이터베이스 점검 예정'
     ];
 
-    const [currentTopNewsIndex, setCurrentTopNewsIndex] = useState(0);
+    const textCards = [
+        {
+          title: '2025 HONGIK UNIVERSITY',
+          value: '500',
+          subtitle: 'IMAGE GENERATION',
+        },
+        {
+          title: '할말이 없넹',
+          value: '$19,491',
+          subtitle: 'AFTER FINANCIAL AID',
+        },
+        {
+          title: '2020 DEFAULT RATE',
+          value: '0.0563%',
+          subtitle: 'ON STUDENT LOANS',
+        },
+        {
+          title: '2022 ACCEPTANCE RATE',
+          value: '3.24%',
+          subtitle: '61,221 APPLICANTS',
+        },
+        {
+          title: '2022 ENROLLED STUDENTS',
+          value: '30,631',
+          subtitle: '69.2% FULL-TIME',
+        },
+        {
+          title: '2022 GRADUATION RATE',
+          value: '97.8%',
+          subtitle: '1,622 GRADUATES',
+        }
+      ];
+      
 
     useEffect(() => {
-        const topNewsInterval = setInterval(() => {
-            setCurrentTopNewsIndex(prevIndex => (prevIndex + 1) % topNewsList.length);
+        const interval = setInterval(() => {
+            setCurrentTopNewsIndex(prev => (prev + 1) % topNewsList.length);
         }, 3000);
-        return () => clearInterval(topNewsInterval);
-    }, [topNewsList.length]);
+        return () => clearInterval(interval);
+    }, []);
 
     useEffect(() => {
-        fetch('/TotalData.json')
-            .then(res => res.json())
-            .then(setTopData)
-            .catch(err => console.error('TotalData.json 로딩 실패:', err));
-        fetch('/ImageData.json')
-            .then(res => res.json())
-            .then(setImageData)
-            .catch(err => console.error('ImageData.json 로딩 실패:', err));
-        fetch('/WorkOrderData.json')
-            .then(res => res.json())
-            .then(setWorkOrderData)
-            .catch(err => console.error('WorkOrderData.json 로딩 실패:', err));
-        fetch('/BinaryFileData.json')
-            .then(res => res.json())
-            .then(setBinaryFileData)
-            .catch(err => console.error('BinaryFileData.json 로딩 실패:', err));
-        fetch('/RecipeData.json')
-            .then(res => res.json())
-            .then(setRecipeData)
-            .catch(err => console.error('RecipeData.json 로딩 실패:', err));
+        fetch('/TotalData.json').then(res => res.json()).then(setTopData);
+        fetch('/ImageData.json').then(res => res.json()).then(setImageData);
+        fetch('/WorkOrderData.json').then(res => res.json()).then(setWorkOrderData);
+        fetch('/BinaryFileData.json').then(res => res.json()).then(setBinaryFileData);
+        fetch('/RecipeData.json').then(res => res.json()).then(setRecipeData);
     }, []);
 
     const legendNamesMapping = {
@@ -66,48 +84,37 @@ const HomeDashBoard = () => {
 
     return (
         <div className="HomeDashBoard-container">
-            {/* 상단: 그래프 + 테이블 */}
-            <div className="top-section">
-                <div className="top-left">
+            <div className="hero-section">
+                <div className="gradient-overlay" />
+                <div className="hero-content">
                     {TopData && (
-                        <div className="centered-section">
-                            {/* <h4>Data Dashboard</h4> */}
+                        <div className="chart-wrapper enlarged">
                             <BarChartComponent data={TopData} legendNames={legendNamesMapping} />
                         </div>
                     )}
-                </div>
-                <div className="top-right">
-                    {TopData && (
-                        <div className="table-section">
-                             {/* <h4 className="table-title">기관별 데이터 테이블</h4> */}
-                            <table className="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>기관명</th>
-                                        <th>Image</th>
-                                        <th>Work Order</th>
-                                        <th>Binary File</th>
-                                        <th>Process Recipe</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {TopData.map((item, index) => (
-                                        <tr key={index}>
-                                            <td>{item.Institution}</td>
-                                            <td>{item.Image}</td>
-                                            <td>{item.Work_Order}</td>
-                                            <td>{item.Binary_File}</td>
-                                            <td>{item.Process_Recipe}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                     <div className="text-grid">
+                        {textCards.map((card, idx) => (
+                        <div key={idx} className="text-card">
+                            <div className="card-title">{card.title}</div>
+                            <div className="card-value">{card.value}</div>
+                            <div className="card-subtitle">{card.subtitle}</div>
                         </div>
-                    )}
+                        ))}
+                    </div>
                 </div>
             </div>
 
-            {/* 중간: 2x2 창문형 그래프 */}
+            <div className="news-section">
+                <div className="top-news">
+                    <span>{topNewsList[currentTopNewsIndex]}</span>
+                </div>
+                <div className="bottom-news">
+                    {bottomNewsList.map((news, index) => (
+                        <p key={index}>{news}</p>
+                    ))}
+                </div>
+            </div>
+
             <div className="middle-section">
                 {ImageData && (
                     <div className="middle-chart">
@@ -133,24 +140,6 @@ const HomeDashBoard = () => {
                         <LineChart data={RecipeData} />
                     </div>
                 )}
-            </div>
-
-            {/* 하단: 뉴스 */}
-            <div className="bottom-news-section">
-                <div className="news-column">
-                    <div className="news-box">
-                        <span className="news-text">{topNewsList[currentTopNewsIndex]}</span>
-                    </div>
-                </div>
-                <div className="news-column">
-                    <div className="news-box">
-                        <div className="news-text">
-                            {bottomNewsList.map((news, index) => (
-                                <p key={index}>{news}</p>
-                            ))}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );

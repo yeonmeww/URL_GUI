@@ -2,12 +2,12 @@ import { ResponsiveBar } from '@nivo/bar';
 
 const TopChart = ({ data }) => {
     return (
-        <div style={{ height: '270px', marginBottom: '10px' }}>
+        <div style={{ height: '', marginBottom: '10px' }}>
             <ResponsiveBar
     data={data}
-    keys={['image', 'video', 'work_order', 'result']}
+    keys={['image', 'video', 'work order', 'result']}
     indexBy="institution"
-    margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+    margin={{ top: 10, right: 160, bottom: 50, left: 60 }}
     padding={0.6}
     groupMode="grouped" 
     valueScale={{ type: 'linear' }}
@@ -32,7 +32,7 @@ const TopChart = ({ data }) => {
     }}
     labelSkipWidth={12}
     labelSkipHeight={12}
-    labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+    labelTextColor="white" // ⬅️ 텍스트를 흰색으로
     legends={[
         {
             dataFrom: 'keys',

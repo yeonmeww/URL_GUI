@@ -9,14 +9,14 @@ const BarChart = ({
   xLegend = 'X축 항목',
   yLegend = 'Y축 값',
   chartHeight = 370,
-  margin = { top: 50, right: 130, bottom: 50, left: 60 }, // Increased right margin for longer legend text
+  margin = { top: 10, right: 160, bottom: 50, left: 50 }, // Increased right margin for longer legend text
   padding = 0.2,
   groupMode = 'grouped', // or 'stacked'
   colors = { scheme: 'category10' },
   showLegends = true,
 }) => {
   return (
-    <div style={{  height: `${chartHeight}px`, marginBottom: '10px' }}>
+    <div style={{  height: '400px', width: '600px', marginBottom: '10px' }}>
 
       {/* 차트 제목을 '데이터집계'로 변경 */}
       <h3 style={{ textAlign: 'center', marginBottom: '10px' }}>
@@ -51,7 +51,7 @@ const BarChart = ({
         }}
         labelSkipWidth={12}
         labelSkipHeight={12}
-        labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+        labelTextColor="white" // ⬅️ 텍스트를 흰색으로
         legends={
           showLegends
             ? [
