@@ -1,4 +1,6 @@
 // components/BarChart.js
+
+
 import { ResponsiveBar } from '@nivo/bar';
 
 const BarChart = ({
@@ -16,13 +18,11 @@ const BarChart = ({
   showLegends = true,
 }) => {
   return (
-    <div style={{  height: '400px', width: '600px', marginBottom: '10px' }}>
+    <div style={{ height: '400px', width: '600px', marginBottom: '10px', position: 'relative' }}>
 
       {/* 차트 제목을 '데이터집계'로 변경 */}
-      <h3 style={{ textAlign: 'center', marginBottom: '10px' }}>
-        기관별 데이터집계
-      </h3>
-      <ResponsiveBar
+        <div className="chart-title">기관별 데이터집계</div>
+        <ResponsiveBar
         data={data}
         keys={keys}
         indexBy={indexBy}
@@ -36,58 +36,88 @@ const BarChart = ({
         axisTop={null}
         axisRight={null}
         axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          legend: xLegend,
-          legendPosition: 'middle',
-          legendOffset: 36,
-        }}
+        tickSize: 5,
+        tickPadding: 5,
+        legend: xLegend,
+        legendPosition: 'middle',
+        legendOffset: 36,
+    }}
         axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          legend: yLegend,
-          legendPosition: 'middle',
-          legendOffset: -40,
-        }}
+        tickSize: 5,
+        tickPadding: 5,
+        legend: yLegend,
+        legendPosition: 'middle',
+        legendOffset: -40,
+    }}
         labelSkipWidth={12}
         labelSkipHeight={12}
-        labelTextColor="white" // ⬅️ 텍스트를 흰색으로
+        labelTextColor="white"
+        theme={{
+        axis: {
+            ticks: {
+                text: {
+                    fill: '#ffffff', // 축 숫자 색
+                },
+            },
+            legend: {
+                text: {
+                    fill: '#ffffff', // 축 이름 색
+                },
+            },
+        },
+        legends: {
+            text: {
+                fill: '#ffffff', // 범례 텍스트 색
+            },
+        },
+        labels: {
+            text: {
+                fill: '#ffffff', // 막대 내부 텍스트 색
+            },
+        },
+        tooltip: {
+            container: {
+                background: '#333',
+                color: '#fff',
+            },
+        },
+    }}
         legends={
-          showLegends
+        showLegends
             ? [
                 {
-                  dataFrom: 'keys',
-                  anchor: 'bottom-right',
-                  direction: 'column',
-                  translateX: 120,
-                  itemWidth: 120, // Increased width for longer Korean text
-                  itemHeight: 20,
-                  itemOpacity: 0.75,
-                  symbolSize: 10,
-                  symbolShape: 'circle',
-                  // Custom mapping for legend labels
-                  itemsFormat: items => 
-                    items.map(item => ({
-                      ...item,
-                      label: legendNames[item.id] || item.id,
-                    })),
-                  effects: [
-                    {
-                      on: 'hover',
-                      style: {
-                        itemBackground: 'rgba(0, 0, 0, .03)',
-                        itemOpacity: 1,
-                      },
-                    },
-                  ],
+                    dataFrom: 'keys',
+                    anchor: 'bottom-right',
+                    direction: 'column',
+                    translateX: 160,
+                    itemWidth: 120,
+                    itemHeight: 20,
+                    itemOpacity: 0.75,
+                    symbolSize: 10,
+                    symbolShape: 'circle',
+                    itemTextColor: '#ffffff',
+                    itemsFormat: items =>
+                        items.map(item => ({
+                            ...item,
+                            label: legendNames[item.id] || item.id,
+                        })),
+                    effects: [
+                        {
+                            on: 'hover',
+                            style: {
+                                itemBackground: 'rgba(0, 0, 0, .03)',
+                                itemOpacity: 1,
+                            },
+                        },
+                    ],
                 },
-              ]
+            ]
             : []
-        }
+    }
         role="application"
         ariaLabel="막대 그래프"
         barAriaLabel={e => `${e.id}: ${e.formattedValue} in ${e.indexValue}`}
-      />
+        />
     </div>
   );
 };
