@@ -7,7 +7,6 @@ import MaterialGroupForm from "./MaterialGroupForm";
 const MaterialCodeAliasGroup = () => {
   return (
     <div className="material-code-container">
-      {/* <h1>Material Code/Alias/Group</h1> */}
       <MaterialTabs />
     </div>
   );

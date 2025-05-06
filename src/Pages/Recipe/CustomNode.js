@@ -12,7 +12,9 @@ const CustomNode = ({ id, type, data, selected }) => {
   const style = {
     ...baseStyle,
     position: 'relative',
-    border: selected || hovered ? '2px solid #007aff' : '2px solid transparent',
+    // border: selected || hovered ? '2px solid #007aff' : '2px solid transparent',
+	border: '2px solid #000000',
+
     // borderRadius: 8,
     boxShadow: selected || hovered ? '0 0 6px rgba(0, 122, 255, 0.4)' : 'none',
     // transition: 'border 0.2s ease, box-shadow 0.2s ease',

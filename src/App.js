@@ -12,9 +12,10 @@ import EquipmentCode from './Pages/Code/EquipmentCode'
 import MaterialCodeAliasGroup from './Pages/Code/MaterialCode/MaterialCodeAliasGroup'
 import MaterialInventory from './Pages/Code/MaterialInventory'
 import AnalysisCodeForm from './Pages/Code/ProcessAnalysisSimulationCode/AnalysisCodeForm';
-import ProcessAliasForm from './Pages/Code/ProcessAnalysisSimulationCode/ProcessAliasForm';
+import SimulationCodeForm from './Pages/Code/ProcessAnalysisSimulationCode/ProcessAliasForm';
 import ProcessCodeForm from './Pages/Code/ProcessAnalysisSimulationCode/ProcessCodeForm';
 import MaterialAliasForm from './Pages/Code/MaterialCode/MaterialAliasForm';
+import ProcessAnalysisSimulationCode from './Pages/Code/ProcessAnalysisSimulationCode/ProcessAnalysisSimulationCode';
 import MaterialCodeForm from './Pages/Code/MaterialCode/MaterialCodeForm';
 import ProviderCode from './Pages/Code/ProviderCode';
 import Analysis from './Pages/Search/Analysis'
@@ -174,8 +175,9 @@ export default function App() {
           <Route path="Code/EquipmentCode" element={<EquipmentCode />} /> 
           <Route path="Code/MaterialCodeAliasGroup" element={<MaterialCodeAliasGroup />} /> 
           <Route path="Code/MaterialInventory" element={<MaterialInventory />} /> 
+          <Route path="Code/ProcessAnalysisSimulationCode" element={<ProcessAnalysisSimulationCode />} />
           <Route path="Code/ProcessAnalysisSimulationCode" element={<ProcessCodeForm />} />
-          <Route path="Code/ProcessAnalysisSimulationCode" element={<ProcessAliasForm />} />
+          <Route path="Code/ProcessAnalysisSimulationCode" element={<SimulationCodeForm />} />
           <Route path="Code/ProcessAnalysisSimulationCode" element={<AnalysisCodeForm />} />
           <Route path="Code/MaterialAlias" element={<MaterialAliasForm />} />
           <Route path="Code/MaterialCode" element={<MaterialCodeForm />} />

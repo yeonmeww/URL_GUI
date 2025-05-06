@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./ProAnaSimulCode.css"; // 스타일 파일 불러오기
 import ProcessCodeForm from "./ProcessCodeForm";
 import AnalysisCodeForm from "./AnalysisCodeForm";
 import SimulationCodeForm from "./SimulationCodeForm";
