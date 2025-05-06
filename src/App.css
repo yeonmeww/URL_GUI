@@ -1,25 +1,8 @@
 /* App.css */
 
-@font-face {
-  font-family: 'MyCustomFont';
-  /* src: url('../public/font/Pretendard-Regular.otf') format('truetype'); */
-  /* src: url('../public/font/NanumSquareNeo-bRg.ttf') format('truetype'); */
-  src: url('../public/font/Pretendard-Medium.otf') format('truetype');
-  /* src: url('../public/font/KoPubWorld\ Dotum\ Medium.ttf') format('truetype'); */
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'SubFont_Bold';
-  src: url('../public/font/Paperlogy-8ExtraBold.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 /* 전체 페이지 스타일 */
 body {
-  font-family: 'MyCustomFont', sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
@@ -32,13 +15,11 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background-color: #F5F5F5;
-  position: relative;
-  min-height: 2000px; /* 스크롤 테스트용 높이 */
+  overflow-y: hidden;
 }
 
 /* 상단 네비게이션 바 */
 .navbar {
-  font-family: 'SubFont_Bold', sans-serif;
   display: flex;
   justify-content: space-between;
   background-color: #141D57;
@@ -90,18 +71,17 @@ subHeader {
   align-items: center;        /* 세로로 가운데 정렬 */
   padding-left: 30px;         /* 왼쪽 여백 (필요에 따라 조정) */
   font-weight: bold;
-  font-size: 22px;
+  font-size: 220x;
   margin-bottom: 5px;
 }
 
 /* 메인 콘텐츠 스타일 */
 .content {
-  flex-grow: 1;
+  flex-grow: 1;            /* 그대로 유지 */
   display: flex;
   flex-direction: column;
-  overflow-y: auto;  /* ✅ 콘텐츠 스크롤 가능하도록 변경 */
+  overflow: hidden;        /* 부모 넘치지 않게 설정 */
 }
-
 
 
 /* 각 페이지의 세부 스타일 */
@@ -202,23 +182,3 @@ h1 {
   background-color: white;
   margin: 20px;
 }
-
-.navbar.follow-scroll {
-  position: sticky;
-  top: 0;
-  background-color: #141D57;
-  z-index: 1000;
-  transition: top 0.3s ease-in-out;
-}
-
-
-.sub-header {
-  background: linear-gradient(to right, #CCDDED, #F5F5F5);
-  height: 50px;
-  /*background: #ddd;*/
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  font-weight: bold;
-}
-

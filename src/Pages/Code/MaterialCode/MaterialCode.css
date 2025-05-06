@@ -25,13 +25,13 @@
 }
 
 .tab-link.active {
-  background: #1a2d5d;
+  background: white;
   font-weight: bold;
-  border-top: 2px solid #1a2d5d;
-  border-left: 2px solid #1a2d5d;
-  border-right: 2px solid #1a2d5d;
+  border-top: 2px solid #007bff;
+  border-left: 2px solid #007bff;
+  border-right: 2px solid #007bff;
   border-bottom: none;
-  color: white;
+  color: #007bff;
   border-radius: 8px 8px 0 0;
   
 }

@@ -27,7 +27,6 @@ import './App.css';
 
 const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
   const location = useLocation(); // 현재 경로 정보 가져오기
-  const [hovered, setHovered] = useState(null); // 상태 관리: 현재 호버링한 메뉴
 
   // 각 경로에 맞는 텍스트 설정
   const getSubHeaderText = () => {
@@ -71,8 +70,7 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
   };
 
   // Handle mouse enter and leave to show/hide dropdown
-  const handleMouseEnter = (menu) => setHovered(menu);
-  const handleMouseLeave = () => setHovered(null);
+
 
   return (
       <div className="layout">
