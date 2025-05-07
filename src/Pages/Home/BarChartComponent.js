@@ -1,3 +1,5 @@
+import React from 'react';
+
 // components/BarChartComponent.js
 import BarChart from './BarChart';
 

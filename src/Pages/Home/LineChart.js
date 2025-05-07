@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { ResponsiveLine } from '@nivo/line';
 
 const LineChart = ({ data }) => {
@@ -80,7 +82,7 @@ const LineChart = ({ data }) => {
                             padding: '6px 9px',
                             border: '1px solid #ccc',
                             borderRadius: '4px',
-                            fontSize: '12px',
+                            fontSize: '20px',
                         }}
                     >
                         <strong>{point.serieId}</strong><br />

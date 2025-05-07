@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FormAndTable from '../../../components/FormAndTable';
-
+import './ProAnaSimulCode.css';
 
 const AnalysisCodeForm = () => {
     const [rows, setRows] = useState([]);

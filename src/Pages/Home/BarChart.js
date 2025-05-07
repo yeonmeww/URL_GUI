@@ -1,4 +1,5 @@
 // components/BarChart.js
+import React from 'react';
 
 
 import { ResponsiveBar } from '@nivo/bar';
@@ -17,6 +18,11 @@ const BarChart = ({
   colors = { scheme: 'category10' },
   showLegends = true,
 }) => {
+	const maxDataValue = Math.max(
+	  ...data.flatMap(d => keys.map(k => d[k] || 0))
+	);
+	const roundedMax = Math.ceil(maxDataValue / 100) * 100;
+
   return (
     <div style={{ height: '400px', width: '600px', marginBottom: '10px', position: 'relative' }}>
 
@@ -32,6 +38,7 @@ const BarChart = ({
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
         colors={colors}
+		maxValue={roundedMax}
         borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
         axisTop={null}
         axisRight={null}
@@ -53,35 +60,41 @@ const BarChart = ({
         labelSkipHeight={12}
         labelTextColor="white"
         theme={{
-        axis: {
-            ticks: {
-                text: {
-                    fill: '#ffffff', // 축 숫자 색
-                },
-            },
-            legend: {
-                text: {
-                    fill: '#ffffff', // 축 이름 색
-                },
-            },
-        },
-        legends: {
-            text: {
-                fill: '#ffffff', // 범례 텍스트 색
-            },
-        },
-        labels: {
-            text: {
-                fill: '#ffffff', // 막대 내부 텍스트 색
-            },
-        },
-        tooltip: {
-            container: {
-                background: '#333',
-                color: '#fff',
-            },
-        },
-    }}
+		  axis: {
+			ticks: {
+			  text: {
+				fill: '#ffffff',
+				fontSize: 12, // 축 숫자 글자 크기
+			  },
+			},
+			legend: {
+			  text: {
+				fill: '#ffffff',
+				fontSize: 14, // 축 이름 글자 크기
+			  },
+			},
+		  },
+		  legends: {
+			text: {
+			  fill: '#ffffff',
+			  fontSize: 13, // 범례 글자 크기
+			},
+		  },
+		  labels: {
+			text: {
+			  fill: '#ffffff',
+			  fontSize: 11, // 막대 내부 텍스트 크기
+			},
+		  },
+		  tooltip: {
+			container: {
+			  background: '#333',
+			  color: '#fff',
+			  fontSize: 13, // 툴팁 글자 크기
+			},
+		  },
+		}}
+
         legends={
         showLegends
             ? [
