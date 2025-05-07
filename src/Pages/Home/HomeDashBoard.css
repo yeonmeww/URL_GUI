@@ -62,37 +62,48 @@
     white-space: nowrap;
 }
 
-
-/* 오른쪽 텍스트 3열 레이아웃 */
 .text-grid {
-    width: 38%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem 1.5rem;
-  }
-  
-  .text-card {
+    gap: 35px 20px; /* 세로 간격은 약간 넉넉하게 유지 */
+    justify-items: center;
+    align-items: center;
+    padding-top: 20px;
+    max-width: 950px;
+    margin: 0 auto;
+    padding-left: 70px; /* ✅ 이 줄 추가: 오른쪽으로 이동 */
+}
+
+.text-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
   }
   
   .card-title {
     font-size: 1rem;
     font-weight: 600;
-    opacity: 0.9;
-    margin-bottom: 0.4rem;
-  }
-  
-  .card-value {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0.3rem;
-  }
-  
-  .card-subtitle {
-    font-size: 0.9rem;
-    opacity: 0.85;
-  }
-  
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.card-value {
+    font-size: 34px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.1;
+}
+
+.card-subtitle {
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+
+
+
+
 
 .news-section {
     background-color: #111;
