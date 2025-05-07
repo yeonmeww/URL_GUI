@@ -18,36 +18,43 @@ const InfoTable = ({
   containerClassName = "table-container",
   tableClassName = "table"
 }) => {
-  const [containerHeight, setContainerHeight] = useState(window.innerHeight * 0.47); // 70% of viewport height
+  const [containerHeight, setContainerHeight] = useState(window.innerHeight * 0.47);
   const containerRef = useRef(null);
 
-  // Update the height dynamically if the window size changes
+
   useEffect(() => {
     const handleResize = () => {
-      setContainerHeight(window.innerHeight * 0.6); // Adjust to 70% of viewport height
-    };
-
+    setContainerHeight(window.innerHeight * 0.6);
+  };
     window.addEventListener('resize', handleResize);
-    
-    // Cleanup on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+    // 컬럼 너비를 글자 길이에 따라 계산
+    const columnWidths = headers.map(header => {
+      const length = header.length;
+      return length > 30 ? '240px' :
+        length > 20 ? '200px' :
+          length > 10 ? '150px' : '100px' ;
+    });
+
   return (
-    <div 
-      ref={containerRef} 
-      className={containerClassName} 
+    <div
+      ref={containerRef}
+      className={containerClassName}
       style={{ height: containerHeight }}
     >
-      <table className={tableClassName}>
+      <table className = {tableClassName}>
         <thead>
           <tr>
             {headers.map((header, index) => (
-              <th key={index} className={header.length > 10 ? 'small-text' : ''}>
+              <th 
+                key = {index} 
+                className = {header.length > 20 ? 'small-text' : ''}
+                style = {{width: columnWidths[index]}}
+              >
                 {formatHeaderText(header)}
-              </th> 
+              </th>
             ))}
           </tr>
         </thead>
@@ -57,7 +64,11 @@ const InfoTable = ({
               {headers.map((header, colIndex) => {
                 const cellContent = row[header] || '';
                 return (
-                  <td key={colIndex} className="table-cell">
+                  <td 
+                    key={colIndex} 
+                    className="table-cell"
+                    style={{width: columnWidths[colIndex]}}
+                    >
                     <div className="cell-content">
                       {typeof cellContent === 'string' && cellContent.includes('\n')
                         ? cellContent.split('\n').map((line, i) => (
@@ -66,8 +77,7 @@ const InfoTable = ({
                               {i < cellContent.split('\n').length - 1 && <br />}
                             </React.Fragment>
                           ))
-                        : cellContent
-                      }
+                        : cellContent}
                     </div>
                   </td>
                 );

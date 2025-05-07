@@ -72,7 +72,7 @@ subHeader {
   align-items: center;        /* 세로로 가운데 정렬 */
   padding-left: 30px;         /* 왼쪽 여백 (필요에 따라 조정) */
   font-weight: bold;
-  font-size: 220x;
+  font-size: 22px;
   margin-bottom: 5px;
 }
 
