@@ -80,12 +80,12 @@
     flex-direction: row;
     justify-content: space-between;
     width: 90%;
-    max-width: 1400px;
+    /* max-width: 1400px; */
     padding: 2rem;
 }
 
 .chart-wrapper {
-    width: 45%;
+    width: 55%;
     height: 60%;
     display: flex;
     align-items: center;
@@ -93,6 +93,7 @@
     transform: scale(1.2);
     transform-origin: left center;
     position: relative;
+    margin-left: -100px;
 }
 
 .chart-title {
@@ -113,14 +114,15 @@
     justify-items: center;
     align-items: center;
     /* padding-top: 20px; */
-    width: 900px;
+    width: 700px;
     height: 450;
     /* margin: 0 auto; */
-    margin-left: 150px;
+    margin-left: 10px;
     margin-top: -50px;
 }
 
 .text-card {
+    font-family: 'SubFont_Bold', sans-serif;
     display: grid;
     grid-template-rows: 1fr 1.5fr 1fr; /* 상단, 중간, 하단 비율 */
     align-items: center;
@@ -152,6 +154,7 @@
   }
   
   .card-subtitle {
+
     font-size: 15px;
     display: flex;
     align-items: center;
@@ -282,5 +285,82 @@
     width: 90%;
     max-width: 1100px;
     padding-bottom: 20px;
+  }
+  
+
+  
+
+  /* 사용자 정의 범례 */
+.custom-legend {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* 범례 항목 사이 간격을 좀 더 넓게 설정 */
+    padding: 12px;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경을 조금 어두운 반투명으로 설정 */
+    border-radius: 10px; /* 모서리를 둥글게 처리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+    width: 150px;
+  }
+  
+  .legend-item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #ccc;
+    font-weight: normal;
+    opacity: 0.6;
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+    /* background-color: #ffffff43; */
+    padding: 3px;
+    border-radius: 10px;
+  }
+  
+  .legend-item.active {
+    color: #fff;
+    font-weight: bold;
+    opacity: 1;
+  }
+  
+  .legend-item:hover {
+    transform: scale(1.1); /* 버튼 살짝 확대 */
+  }
+  
+  .legend-icon {
+    width: 16px; /* 범례 원 크기를 약간 키움 */
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 10px; /* 아이콘과 텍스트 간격을 넓힘 */
+    transition: transform 0.3s ease; /* 아이콘에 부드러운 변환 효과 */
+  }
+  
+  .show-all-button {
+    margin-top: 12px;
+    color: #fff;
+    background: linear-gradient(45deg, #28a745, #007BFF); /* 그라데이션 색상 */
+    padding: 10px 20px;
+    border-radius: 30px; /* 둥근 버튼 */
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .show-all-button:hover {
+    background: linear-gradient(45deg, #218838, #0056b3); /* 호버 시 색상 변경 */
+    transform: scale(1.1); /* 버튼 살짝 확대 */
+  }
+  
+  .show-all-button:active {
+    transform: scale(1); /* 클릭 시 원래 크기로 돌아옴 */
   }
   

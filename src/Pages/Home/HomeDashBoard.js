@@ -37,10 +37,10 @@ const HomeDashBoard = () => {
   ];
 
   const legendNamesMapping = {
-    'Image': 'Image 수',
-    'Work_Order': 'WorkOrder 실행 수',
-    'Binary_File': 'Binary File 수',
-    'Process_Recipe': 'ProcessRecipe 수'
+    'Image': 'Image',
+    'Work_Order': 'Work Order',
+    'Binary_File': 'Binary File',
+    'Process_Recipe': 'Process Recipe'
   };
 
   const tabOptions = [

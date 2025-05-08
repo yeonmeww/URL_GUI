@@ -1,8 +1,25 @@
 /* App.css */
 
+@font-face {
+  font-family: 'MyCustomFont';
+  /* src: url('../public/font/Pretendard-Regular.otf') format('truetype'); */
+  /* src: url('../public/font/NanumSquareNeo-bRg.ttf') format('truetype'); */
+  src: url('../public/font/Pretendard-Medium.otf') format('truetype');
+  /* src: url('../public/font/KoPubWorld\ Dotum\ Medium.ttf') format('truetype'); */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SubFont_Bold';
+  src: url('../public/font/Paperlogy-8ExtraBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* 전체 페이지 스타일 */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'MyCustomFont', sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
@@ -21,7 +38,7 @@ body {
 
 /* 상단 네비게이션 바 */
 .navbar {
-  
+  font-family: 'SubFont_Bold', sans-serif;
   display: flex;
   justify-content: space-between;
   background-color: #141D57;

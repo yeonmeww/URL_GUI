@@ -8,10 +8,10 @@ const BarChartComponent = ({ data, legendNames }) => {
   
   // Use the passed legendNames or fallback to default if not provided
   const defaultLegendNames = {
-    'Image': 'Image 수',
-    'Work Order': 'Work Order 실행 수',
-    'Binary File': 'Binary File 수',
-    'Process Recipe': 'Process Recipe 수'
+    'Image': 'Image',
+    'Work Order': 'Work Order',
+    'Binary File': 'Binary File',
+    'Process Recipe': 'Process Recipe'
   };
   
   const finalLegendNames = legendNames || defaultLegendNames;

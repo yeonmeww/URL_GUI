@@ -197,7 +197,7 @@ const DnDFlow = () => {
         position,
         data: {
           label: nodeStyles[type]?.label,
-          bullets: ['세부 내용 A', '세부 내용 B'],
+          // bullets: ['세부 내용 A', '세부 내용 B'],
         },
         style: nodeStyles[type]?.style ?? nodeStyles.default.style,
       };
