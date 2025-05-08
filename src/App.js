@@ -75,29 +75,22 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
   const handleMouseLeave = () => setHovered(null);
 
   return (
-    <div className="layout">
-      <header className="navbar">
-  <div className="nav-left">
-    <Link to="/" className="nav-button">
-      PCEC HUB
-    </Link>
-  </div>
-  <div className="nav-right">
-    
-    
-    {/* Code 메뉴에만 드롭다운 추가 */}
-    <div className="nav-item code-dropdown">
-      <Link to="/Code" className="nav-button">
-        Code v
-      </Link>
-      <div className="dropdown-menu">
-        <Link to="/Code/MaterialCodeAliasGroup" className="dropdown-item">Material Code/Alias/Group</Link>
-        <Link to="/Code/ProcessAnalysisSimulationCode" className="dropdown-item">Process/Analysis/Simulation Code</Link>
-        <Link to="/Code/EquipmentCode" className="dropdown-item">Equipment Code</Link>
-        <Link to="/Code/ProviderCode" className="dropdown-item">Provider Code</Link>
-        <Link to="/Code/MaterialInventory" className="dropdown-item">Material Inventory</Link>
-      </div>
-    </div>
+      <div className="layout">
+        <header className="navbar follow-scroll">
+        <div className="nav-left">
+            <Link to="/" className="nav-button">PCEC HUB</Link>
+          </div>
+          <div className="nav-right">
+            <div className="nav-item code-dropdown">
+              <Link to="/Code" className="nav-button">Code v</Link>
+              <div className="dropdown-menu">
+                <Link to="/Code/MaterialCodeAliasGroup" className="dropdown-item">Material Code/Alias/Group</Link>
+                <Link to="/Code/ProcessAnalysisSimulationCode" className="dropdown-item">Process/Analysis/Simulation Code</Link>
+                <Link to="/Code/EquipmentCode" className="dropdown-item">Equipment Code</Link>
+                <Link to="/Code/ProviderCode" className="dropdown-item">Provider Code</Link>
+                <Link to="/Code/MaterialInventory" className="dropdown-item">Material Inventory</Link>
+              </div>
+            </div>
 
     {/* Search 메뉴에만 드롭다운 추가 */}
     <div className="nav-item search-dropdown">

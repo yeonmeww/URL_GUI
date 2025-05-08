@@ -93,13 +93,13 @@ const HomeDashBoard = () => {
                             <BarChartComponent data={TopData} legendNames={legendNamesMapping} />
                         </div>
                     )}
-                     <div className="text-grid">
+                    <div className="text-grid">
                         {textCards.map((card, idx) => (
-                        <div key={idx} className="text-card">
-                            <div className="card-title">{card.title}</div>
-                            <div className="card-value">{card.value}</div>
-                            <div className="card-subtitle">{card.subtitle}</div>
-                        </div>
+                            <div key={idx} className="text-card">
+                                <div className="card-title">{card.title}</div>
+                                <div className="card-value">{card.value}</div>
+                                <div className="card-subtitle">{card.subtitle}</div>
+                            </div>
                         ))}
                     </div>
                 </div>
