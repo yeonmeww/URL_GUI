@@ -1,3 +1,47 @@
+/* HomeDashBoard.css */
+
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(-30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .slide-in {
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  .text-card {
+    transition: transform 0.3s ease;
+  }
+  
+  .text-card:hover {
+    transform: scale(1.05);
+  }
+  
+
+
+
+
 
 .HomeDashBoard-container {
     display: flex;
@@ -10,7 +54,7 @@
     position: relative;
     height: 100vh;
     background-image:
-            linear-gradient(to bottom, rgba(0, 0, 0, 0.3), #000 90%),
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.3), #000000dd 90%),
             url('Hongik_univ_background.jpg'); /* 이미지 경로 */
     background-size: cover;
     background-position: center;
@@ -65,40 +109,55 @@
 .text-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 35px 20px; /* 세로 간격은 약간 넉넉하게 유지 */
+    gap: 35px 15px; /* 세로 간격은 약간 넉넉하게 유지 */
     justify-items: center;
     align-items: center;
-    padding-top: 20px;
-    max-width: 950px;
-    margin: 0 auto;
-    margin-left: 95px;
+    /* padding-top: 20px; */
+    width: 900px;
+    height: 450;
+    /* margin: 0 auto; */
+    margin-left: 150px;
+    margin-top: -50px;
 }
 
 .text-card {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 1.5fr 1fr; /* 상단, 중간, 하단 비율 */
     align-items: center;
     text-align: center;
+    background-color: rgba(255,255,255,0.05);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+    width: 170px;    /* 원하는 너비 */
+    height: 110px;   /* 원하는 높이 */
   }
   
   .card-title {
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-    line-height: 1.2;
-}
-
-.card-value {
-    font-size: 34px;
-    font-weight: 600;
-    margin-bottom: 4px;
-    line-height: 1.1;
-}
-
-.card-subtitle {
-    font-size: 14px;
-    line-height: 1.2;
-}
+    font-size: 15px;
+    font-weight: 650;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-value {
+    font-size: 40px;
+    font-weight: 650;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-subtitle {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
 
 
 
@@ -113,6 +172,46 @@
     flex-direction: column;
     gap: 1rem;
 }
+/* .news-section .news-title{
+    background-color: rgb(255, 255, 255);
+    color: #111;
+    font-size: 20px;
+    align-self: center;
+    width: 200px;
+    text-align: center;
+} */
+
+.news-section .news-title {
+    position: relative;
+    display: inline-block;
+    padding: 10px 24px;
+    margin: 0 auto;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(135deg, #4073ff 0%, #444 100%);
+    border-radius: 999px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+}
+
+.news-section .news-title::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -12px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #00e0ff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00e0ff;
+}
+
+
 
 .top-news {
     font-size: 1.2rem;
@@ -122,18 +221,66 @@
 
 .bottom-news p {
     margin: 0.4rem 0;
+    text-align: center;
+}
+
+
+.middle-chart{
+    border-radius: 20px;
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
 }
 
 .middle-section {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+  
+
+
+  .tab-buttons-vertical {
+    display: flex;
+    gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
-    padding: 3rem 2rem;
-    background-color: #f0f0f0;
-}
+    margin-bottom: 1.5rem;
+  }
+  
+  .tab-buttons-vertical button {
+    padding: 0.7rem 1.4rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: #5a5454;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: all 0.25s ease;
+  }
+  
+  .tab-buttons-vertical button:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+  }
+  
+  .tab-buttons-vertical button.active-tab {
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  
 
-.middle-chart {
-    flex: 1 1 400px;
-    max-width: 600px;
-}
+
+  .middle-chart {
+    width: 90%;
+    max-width: 1100px;
+    padding-bottom: 20px;
+  }
+  

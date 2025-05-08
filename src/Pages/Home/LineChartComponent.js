@@ -9,7 +9,7 @@ const LineChart = ({ data }) => {
     data={data}
     keys={['image', 'video', 'work order', 'result']}
     indexBy="institution"
-    margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+    margin={{ top: 50, right: 150, bottom: 50, left: 60 }}
     padding={0.6}
     groupMode="grouped" 
     valueScale={{ type: 'linear' }}

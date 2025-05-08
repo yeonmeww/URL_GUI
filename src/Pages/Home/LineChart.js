@@ -42,82 +42,110 @@ const LineChart = ({ data }) => {
     );
 
     return (
-        <div style={{ height: 400 }}>
+        <div style={{ height: 500 }}>
             <ResponsiveLine
-                data={formattedData}
-                margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
-                xScale={{ type: 'point' }}
-                yScale={{
-                    type: 'linear',
-                    min: 0,
-                    max: yMaxRounded,
-                    stacked: false,
-                    reverse: false,
-                }}
-                curve="linear"
-                axisTop={null}
-                axisRight={null}
-                axisBottom={{
-                    orient: 'bottom',
-                    tickSize: 5,
-                    tickPadding: 5,
-                    legend: '월',
-                    legendOffset: 36,
-                    legendPosition: 'middle',
-                }}
-                axisLeft={{
-                    orient: 'left',
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: '데이터 수',
-                    legendOffset: -40,
-                    legendPosition: 'middle',
-                    tickValues: tickValues,
-                }}
-                tooltip={({ point }) => (
-                    <div
-                        style={{
-                            background: 'white',
-                            padding: '6px 9px',
-                            border: '1px solid #ccc',
-                            borderRadius: '4px',
-                            fontSize: '20px',
-                        }}
-                    >
-                        <strong>{point.serieId}</strong><br />
-                        {point.data.xFormatted}, {point.data.yFormatted}개
-                    </div>
-                )}
-                gridYValues={tickValues}
-                colors={{ scheme: 'category10' }}
-                pointSize={5}
-                pointColor={{ from: 'color' }}
-                pointBorderWidth={2}
-                pointBorderColor={{ from: 'color' }}
-                enablePoints={true}
-                useMesh={true}
-                legends={[
-                    {
-                        anchor: 'bottom-right',
-                        direction: 'column',
-                        translateX: 100,
-                        itemWidth: 80,
-                        itemHeight: 20,
-                        symbolSize: 6,
-                        symbolShape: 'circle',
-                        effects: [
-                            {
-                                on: 'hover',
-                                style: {
-                                    itemBackground: 'rgba(0, 0, 0, .03)',
-                                    itemOpacity: 1,
-                                },
-                            },
-                        ],
+    data={formattedData}
+    margin={{ top: 50, right: 150, bottom: 60, left: 150 }}
+    xScale={{ type: 'point' }}
+    yScale={{
+        type: 'linear',
+        min: 0,
+        max: yMaxRounded,
+        stacked: false,
+        reverse: false,
+    }}
+    curve="linear"
+    axisTop={null}
+    axisRight={null}
+    axisBottom={{
+        orient: 'bottom',
+        tickSize: 5,
+        tickPadding: 5,
+        legend: '월',
+        legendOffset: 50,
+        legendPosition: 'middle',
+    }}
+    axisLeft={{
+        orient: 'left',
+        tickSize: 5,
+        tickPadding: 5,
+        tickRotation: 0,
+        legend: '데이터 수',
+        legendOffset: -60,
+        legendPosition: 'middle',
+        tickValues: tickValues,
+    }}
+    theme={{
+        axis: {
+            ticks: {
+                text: {
+                    fontSize: 16,
+                    fill: '#333',
+                },
+            },
+            legend: {
+                text: {
+                    fontSize: 18,
+                    fontWeight: 600,
+                    fill: '#111',
+                },
+            },
+        },
+        legends: {
+            text: {
+                fontSize: 14,
+            },
+        },
+        tooltip: {
+            container: {
+                fontSize: 18,
+            },
+        },
+    }}
+    tooltip={({ point }) => (
+        <div
+            style={{
+                background: 'white',
+                padding: '6px 9px',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                fontSize: '18px',
+            }}
+        >
+            <strong>{point.serieId}</strong><br />
+            {point.data.xFormatted}, {point.data.yFormatted}개
+        </div>
+    )}
+    gridYValues={tickValues}
+    colors={{ scheme: 'category10' }}
+    pointSize={5}
+    pointColor={{ from: 'color' }}
+    pointBorderWidth={2}
+    pointBorderColor={{ from: 'color' }}
+    enablePoints={true}
+    useMesh={true}
+    legends={[
+        {
+            anchor: 'bottom-right',
+            direction: 'column',
+            translateX: 100,
+            itemWidth: 80,
+            itemHeight: 20,
+            symbolSize: 6,
+            symbolShape: 'circle',
+            effects: [
+                {
+                    on: 'hover',
+                    style: {
+                        itemBackground: 'rgba(0, 0, 0, .03)',
+                        itemOpacity: 1,
                     },
-                ]}
-            />
+                },
+            ],
+        },
+    ]}
+/>
+
         </div>
     );
 };
