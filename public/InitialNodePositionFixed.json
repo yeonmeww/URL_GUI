@@ -42,6 +42,8 @@
 
 
 
+
+
   {
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 6,
@@ -56,7 +58,7 @@
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 7,
     "block_id": "block_7",
-    "block_type": "M",
+    "block_type": "PR",
     "reference_info2": "mat_2503_8",
     "condition_info2": ""
   },
@@ -70,6 +72,7 @@
     "reference_info2": "proc_2503_1",
     "condition_info2": "{Temperature: 25C, 150rpm, ball size 3mm, ball weight 60g, 24h}"
   },
+
   {
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 9,
@@ -87,14 +90,8 @@
     "condition_info2": "{Volume: 0.12mL}"
   },
 
-  {
-    "proc_rcp_id": "rcp_2503_1",
-    "seq_no": 11,
-    "block_id": "block_11",
-    "block_type": "M",
-    "reference_info2": "mat_2503_9",
-    "condition_info2": ""
-  },
+
+
   {
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 12,
@@ -102,18 +99,22 @@
     "block_type": "P",
     "reference_info2": "proc_2503_2",
     "condition_info2": "{Temperature: 80C, 12h}"
-  },  {
+  },  
+  
+  
+  
+  {
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 13,
     "block_id": "block_13",
-    "block_type": "M",
+    "block_type": "PR",
     "reference_info2": "mat_2503_10",
     "condition_info2": ""
   },  {
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 14,
     "block_id": "block_10",
-    "block_type": "R",
+    "block_type": "P",
     "reference_info2": "rst_2503_1",
     "condition_info2": ""
   },
@@ -122,7 +123,7 @@
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 15,
     "block_id": "block_15",
-    "block_type": "R",
+    "block_type": "PR",
     "reference_info2": "rst_2503_2",
     "condition_info2": ""
   },
@@ -130,7 +131,7 @@
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 16,
     "block_id": "block_16",
-    "block_type": "R",
+    "block_type": "P",
     "reference_info2": "rst_2503_3",
     "condition_info2": ""
   },
@@ -138,7 +139,7 @@
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 17,
     "block_id": "block_17",
-    "block_type": "R",
+    "block_type": "PR",
     "reference_info2": "rst_2503_4",
     "condition_info2": ""
   },
@@ -154,7 +155,7 @@
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 19,
     "block_id": "block_19",
-    "block_type": "M",
+    "block_type": "PR",
     "reference_info2": "mat_2503_11",
     "condition_info2": ""
   },
@@ -164,51 +165,33 @@
     "block_id": "block_20",
     "block_type": "P",
     "reference_info2": "proc_2503_4",
-    "condition_info2": "{200um}"
+    "condition_info2": ""
   },
   {
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 21,
     "block_id": "block_21",
-    "block_type": "M",
+    "block_type": "PR",
     "reference_info2": "mat_2503_12",
-    "condition_info2": "{Mass: 2g}"
+    "condition_info2": ""
   },
+
+
+
+
+  
   {
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 22,
     "block_id": "block_22",
     "block_type": "P",
     "reference_info2": "proc_2503_5",
-    "condition_info2": "{mold size: 0.25 cm^2}"
+    "condition_info2": ""
   },
+
   {
     "proc_rcp_id": "rcp_2503_1",
     "seq_no": 23,
-    "block_id": "block_23",
-    "block_type": "M",
-    "reference_info2": "mat_2503_13",
-    "condition_info2": "{Mass: 2g}"
-  },
-  {
-    "proc_rcp_id": "rcp_2503_1",
-    "seq_no": 24,
-    "block_id": "block_24",
-    "block_type": "P",
-    "reference_info2": "proc_2503_6",
-    "condition_info2": "{Start 0C, constant 500C 3h, constant 1400C 10h, end 0C, ramping 5C/min, cooling 5C/min}"
-  },
-  {
-    "proc_rcp_id": "rcp_2503_1",
-    "seq_no": 25,
-    "block_id": "block_25",
-    "block_type": "M",
-    "reference_info2": "mat_2503_14",
-    "condition_info2": ""
-  },
-  {
-    "proc_rcp_id": "rcp_2503_1",
-    "seq_no": 26,
     "block_id": "block_26",
     "block_type": "A",
     "reference_info2": "analy_2503_1",
@@ -216,7 +199,7 @@
   },
   {
     "proc_rcp_id": "rcp_2503_1",
-    "seq_no": 27,
+    "seq_no": 24,
     "block_id": "block_27",
     "block_type": "R",
     "reference_info2": "rst_2503_5",
@@ -224,7 +207,7 @@
   },
   {
     "proc_rcp_id": "rcp_2503_1",
-    "seq_no": 28,
+    "seq_no": 25,
     "block_id": "block_28",
     "block_type": "R",
     "reference_info2": "rst_2503_6",

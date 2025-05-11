@@ -53,7 +53,6 @@
       "sourceHandle": "1-source-bottom",
       "targetHandle": "2-target-top",
       "type": "smoothstep"
-
     },
     {
       "id": "e2",  
@@ -62,7 +61,6 @@
       "sourceHandle": "2-source-bottom",
       "targetHandle": "3-target-top",
       "type": "smoothstep"
-
     },
     {
       "id": "e3",  
@@ -71,7 +69,6 @@
       "sourceHandle": "3-source-bottom",
       "targetHandle": "4-target-top",
       "type": "smoothstep"
-
     },
     {
       "id": "e4",  
@@ -80,7 +77,6 @@
       "sourceHandle": "4-source-bottom",
       "targetHandle": "5-target-top",
       "type": "smoothstep"
-
     },
     {
       "id": "e5",  
@@ -89,7 +85,6 @@
       "sourceHandle": "5-source-bottom",
       "targetHandle": "6-target-top",
       "type": "smoothstep"
-
     },
     {
       "id": "e6",  
@@ -106,7 +101,6 @@
       "sourceHandle": "7-source-bottom",
       "targetHandle": "4-target-top",
       "type": "smoothstep"
-
     }
   ]
 }
