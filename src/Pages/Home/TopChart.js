@@ -34,7 +34,7 @@ const TopChart = ({ data }) => {
     }}
     labelSkipWidth={12}
     labelSkipHeight={12}
-    labelTextColor="white" // ⬅️ 텍스트를 흰색으로
+    labelTextColor="Black" //
     legends={[
         {
             dataFrom: 'keys',

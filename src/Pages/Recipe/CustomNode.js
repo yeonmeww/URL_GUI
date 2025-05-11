@@ -16,11 +16,11 @@ const CustomNode = ({ id, type, data, selected }) => {
 	border: '2px solid #000000',
 
     // borderRadius: 8,
-    boxShadow: selected || hovered ? '0 0 6px rgba(0, 122, 255, 0.4)' : 'none',
+    boxShadow: selected || hovered ? '0 0 10px rgba(255, 0, 0, 0.4)' : 'none',
     // transition: 'border 0.2s ease, box-shadow 0.2s ease',
     padding: 10,
     display: 'flex',
-    flexDirection: 'column', // <-- 핵심! 세로 정렬
+    flexDirection: 'column', // 세로 정렬
     alignItems: 'center',
     justifyContent: 'center',
   };
@@ -32,12 +32,12 @@ const CustomNode = ({ id, type, data, selected }) => {
       onMouseLeave={() => setHovered(false)}
     >
       {/* 큰 라벨 */}
-      <div style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 8, textAlign: 'center' }}>
+      <div style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 8, textAlign: 'center' }}>
   {label}
       </div>
 
       {bullets.length > 0 && (
-        <ul style={{ fontSize: 10, margin: 0, paddingLeft: 18 }}>
+        <ul style={{ fontSize: 13, margin: 0, paddingLeft: 18 }}>
           {bullets.map((item, idx) => (
             <li key={idx}>{item}</li>
           ))}

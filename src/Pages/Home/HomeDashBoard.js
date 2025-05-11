@@ -103,7 +103,7 @@ const HomeDashBoard = () => {
             ))}
             </div>
       </section>
-
+    
       <section className="middle-section">
         <div className="tab-buttons-vertical">
           {tabOptions.map(tab => (
@@ -120,6 +120,8 @@ const HomeDashBoard = () => {
           {renderActiveChart()}
         </div>
       </section>
+
+
       <div className="institution-row-wrapper">
         <div className="institution-row">
           <img src={require('./kier.jpg')} alt="KIER" />
@@ -133,8 +135,6 @@ const HomeDashBoard = () => {
           <img src={require('./h.jpg')} alt="홍익대" />
         </div>
       </div>
-
-
     </div>
   );
 };

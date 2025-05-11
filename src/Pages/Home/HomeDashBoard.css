@@ -1,3 +1,47 @@
+/* HomeDashBoard.css */
+
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(-30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .slide-in {
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  .text-card {
+    transition: transform 0.3s ease;
+  }
+  
+  .text-card:hover {
+    transform: scale(1.05);
+  }
+  
+
+
+
+
 
 .HomeDashBoard-container {
     display: flex;
@@ -9,15 +53,16 @@
 .hero-section {
     position: relative;
     height: 100vh;
-    /* background-image: */
-            /* linear-gradient(to bottom, rgba(0, 0, 0, 0.3), #000 90%), */
-            /* url('Hongik_univ_background.jpg'); /* 이미지 경로 */
+    /* background-image:
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.3), #000000dd 90%),
+            url('Hongik_univ_background.jpg');  */
+    background-color: #F5F5F5;
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: gray; */
+    color: rgb(0, 0, 0);
     overflow: hidden;
 }
 
@@ -25,14 +70,9 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 100%,          /* 80%까지는 완전 투명 */
-        rgba(80, 80, 80, 1) 100%   /* 100%에서 회색 */
-    );
+    /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.7) 95%); */
     z-index: 0;
 }
-
 
 .hero-content {
     position: relative;
@@ -41,12 +81,12 @@
     flex-direction: row;
     justify-content: space-between;
     width: 90%;
-    max-width: 1400px;
+    /* max-width: 1400px; */
     padding: 2rem;
 }
 
 .chart-wrapper {
-    width: 45%;
+    width: 55%;
     height: 60%;
     display: flex;
     align-items: center;
@@ -54,55 +94,79 @@
     transform: scale(1.2);
     transform-origin: left center;
     position: relative;
+    margin-left: -100px;
 }
 
 .chart-title {
-	color: black !important;
     position: absolute;
     top: -30px;         /* 막대그래프 위쪽으로 띄움 */
     left: 38%;          /* 가운데 정렬 기준 */
     transform: translateX(-50%);
-    color: white;
+    color: #000000;
     font-size: 1.5rem;
     font-weight: bold;
     white-space: nowrap;
 }
 
-
-/* 오른쪽 텍스트 3열 레이아웃 */
 .text-grid {
-    width: 38%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem 1.5rem;
-  }
-  
-  .text-card {
+    gap: 35px 15px; /* 세로 간격은 약간 넉넉하게 유지 */
+    justify-items: center;
+    align-items: center;
+    /* padding-top: 20px; */
+    width: 700px;
+    height: 450;
+    /* margin: 0 auto; */
+    margin-left: 10px;
+    margin-top: -50px;
+}
+
+.text-card {
+    font-family: 'SubFont_Bold', sans-serif;
+    display: grid;
+    grid-template-rows: 1fr 1.5fr 1fr; /* 상단, 중간, 하단 비율 */
+    align-items: center;
     text-align: center;
+    background-color: rgba(255,255,255,0.05);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+    width: 170px;    /* 원하는 너비 */
+    height: 110px;   /* 원하는 높이 */
   }
   
   .card-title {
-    font-size: 1rem;
-    font-weight: 600;
-    opacity: 0.9;
-    margin-bottom: 0.4rem;
-    /* color: white; /* 추가 */
-	}
-
-	.card-value {
-		font-size: 2rem;
-		font-weight: bold;
-		margin-bottom: 0.3rem;
-		/* color: white; /* 추가 */
-	}
-
-	.card-subtitle {
-		font-size: 0.9rem;
-		opacity: 0.85;
-		/* color: white; /* 추가 */
-	}
-
+    font-size: 15px;
+    font-weight: 650;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   
+  .card-value {
+    font-size: 40px;
+    font-weight: 650;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-subtitle {
+
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+
+
+
+
+
 
 .news-section {
     background-color: #141D57;
@@ -112,6 +176,46 @@
     flex-direction: column;
     gap: 1rem;
 }
+/* .news-section .news-title{
+    background-color: rgb(255, 255, 255);
+    color: #111;
+    font-size: 20px;
+    align-self: center;
+    width: 200px;
+    text-align: center;
+} */
+
+.news-section .news-title {
+    position: relative;
+    display: inline-block;
+    padding: 10px 24px;
+    margin: 0 auto;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(135deg, #4073ff 0%, #444 100%);
+    border-radius: 999px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+}
+
+.news-section .news-title::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -12px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #00e0ff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00e0ff;
+}
+
+
 
 .top-news {
     font-size: 1.2rem;
@@ -121,22 +225,147 @@
 
 .bottom-news p {
     margin: 0.4rem 0;
+    text-align: center;
+}
+
+
+.middle-chart{
+    border-radius: 20px;
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
 }
 
 .middle-section {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+  
+
+
+  .tab-buttons-vertical {
+    display: flex;
+    gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
-    padding: 3rem 2rem;
-    background-color: #f0f0f0;
-}
+    margin-bottom: 1.5rem;
+  }
+  
+  .tab-buttons-vertical button {
+    padding: 0.7rem 1.4rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: #5a5454;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: all 0.25s ease;
+  }
+  
+  .tab-buttons-vertical button:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+  }
+  
+  .tab-buttons-vertical button.active-tab {
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  
 
-.middle-chart {
-    flex: 1 1 400px;
-    max-width: 600px;
-}
 
+  .middle-chart {
+    width: 90%;
+    max-width: 1100px;
+    padding-bottom: 20px;
+  }
+  
+
+  
+
+  /* 사용자 정의 범례 */
+.custom-legend {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 13px;
+    color: #909090;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* 범례 항목 사이 간격을 좀 더 넓게 설정 */
+    padding: 12px;
+    background-color: rgba(234, 234, 234, 0.5); /* 배경을 조금 어두운 반투명으로 설정 */
+    border-radius: 10px; /* 모서리를 둥글게 처리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+    width: 150px;
+  }
+  
+  .legend-item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #9a9a9a;
+    font-weight: normal;
+    opacity: 0.6;
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+    /* background-color: #ffffff43; */
+    padding: 3px;
+    border-radius: 10px;
+  }
+  
+  .legend-item.active {
+    color: #000000;
+    font-weight: bold;
+    opacity: 1;
+  }
+  
+  .legend-item:hover {
+    transform: scale(1.1); /* 버튼 살짝 확대 */
+  }
+  
+  .legend-icon {
+    width: 16px; /* 범례 원 크기를 약간 키움 */
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 10px; /* 아이콘과 텍스트 간격을 넓힘 */
+    transition: transform 0.3s ease; /* 아이콘에 부드러운 변환 효과 */
+  }
+  
+  .show-all-button {
+    margin-top: 12px;
+    color: #fff;
+    background: linear-gradient(45deg, #28a745, #007BFF); /* 그라데이션 색상 */
+    padding: 10px 20px;
+    border-radius: 30px; /* 둥근 버튼 */
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .show-all-button:hover {
+    background: linear-gradient(45deg, #218838, #0056b3); /* 호버 시 색상 변경 */
+    transform: scale(1.1); /* 버튼 살짝 확대 */
+  }
+  
+  .show-all-button:active {
+    transform: scale(1); /* 클릭 시 원래 크기로 돌아옴 */
+  }
+  
 
 
 
@@ -150,9 +379,9 @@
 .institution-row {
     display: grid;
     grid-template-columns: repeat(9, 1fr);  /* 9개 한 줄에 고정 배치 */
-    gap: 24px;
+    gap: 30px;
     width: 100%;
-    max-width: 1100px;
+    max-width: 1600px;
     align-items: center;
 }
 
