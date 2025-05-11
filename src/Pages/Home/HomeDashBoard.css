@@ -136,3 +136,29 @@
     flex: 1 1 400px;
     max-width: 600px;
 }
+
+
+
+
+.institution-row-wrapper {
+    background-color: white;
+    padding: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.institution-row {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);  /* 9개 한 줄에 고정 배치 */
+    gap: 24px;
+    width: 100%;
+    max-width: 1100px;
+    align-items: center;
+}
+
+.institution-row img {
+    width: 100%;
+    max-height: 38px;     /* 💡 너무 커지지 않게 */
+    object-fit: contain;
+    opacity: 0.95;
+}

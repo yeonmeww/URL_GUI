@@ -120,6 +120,21 @@ const HomeDashBoard = () => {
           {renderActiveChart()}
         </div>
       </section>
+      <div className="institution-row-wrapper">
+        <div className="institution-row">
+          <img src={require('./kier.jpg')} alt="KIER" />
+          <img src={require('./kist.jpg')} alt="KIST" />
+          <img src={require('./sk.jpg')} alt="성균관대" />
+          <img src={require('./korea.jpg')} alt="고려대" />
+          <img src={require('./hy.jpg')} alt="한양대" />
+          <img src={require('./pn.jpg')} alt="부산대" />
+          <img src={require('./kit.jpg')} alt="금오공대" />
+          <img src={require('./INU.jpg')} alt="인천대" />
+          <img src={require('./h.jpg')} alt="홍익대" />
+        </div>
+      </div>
+
+
     </div>
   );
 };
