@@ -1,16 +1,52 @@
 {
   "info": [
     {
-      "materialGroupId": "MG001",
-      "materialGroupName": "Aromatic Compounds",
-      "groupName": "Group A",
-      "chemicalFormula": "C6H6"
+      "materialGroupId": "mat_group_2503_1",
+      "materialGroupName": "Aromatic Hydrocarbon",
+      "chemicalFormula": "C6H6",
+      "description": "벤젠 고리 구조를 가진 방향족 탄화수소"
     },
     {
-      "materialGroupId": "MG002",
-      "materialGroupName": "Inorganic Salts",
-      "groupName": "Group B",
-      "chemicalFormula": "NaCl"
+      "materialGroupId": "mat_group_2503_2",
+      "materialGroupName": "Inorganic Salt",
+      "chemicalFormula": "NaCl",
+      "description": "일반적인 이온 결합 염, 식염의 주성분"
+    },
+    {
+      "materialGroupId": "mat_group_2503_3",
+      "materialGroupName": "Mixed Metal Oxides",
+      "chemicalFormula": "Nio Nio 0",
+      "description": "Nickel 기반 금속 산화물 조합"
+    },
+    {
+      "materialGroupId": "mat_group_2503_4",
+      "materialGroupName": "Perovskite Ceramic",
+      "chemicalFormula": "BaZrCeYYbO",
+      "description": "프로톤 전도성 페롭스카이트 세라믹 복합체"
+    },
+    {
+      "materialGroupId": "mat_group_2503_5",
+      "materialGroupName": "Carbon Material",
+      "chemicalFormula": "C",
+      "description": "탄소 기반 소재로 전도성 및 촉매 특성 보유"
+    },
+    {
+      "materialGroupId": "mat_group_2503_6",
+      "materialGroupName": "Alcohol Solvent",
+      "chemicalFormula": "CH₃CHOHCH₃",
+      "description": "Isopropyl alcohol, 유기 용매로 사용됨"
+    },
+    {
+      "materialGroupId": "mat_group_2503_7",
+      "materialGroupName": "Unclassified Additive",
+      "chemicalFormula": "NA 0",
+      "description": "정확한 화학식 미상, 첨가제 또는 보조제"
+    },
+    {
+      "materialGroupId": "mat_group_2503_8",
+      "materialGroupName": "Plasticizer",
+      "chemicalFormula": "C6H4(COOC4H9)2",
+      "description": "디부틸 프탈레이트, 고분자 가소제"
     }
   ]
 }
