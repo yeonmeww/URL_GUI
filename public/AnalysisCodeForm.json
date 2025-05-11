@@ -1,13 +1,59 @@
 {
   "info": [
     {
-      "analysisId": "AN001",
-      "analysisName": "Analysis A",
-      "analysisPurpose": "Purpose A",
-      "appClass1": "Class A1",
-      "appClass2": "Class A2",
-      "appClass3": "Class A3",
-      "equipId": "EQ001"
+      "Analysis_ID": "A_Anode_001",
+      "Analysis_Name": "XRD",
+      "Analysis_Class_1": "Determination of crystal symmetry",
+      "Analysis_Class_2": "Lattice parameter measurement",
+      "Analysis_Class_3": "Crystallite size determination",
+      "Equipment_ID": "XRD",
+      "Analysis_Purpose": "Crystal structure analysis",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_002",
+      "Analysis_Name": "SEM",
+      "Analysis_Class_1": "Surface morphology",
+      "Analysis_Class_2": "Grain size",
+      "Analysis_Class_3": "Morphology",
+      "Equipment_ID": "SEM",
+      "Analysis_Purpose": "Morphology",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_003",
+      "Analysis_Name": "TEM",
+      "Analysis_Class_1": "Nanoscale imaging",
+      "Analysis_Class_2": "Lattice structure observation",
+      "Analysis_Class_3": "Defect identification",
+      "Equipment_ID": "TEM",
+      "Analysis_Purpose": "Microstructure analysis",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_004",
+      "Analysis_Name": "BET",
+      "Analysis_Class_1": "Surface area analysis",
+      "Analysis_Class_2": "Pore size distribution",
+      "Analysis_Class_3": "Adsorption isotherms",
+      "Equipment_ID": "BET_Analyzer",
+      "Analysis_Purpose": "Porosity characterization",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_005",
+      "Analysis_Name": "TGA",
+      "Analysis_Class_1": "Thermal analysis",
+      "Analysis_Class_2": "Weight change monitoring",
+      "Analysis_Class_3": "Decomposition analysis",
+      "Equipment_ID": "TGA_8000",
+      "Analysis_Purpose": "Thermal stability evaluation",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
     }
   ]
 }

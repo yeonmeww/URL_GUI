@@ -43,9 +43,7 @@
   font-size: 18px;     /* 글씨 두껍게 */
 }
 
-th.small-text {
-  font-size: 0.9em; 
-}
+
 
 .table-cell {
   vertical-align: top;

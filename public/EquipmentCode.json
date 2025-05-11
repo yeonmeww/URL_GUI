@@ -1,15 +1,49 @@
 {
   "info": [
     {
-      "equip_id": "1",
-      "equip_name" : "2",
-      "model_number" : "3",
-      "manifacturer" :  "4",
-      "app_class_1" : "5",
-      "app_class_2" : "5",
-      "app_class_3" : "5",
-      "registration_date" : "6",
-      "contributor_id": "7"
+      "simulationId": "SIM1",
+      "simulationName": "Simulation 1",
+      "simulationPurpose": "Purpose A",
+      "simulationType": "Type B",
+      "simulationAppClass1": "Class A1",
+      "simulationAppClass2": "Class A2",
+      "simulationAppClass3": "Class A3"
+    },
+    {
+      "simulationId": "SIM2",
+      "simulationName": "Thermal Analysis",
+      "simulationPurpose": "Evaluate thermal stability",
+      "simulationType": "Transient",
+      "simulationAppClass1": "Heat Transfer",
+      "simulationAppClass2": "Conduction",
+      "simulationAppClass3": "Steady-State"
+    },
+    {
+      "simulationId": "SIM3",
+      "simulationName": "Stress Simulation",
+      "simulationPurpose": "Analyze mechanical stress",
+      "simulationType": "Static",
+      "simulationAppClass1": "Structural",
+      "simulationAppClass2": "Elastic",
+      "simulationAppClass3": "Isotropic"
+    },
+    {
+      "simulationId": "SIM4",
+      "simulationName": "Electrochemical Model",
+      "simulationPurpose": "Battery performance modeling",
+      "simulationType": "Dynamic",
+      "simulationAppClass1": "Electrochemistry",
+      "simulationAppClass2": "Ion Transport",
+      "simulationAppClass3": "Charge Transfer"
+    },
+    {
+      "simulationId": "SIM5",
+      "simulationName": "Fluid Flow",
+      "simulationPurpose": "Simulate laminar flow",
+      "simulationType": "CFD",
+      "simulationAppClass1": "Fluid Mechanics",
+      "simulationAppClass2": "Laminar",
+      "simulationAppClass3": "Newtonian"
     }
   ]
 }
