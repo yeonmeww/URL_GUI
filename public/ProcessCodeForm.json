@@ -53,6 +53,42 @@
       "Process_Class_3": "Pellet sintering",
       "Equipment_ID": "EQ_Anode__005",
       "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_007",
+      "Process_Name": "Coating",
+      "Process_Class_1": "Surface modification",
+      "Process_Class_2": "Chemical coating",
+      "Process_Class_3": "Uniform layer",
+      "Equipment_ID": "EQ_Anode__006",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_008",
+      "Process_Name": "Calcination",
+      "Process_Class_1": "Heat treatment",
+      "Process_Class_2": "High temperature",
+      "Process_Class_3": "Decomposition",
+      "Equipment_ID": "EQ_Anode__007",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_009",
+      "Process_Name": "Slurry Preparation",
+      "Process_Class_1": "Mixing",
+      "Process_Class_2": "Wet mixing",
+      "Process_Class_3": "Viscous blending",
+      "Equipment_ID": "EQ_Anode__008",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_010",
+      "Process_Name": "Lamination",
+      "Process_Class_1": "Shaping",
+      "Process_Class_2": "Layer stacking",
+      "Process_Class_3": "Pressing",
+      "Equipment_ID": "EQ_Anode__009",
+      "Remark": ""
     }
   ]
 }

@@ -1,40 +1,94 @@
 {
   "info": [
     {
+      "simulationId": "SIM1",
+      "simulationName": "Thermal Stress Simulation",
+      "simulationPurpose": "Evaluate thermal expansion and mechanical stress",
+      "simulationType": "Coupled",
+      "simulationAppClass1": "Thermal analysis",
+      "simulationAppClass2": "Structural coupling",
+      "simulationAppClass3": "Transient response"
+    },
+    {
       "simulationId": "SIM2",
-      "simulationName": "Thermal Analysis",
-      "simulationPurpose": "Evaluate thermal stability",
-      "simulationType": "Transient",
-      "simulationAppClass1": "Heat Transfer",
-      "simulationAppClass2": "Conduction",
-      "simulationAppClass3": "Steady-State"
+      "simulationName": "Battery Performance Model",
+      "simulationPurpose": "Predict capacity fade and charge/discharge behavior",
+      "simulationType": "Electrochemical",
+      "simulationAppClass1": "Electrochemistry",
+      "simulationAppClass2": "Ion transport",
+      "simulationAppClass3": "Voltage profile"
     },
     {
       "simulationId": "SIM3",
-      "simulationName": "Stress Simulation",
-      "simulationPurpose": "Analyze mechanical stress",
-      "simulationType": "Static",
-      "simulationAppClass1": "Structural",
-      "simulationAppClass2": "Elastic",
-      "simulationAppClass3": "Isotropic"
+      "simulationName": "Particle Packing Simulation",
+      "simulationPurpose": "Analyze packing density and void fraction",
+      "simulationType": "DEM",
+      "simulationAppClass1": "Discrete element",
+      "simulationAppClass2": "Powder behavior",
+      "simulationAppClass3": "Granular material"
     },
     {
       "simulationId": "SIM4",
-      "simulationName": "Electrochemical Model",
-      "simulationPurpose": "Battery performance modeling",
-      "simulationType": "Dynamic",
-      "simulationAppClass1": "Electrochemistry",
-      "simulationAppClass2": "Ion Transport",
-      "simulationAppClass3": "Charge Transfer"
+      "simulationName": "Slurry Flow Modeling",
+      "simulationPurpose": "Simulate viscosity and flow of electrode slurry",
+      "simulationType": "CFD",
+      "simulationAppClass1": "Fluid mechanics",
+      "simulationAppClass2": "Non-Newtonian flow",
+      "simulationAppClass3": "Pipe transport"
     },
     {
       "simulationId": "SIM5",
-      "simulationName": "Fluid Flow",
-      "simulationPurpose": "Simulate laminar flow",
-      "simulationType": "CFD",
-      "simulationAppClass1": "Fluid Mechanics",
-      "simulationAppClass2": "Laminar",
-      "simulationAppClass3": "Newtonian"
+      "simulationName": "Drying Process Simulation",
+      "simulationPurpose": "Evaluate solvent evaporation and moisture profile",
+      "simulationType": "Heat and mass transfer",
+      "simulationAppClass1": "Drying kinetics",
+      "simulationAppClass2": "Solvent transport",
+      "simulationAppClass3": "Moisture content"
+    },
+    {
+      "simulationId": "SIM6",
+      "simulationName": "Pressing Deformation Analysis",
+      "simulationPurpose": "Study mechanical deformation during pelletizing",
+      "simulationType": "Static structural",
+      "simulationAppClass1": "Compaction",
+      "simulationAppClass2": "Plasticity model",
+      "simulationAppClass3": "Contact stress"
+    },
+    {
+      "simulationId": "SIM7",
+      "simulationName": "Thermal Sintering Simulation",
+      "simulationPurpose": "Analyze temperature profile and densification",
+      "simulationType": "Transient thermal",
+      "simulationAppClass1": "Heat treatment",
+      "simulationAppClass2": "Sintering dynamics",
+      "simulationAppClass3": "Grain growth"
+    },
+    {
+      "simulationId": "SIM8",
+      "simulationName": "Coating Thickness Uniformity",
+      "simulationPurpose": "Ensure uniform film formation in coating process",
+      "simulationType": "Multiphysics",
+      "simulationAppClass1": "Surface coating",
+      "simulationAppClass2": "Fluid-film interaction",
+      "simulationAppClass3": "Layer control"
+    },
+    {
+      "simulationId": "SIM9",
+      "simulationName": "Electrode Conductivity Mapping",
+      "simulationPurpose": "Visualize electrical conductivity distribution",
+      "simulationType": "Steady-state electric",
+      "simulationAppClass1": "Electric potential",
+      "simulationAppClass2": "Conductive path",
+      "simulationAppClass3": "Current distribution"
+    },
+    {
+      "simulationId": "SIM10",
+      "simulationName": "Delamination Risk Prediction",
+      "simulationPurpose": "Simulate interfacial strength and failure risk",
+      "simulationType": "Fracture mechanics",
+      "simulationAppClass1": "Interface modeling",
+      "simulationAppClass2": "Cohesive zone",
+      "simulationAppClass3": "Failure analysis"
     }
   ]
 }
