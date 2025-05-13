@@ -60,6 +60,7 @@ const Login = ( { setIsLoggedIn } ) => {
     };
 
     return (
+        <div className='login-full'>
         <div className="contents">
             <div className="container">
                 <h3>Login</h3>
@@ -105,7 +106,25 @@ const Login = ( { setIsLoggedIn } ) => {
                     <button className="btn-register">Sign Up</button>
                 </div>
             </div>
+            
+            
         </div>
+
+        <div className="institution-row-wrapper">
+                <div className="institution-row">
+                    <img src={require('./Home/kier.jpg')} alt="KIER" />
+                    <img src={require('./Home/kist.jpg')} alt="KIST" />
+                    <img src={require('./Home/sk.jpg')} alt="성균관대" />
+                    <img src={require('./Home/korea.jpg')} alt="고려대" />
+                    <img src={require('./Home/hy.jpg')} alt="한양대" />
+                    <img src={require('./Home/pn.jpg')} alt="부산대" />
+                    <img src={require('./Home/kit.jpg')} alt="금오공대" />
+                    <img src={require('./Home/INU.jpg')} alt="인천대" />
+                    <img src={require('./Home/h.jpg')} alt="홍익대" />
+                </div>
+            </div>
+    </div>
+        
     );
 };
 

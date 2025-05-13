@@ -3,6 +3,17 @@ import BarChartComponent from './BarChartComponent';
 import LineChart from './LineChart';
 import './HomeDashBoard.css';
 
+// 이미지 import
+import kierLogo from './kier.png';
+import kistLogo from './kist.png';
+import skkuLogo from './sku.png';
+import koreaLogo from './ko.gif';
+import hyuLogo from './hy.png';
+import pnuLogo from './pnu.png';
+import kumohLogo from './kit.png';
+import inuLogo from './inu.png';
+import hongikLogo from './hon.png';
+
 const HomeDashBoard = () => {
   const [TopData, setTopData] = useState(null);
   const [ImageData, setImageData] = useState(null);
@@ -28,12 +39,15 @@ const HomeDashBoard = () => {
   ];
 
   const textCards = [
-    { title: 'HONGIK UNIVERSITY', value: '440', subtitle: 'IMAGE GENERATION' },
-    { title: 'HANYANG UNIVERSITY', value: '620', subtitle: 'BINARY FILE GENERATION' },
-    { title: 'KOREA UNIVERSITY', value: '800', subtitle: 'BINARY FILE GENERATION' },
-    { title: 'PUSAN NATIONAL UNIVERSITY', value: '880', subtitle: 'BINARY FILE GENERATION' },
-    { title: 'INCHEON UNIVERSITY', value: '500', subtitle: 'BINARY FILE  GENERATION' },
-    { title: 'KIST', value: '620', subtitle: 'BINARY FILE GENERATION' }
+    { title: 'KIER', value: '740', subtitle: 'BINARY FILE GENERATION', logo: kierLogo },
+    { title: 'KIST', value: '620', subtitle: 'BINARY FILE GENERATION', logo: kistLogo },
+    { title: 'SUNGKYUNKAWN UNIVERSITY', value: '620', subtitle: 'BINARY FILE GENERATION', logo: skkuLogo },
+    { title: 'KOREA UNIVERSITY', value: '800', subtitle: 'BINARY FILE GENERATION', logo: koreaLogo },
+    { title: 'HANYANG UNIVERSITY', value: '620', subtitle: 'BINARY FILE  GENERATION', logo: hyuLogo },
+    { title: 'PUSAN NATIONAL UNIVERSITY', value: '880', subtitle: 'BINARY FILE GENERATION', logo: pnuLogo },
+    { title: 'KUMOH NATIONAL INSTITUTIE OF TECHNOLOY', value: '910', subtitle: 'BINARY FILE GENERATION', logo: kumohLogo },
+    { title: 'INCHEON UNIVERSITY', value: '500', subtitle: 'BINARY FILE  GENERATION', logo: inuLogo },
+    { title: 'HONGIK UNIVERSITY', value: '440', subtitle: 'IMAGE GENERATION', logo: hongikLogo }
   ];
 
   const legendNamesMapping = {
@@ -81,14 +95,16 @@ const HomeDashBoard = () => {
             </div>
           )}
           <div className="text-grid">
-            {textCards.map((card, idx) => (
-                <div key={idx} className="text-card fade-in-up">
-                <div className="card-title">{card.title}</div>
+            {textCards.map((card, index) => (
+              <div key={index} className="text-card">
+                <div className="card-title">
+                  <img src={card.logo} alt={`${card.title} logo`} className="school-logo" />
+                </div>
                 <div className="card-value">{card.value}</div>
                 <div className="card-subtitle">{card.subtitle}</div>
-                </div>
+              </div>
             ))}
-            </div>
+          </div>
         </div>
       </section>
 
@@ -122,19 +138,7 @@ const HomeDashBoard = () => {
       </section>
 
 
-      <div className="institution-row-wrapper">
-        <div className="institution-row">
-          <img src={require('./kier.jpg')} alt="KIER" />
-          <img src={require('./kist.jpg')} alt="KIST" />
-          <img src={require('./sk.jpg')} alt="성균관대" />
-          <img src={require('./korea.jpg')} alt="고려대" />
-          <img src={require('./hy.jpg')} alt="한양대" />
-          <img src={require('./pn.jpg')} alt="부산대" />
-          <img src={require('./kit.jpg')} alt="금오공대" />
-          <img src={require('./INU.jpg')} alt="인천대" />
-          <img src={require('./h.jpg')} alt="홍익대" />
-        </div>
-      </div>
+      
     </div>
   );
 };

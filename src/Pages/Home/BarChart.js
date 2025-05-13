@@ -40,7 +40,8 @@ const BarChart = ({
 
   return (
     <div style={{ height: '500px', width: '900px', marginBottom: '10px', position: 'relative' }}>
-      <div className="chart-title">기관별 데이터집계</div>
+      <div className="chart-title">참여연구기관별 데이터 수집 현황
+      </div>
       <ResponsiveBar
         data={data}
         keys={activeKeys}

@@ -125,7 +125,7 @@
 .text-card {
     font-family: 'SubFont_Bold', sans-serif;
     display: grid;
-    grid-template-rows: 1fr 1.5fr 1fr; /* 상단, 중간, 하단 비율 */
+    grid-template-rows: 60px 1fr 1fr; /* 상단(로고), 중간(값), 하단(부제목) 비율 */
     align-items: center;
     text-align: center;
     background-color: rgba(255,255,255,0.05);
@@ -134,39 +134,58 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     backdrop-filter: blur(4px);
     transition: all 0.3s ease;
-    width: 170px;    /* 원하는 너비 */
-    height: 110px;   /* 원하는 높이 */
-  }
-  
-  .card-title {
-    font-size: 15px;
-    font-weight: 650;
+    width: 170px;
+    height: 130px;
+}
+
+.card-title {
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .card-value {
+    overflow: hidden;
+}
+
+.school-logo {
+    width: 200px;
+    height: 45px;
+    object-fit: contain;
+}
+
+/* KIER 로고 */
+.school-logo[alt="KIER logo"] {
+  width: 170px;
+  height: 45px;
+}
+
+.school-logo[alt="KUMOH NATIONAL INSTITUTIE OF TECHNOLOY logo"] {
+    width: 170px;
+    height: 45px;
+}
+.school-logo[alt="KOREA UNIVERSITY logo"] {
+  width: 120px;
+  height: 45px;
+}
+.school-logo[alt="HONGIK UNIVERSITY logo"] {
+  width: 130px;
+  height: 45px;
+}
+.card-value {
     font-size: 40px;
     font-weight: 650;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .card-subtitle {
+    height: 100%;
+}
 
+.card-subtitle {
     font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-
-
-
-
-
+    height: 100%;
+}
 
 .news-section {
     background-color: #141D57;
@@ -215,8 +234,6 @@
     box-shadow: 0 0 10px #00e0ff;
 }
 
-
-
 .top-news {
     font-size: 1.2rem;
     font-weight: bold;
@@ -227,7 +244,6 @@
     margin: 0.4rem 0;
     text-align: center;
 }
-
 
 .middle-chart{
     border-radius: 20px;
@@ -367,27 +383,3 @@
   }
   
 
-
-
-.institution-row-wrapper {
-    background-color: white;
-    padding: 30px 0;
-    display: flex;
-    justify-content: center;
-}
-
-.institution-row {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);  /* 9개 한 줄에 고정 배치 */
-    gap: 30px;
-    width: 100%;
-    max-width: 1600px;
-    align-items: center;
-}
-
-.institution-row img {
-    width: 100%;
-    max-height: 38px;     /* 💡 너무 커지지 않게 */
-    object-fit: contain;
-    opacity: 0.95;
-}
