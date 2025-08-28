@@ -24,6 +24,7 @@ import ProcessSimulation from './Pages/Search/ProcessSimulation'
 import Property from './Pages/Search/Property'
 
 import './App.css';
+import './Pages/Home/HomeDashBoard.css'
 
 const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
   const location = useLocation(); // 현재 경로 정보 가져오기

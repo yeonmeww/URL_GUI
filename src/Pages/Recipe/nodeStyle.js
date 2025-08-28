@@ -6,7 +6,7 @@ const nodeStyles = {
     style: {
       background: '#B7D2DE',
       borderRadius: '50%', // 동그라미
-      width: 150,
+      width: 200,
       height: 80,
       textAlign: 'center',
       fontWeight: 'bold',

@@ -27,53 +27,107 @@ const JSONDisplay = () => {
 
   return (
     <div className="json-display-container" style={{ padding: '20px', overflowX: 'auto' }}>
-      <h3>JSON Data Table</h3>
-      {jsonData.length > 0 ? (
-        <table style={{ 
-          borderCollapse: 'collapse', 
-          width: '100%', 
-          fontSize: '12px',         // 글씨 크기 조정
-          textAlign: 'center'        // 글씨 가운데 정렬
-        }}>
-          <thead>
-            <tr>
-              {headers.map((header) => (
-                <th 
-                  key={header} 
-                  style={{ 
-                    border: '1px solid #ccc', 
-                    padding: '8px', 
-                    backgroundColor: '#f5f5f5',
-                    textAlign: 'center'       // 헤더도 가운데 정렬
-                  }}
-                >
-                  {header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {jsonData.map((row, index) => (
-              <tr key={index}>
+      <div className="general-display-container" style={{ padding: '20px', overflowX: 'auto' }}>
+        <h3>General Data Table</h3>
+        {jsonData.length > 0 ? (
+          <table style={{ 
+            borderCollapse: 'collapse', 
+            width: '100%', 
+            fontSize: '12px',         // 글씨 크기 조정
+            textAlign: 'center'        // 글씨 가운데 정렬
+          }}>
+            <thead>
+              <tr>
                 {headers.map((header) => (
-                  <td 
+                  <th 
                     key={header} 
                     style={{ 
                       border: '1px solid #ccc', 
-                      padding: '8px',
-                      textAlign: 'center'      // 본문도 가운데 정렬
+                      padding: '8px', 
+                      backgroundColor: '#f5f5f5',
+                      textAlign: 'center'       // 헤더도 가운데 정렬
                     }}
                   >
-                    {row[header] ?? ''}
-                  </td>
+                    {header}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>Loading...</p>
-      )}
+            </thead>
+            <tbody>
+              {jsonData.map((row, index) => (
+                <tr key={index}>
+                  {headers.map((header) => (
+                    <td 
+                      key={header} 
+                      style={{ 
+                        border: '1px solid #ccc', 
+                        padding: '8px',
+                        textAlign: 'center'      // 본문도 가운데 정렬
+                      }}
+                    >
+                      {row[header] ?? ''}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>Loading...</p>
+        )}
+        
+      </div>
+
+      <div className="block-display-container" style={{ padding: '20px', overflowX: 'auto' }}>
+        <h3>Block Data Table</h3>
+        {jsonData.length > 0 ? (
+          <table style={{ 
+            borderCollapse: 'collapse', 
+            width: '100%', 
+            fontSize: '12px',         // 글씨 크기 조정
+            textAlign: 'center'        // 글씨 가운데 정렬
+          }}>
+            <thead>
+              <tr>
+                {headers.map((header) => (
+                  <th 
+                    key={header} 
+                    style={{ 
+                      border: '1px solid #ccc', 
+                      padding: '8px', 
+                      backgroundColor: '#f5f5f5',
+                      textAlign: 'center'       // 헤더도 가운데 정렬
+                    }}
+                  >
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {jsonData.map((row, index) => (
+                <tr key={index}>
+                  {headers.map((header) => (
+                    <td 
+                      key={header} 
+                      style={{ 
+                        border: '1px solid #ccc', 
+                        padding: '8px',
+                        textAlign: 'center'      // 본문도 가운데 정렬
+                      }}
+                    >
+                      {row[header] ?? ''}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>Loading...</p>
+        )}
+        
+      </div>
     </div>
   );
 };

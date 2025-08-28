@@ -108,7 +108,21 @@
     white-space: nowrap;
 }
 
+
+@font-face {
+  font-family: 'DashboardFont';
+  src: url('../../../public/font/Paperlogy-4Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 
+.HomeDashBoard-container {
+  font-family: 'DashboardFont', sans-serif;
+} */
+
 .text-grid {
+    font-family: 'DashboardFont', sans-serif;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 35px 15px; /* 세로 간격은 약간 넉넉하게 유지 */
@@ -123,7 +137,7 @@
 }
 
 .text-card {
-    font-family: 'SubFont_Bold', sans-serif;
+    font-family: 'DashboardFont', sans-serif;
     display: grid;
     grid-template-rows: 60px 1fr 1fr; /* 상단(로고), 중간(값), 하단(부제목) 비율 */
     align-items: center;
