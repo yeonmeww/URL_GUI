@@ -23,6 +23,7 @@ import Literature from './Pages/Search/Literature'
 import ProcessSimulation from './Pages/Search/ProcessSimulation'
 import Property from './Pages/Search/Property'
 
+
 import './App.css';
 import './Pages/Home/HomeDashBoard.css'
 
@@ -160,13 +161,13 @@ export default function App() {
           <Route path="PCECHUB" element={<HomeDashBoard />} />
           <Route path="User Information" element={<UserInformation />} />
           <Route path="Login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="Recipe" element={<Recipe />} /> 
-          <Route path="Search" element={<Search />} /> 
-          <Route path="Code" element={<Code />} /> 
-          <Route path="Work Order" element={<WorkOrder />} /> 
-          <Route path="Code/EquipmentCode" element={<EquipmentCode />} /> 
-          <Route path="Code/MaterialCodeAliasGroup" element={<MaterialCodeAliasGroup />} /> 
-          <Route path="Code/MaterialInventory" element={<MaterialInventory />} /> 
+          <Route path="Recipe" element={<Recipe />} />
+          <Route path="Search" element={<Search />} />
+          <Route path="Code" element={<Code />} />
+          <Route path="Work Order" element={<WorkOrder />} />
+          <Route path="Code/EquipmentCode" element={<EquipmentCode />} />
+          <Route path="Code/MaterialCodeAliasGroup" element={<MaterialCodeAliasGroup />} />
+          <Route path="Code/MaterialInventory" element={<MaterialInventory />} />
           <Route path="Code/ProcessAnalysisSimulationCode" element={<ProcessAnalysisSimulationCode />} />
           <Route path="Code/ProcessAnalysisSimulationCode" element={<ProcessCodeForm />} />
           <Route path="Code/ProcessAnalysisSimulationCode" element={<SimulationCodeForm />} />
@@ -174,10 +175,10 @@ export default function App() {
           <Route path="Code/MaterialAlias" element={<MaterialAliasForm />} />
           <Route path="Code/MaterialCode" element={<MaterialCodeForm />} />
           <Route path="Code/ProviderCode" element={<ProviderCode />} />
-          <Route path="Search/Analysis" element={<Analysis />} /> xw
-          <Route path="Search/Literature" element={<Literature />} /> 
-          <Route path="Search/ProcessSimulation" element={<ProcessSimulation />} /> 
-          <Route path="Search/Property" element={<Property />} /> 
+          <Route path="Search/Analysis" element={<Analysis />} />
+          <Route path="Search/Literature" element={<Literature />} />
+          <Route path="Search/ProcessSimulation" element={<ProcessSimulation />} />
+          <Route path="Search/Property" element={<Property />} />
         </Route>
       </Routes>
     </Router>

@@ -8,7 +8,7 @@ import {
   Controls,
   useReactFlow,
   Background,
-}from 'reactflow';
+} from 'reactflow';
 import 'reactflow/dist/style.css';
 import './Recipe.css';
 import Sidebar from './Sidebar';
@@ -19,19 +19,16 @@ import JSONDisplay from './JSONDisplay';
 
 const Recipe = () => {
   return (
-    <ReactFlowProvider>
-      <DnDProvider>
-        <div className="recipe-container">
-          <DnDFlow />
-        </div>
-      </DnDProvider>
-       <JSONDisplay />  {/* 오른쪽에 JSON 데이터를 표시 */}
-    </ReactFlowProvider>
-    
+      <ReactFlowProvider>
+        <DnDProvider>
+          <div className="recipe-container">
+            <DnDFlow />
+            {/* 👇 이 위치로 옮겨야 합니다. */}
+            <JSONDisplay />
+          </div>
+        </DnDProvider>
+      </ReactFlowProvider>
   );
 };
 
 export default Recipe;
-
-
-

@@ -29,7 +29,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background-color: #F5F5F5;
-  overflow-y: hidden;
+  /* overflow-y: hidden; 속성 제거 */
 }
 
 /* 상단 네비게이션 바 */
@@ -40,7 +40,6 @@ body {
   padding: 10px 10px;
   height: 50px;
   font-weight: bold;
-  /* box-shadow: 4px 4px rgba(255, 0, 0, 0.25); */
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   margin-bottom: 3px;
@@ -76,25 +75,24 @@ body {
 }
 
 
-
-
-subHeader {
+/* SubHeader 컴포넌트의 CSS 선택자를 클래스명으로 수정 */
+.SubHeader {
   background: linear-gradient(to right, #CCDDED, #F5F5F5);
   height: 50px;
-  display: flex;              /* flexbox를 사용하여 자식 요소를 정렬 */
-  align-items: center;        /* 세로로 가운데 정렬 */
-  padding-left: 30px;         /* 왼쪽 여백 (필요에 따라 조정) */
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
   font-weight: bold;
-  font-size: 220x;
+  font-size: 22px; /* 오타 수정: 220x -> 22px */
   margin-bottom: 5px;
 }
 
 /* 메인 콘텐츠 스타일 */
 .content {
-  flex-grow: 1;            /* 그대로 유지 */
+  flex-grow: 1;
   display: flex;
-  flex-direction: column;
-  overflow: hidden;        /* 부모 넘치지 않게 설정 */
+  flex-direction: row; /* 세로 -> 가로 배치로 수정 */
+  /* overflow: hidden; 속성은 제거하는 것이 좋습니다. */
 }
 
 
@@ -113,10 +111,6 @@ h1 {
   font-size: 36px;
   color: #2980b9;
 }
-
-
-
-
 
 .nav-left .nav-button {
   font-size: 20px;
@@ -141,20 +135,19 @@ h1 {
 .nav-item .dropdown-menu {
   display: none;
   position: absolute;
-  top: 100%; /* 상위 메뉴 바로 아래에 표시 */
+  top: 100%;
   right: 0;
   background-color: #ffffff;
   min-width: 160px;
   padding: 10px;
   border-radius: 5px;
-  z-index: 10; /* 드롭다운 메뉴가 다른 요소들 위에 표시되도록 */
-  transition: opacity 1.1s ease, visibility 1.1s ease; /* 부드럽게 나타나고 사라지게 */
-  transition-delay: 1s; /* 호버 후 0.2초 뒤에 사라짐 */
+  z-index: 10;
+  transition: opacity 1.1s ease, visibility 1.1s ease;
+  transition-delay: 1s;
 }
 
 .nav-item:hover .dropdown-menu {
-  display: block; /* hover 시 드롭다운 메뉴가 보이도록 */
-  
+  display: block;
 }
 
 .dropdown-item {
@@ -175,22 +168,16 @@ h1 {
   flex-direction: column;
   margin-top: 20px;
   flex-grow: 1;
-  overflow: hidden; /* 자체 스크롤 없애고, 넘치지 않게 강제 차단 */
+  /* overflow: hidden; 속성 제거 */
 }
 
-
-
 .SearchBox-content {
-  flex-shrink: 0; /* 줄어들지 않게 고정 */
+  flex-shrink: 0;
   margin: 20px;
 }
 
-
-
-
-
 .tab-content-container .data-content {
-  flex-grow: 1; /* 남은 공간 전부 차지 */
+  flex-grow: 1;
   overflow-y: auto;
   overflow-x: auto;
   background-color: white;
