@@ -1,189 +1,241 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDnD } from './DnDContext';
 import axios from 'axios';
-
-const SubHeader = () => {
-    return <div></div>;
-};
-
 const JSONDisplay = () => {
-    const [initialData, setInitialData] = useState([]);
-    const [initialHeaders, setInitialHeaders] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
-    const containerRef = useRef(null);
-    const limit = 10; // 한 번에 불러올 데이터 수
+  const [jsonData, setJsonData] = useState([]);
+  const [genData, setGenData] = useState([]);
+  const [blockData, setBlockData] = useState([]);
+  const [genHeaders, setGenHeaders] = useState([]);
+  const [blockHeaders, setBlockHeaders] = useState([]);
 
-    const fetchInitialData = async () => {
-        if (loading || !hasMore) return;
+  const { selectedBlockId } = useDnD(); //  선택된 block_id 가져오기
+  useEffect(() => {
+    const fetchJsonData = async () => {
+      try {
+      const response_gen_tab = await axios.get('http://13.125.96.124:8080/api/v1/recipeInfoGeneral');
+      const gen_table_data = response_gen_tab.data;
+      if (Array.isArray(gen_table_data)) {
 
-        setLoading(true);
-        try {
-            const response = await axios.get(
-                'http://13.125.96.124:8080/api/v1/recipeInfoCollected',
-                {
-                    params: {
-                        page: page,
-                        limit: limit
-                    }
-                }
-            );
+        if (gen_table_data.length > 0) {
 
-            const newFetchedData = response.data;
-            if (Array.isArray(newFetchedData)) {
-                setInitialData(prevData => [...prevData, ...newFetchedData]);
+          // 1. 첫 번째 항목 기준으로 !!!자동으로 !!!!!!!!! 헤더 추출
+          // setHeaders(Object.keys(gen_table_data[0])); // 첫 번째 항목 기준으로 헤더 추출
 
-                if (newFetchedData.length < limit) {
-                    setHasMore(false); // 더 이상 불러올 데이터가 없으면 false로 설정
-                }
 
-                if (initialHeaders.length === 0 && newFetchedData.length > 0) {
-                    setInitialHeaders(Object.keys(newFetchedData[0]));
-                }
-            } else {
-                setHasMore(false);
-            }
-        } catch (error) {
-            console.error('Failed to load initial data:', error);
-            setHasMore(false);
-        } finally {
-            setLoading(false);
+          // 2. 원하는 순서대로 헤더 배열 !!수동!! 정의
+          const genHeaderOrder = [
+            "block_conn_info",
+            "block_id",
+            "block_no",
+            "block_type",
+            "module_id",
+            "module_no",
+            "ord_seq_no",
+            "rcp_id",
+            "reference_id",
+            "wo_id"
+          ];
+
+          // setHeaders 호출
+          setGenHeaders(genHeaderOrder);
+          setGenData(gen_table_data);
+          console.log('gen_table_data[0]):', gen_table_data[0]);
+          console.log('gen_table_data):', gen_table_data);
+          
+          // Filter data for rcpId "rcp_exp_250818_1"
+          const dataArray = Object.values(gen_table_data);
+          const filtered = dataArray.filter(item => item.rcp_id === "rcp_sim_250818_108");
+          console.log('gen_table_data filtered:', filtered);
         }
+
+        // console.log('processedData_gen:', processedData_gen);
+        console.log('Successfully loaded initial data:', gen_table_data);
+      }
+
+      const response_block_tab = await axios.get('http://13.125.96.124:8080/api/v1/recipeInfoCollected');
+      const block_table_data = response_block_tab.data;
+      if (Array.isArray(block_table_data)) {
+
+        if (block_table_data.length > 0) {
+
+          // 첫 번째 항목 기준으로 !!!자동으로 !!!!!!!!! 헤더 추출
+          // setHeaders(Object.keys(block_table_data[0])); // 첫 번째 항목 기준으로 헤더 추출
+
+
+          // 원하는 순서대로 헤더 배열 !!수동!! 정의
+         const blockHeaderOrder = [
+            "wo_id",
+            "rcp_id",
+            "module_id",
+            "module_no",
+            "block_id",
+            "block_no",
+            "block_type",
+            "reference_id",
+            "ord_seq_no_1",
+            "ord_seq_no_2",
+            "hub_voc_id",
+            "eco_voc_id",
+            "voc_level_1",
+            "voc_level_2",
+            "voc_level_3",
+            "voc_level_4",
+            "voc_name",
+            "voc_value",
+            "voc_unit"
+          ];
+
+
+          // setHeaders 호출
+          setBlockHeaders(blockHeaderOrder);
+          setBlockData(block_table_data);
+          console.log('block_table_data[0]):', block_table_data[0]);
+          console.log('block_table_data):', block_table_data);
+          
+          // Filter data for rcpId "rcp_exp_250818_1"
+          const dataArray = Object.values(block_table_data);
+          const filtered = dataArray.filter(item => item.rcp_id === "rcp_sim_250818_108");
+          console.log('block_table_data filtered:', filtered);
+
+
+        }
+        // console.log('processedData_gen:', processedData_gen);
+        console.log('Successfully loaded initial data:', block_table_data);
+      }
+
+
+
+    } catch (error) {
+      console.error('Failed to load initial data:', error);
+    }
+
     };
+    
+    fetchJsonData();
+  }, []);
 
-    useEffect(() => {
-        fetchInitialData();
-    }, [page]); // page 값이 변경될 때마다 데이터를 새로 불러옵니다.
+  // 선택한 block_id에 따라 blockData 필터링
+    const filteredBlockData = blockData.filter(
+    item =>
+      item.rcp_id === "rcp_sim_250818_108" &&
+      item.block_id === selectedBlockId
+  );
 
-    // 스크롤 감지 로직
-    useEffect(() => {
-        const handleScroll = () => {
-            if (containerRef.current) {
-                const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-                if (scrollTop + clientHeight >= scrollHeight - 50 && !loading && hasMore) {
-                    setPage(prevPage => prevPage + 1);
-                }
-            }
-        };
 
-        const container = containerRef.current;
-        if (container) {
-            container.addEventListener('scroll', handleScroll);
-        }
-        return () => {
-            if (container) {
-                container.removeEventListener('scroll', handleScroll);
-            }
-        };
-    }, [loading, hasMore]);
-
-    const renderTable = (headers, data) => {
-        if (data.length === 0 && !loading) return <p>표시할 데이터가 없습니다.</p>;
-
-        return (
-            <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '12px', textAlign: 'center' }}>
-                <thead>
-                <tr>
-                    {headers.map((header) => (
-                        <th key={header} style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f5f5f5' }}>
-                            {header}
-                        </th>
-                    ))}
-                </tr>
-                </thead>
-                <tbody>
-                {data.map((row, index) => (
-                    <tr key={index}>
-                        {headers.map((header) => (
-                            <td key={header} style={{ border: '1px solid #ccc', padding: '8px' }}>
-                                {row[header] ?? ''}
-                            </td>
-                        ))}
-                    </tr>
+  return (
+    <div className="json-display-container" style={{ padding: '20px', overflowX: 'auto' }}>
+      
+    <div className='gen-text-header'>
+        <h3>General Data Table</h3>
+      </div>
+      <div className="general-display-container" style={{ padding: '20px', overflowX: 'auto' }}>
+    
+        
+        {genData.length > 0 ? (
+          <table style={{ 
+            borderCollapse: 'collapse', 
+            width: '100%', 
+            fontSize: '12px',         // 글씨 크기 조정
+            textAlign: 'center'        // 글씨 가운데 정렬
+          }}>
+            <thead>
+              <tr>
+                {genHeaders.map((header) => (
+                  <th 
+                    key={header} 
+                    style={{ 
+                      border: '1px solid #ccc', 
+                      padding: '8px', 
+                      backgroundColor: '#f5f5f5',
+                      textAlign: 'center'       // 헤더도 가운데 정렬
+                    }}
+                  >
+                    {header}
+                  </th>
                 ))}
-                </tbody>
-            </table>
-        );
-    };
+              </tr>
+            </thead>
+            <tbody>
+              {genData.map((row, index) => (
+                <tr key={index}>
+                  {genHeaders.map((header) => (
+                    <td 
+                      key={header} 
+                      style={{ 
+                        border: '1px solid #ccc', 
+                        padding: '8px',
+                        textAlign: 'center'      // 본문도 가운데 정렬
+                      }}
+                    >
+                      {row[header] ?? ''}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>Loading...</p>
+        )}
+        
+      </div>
 
-    return (
-        <div
-            ref={containerRef}
-            className="json-display-container"
-        >
-            <SubHeader />
-            <h3>전체 목록 (General)</h3>
-            {renderTable(initialHeaders, initialData)}
-            {loading && <p>데이터를 불러오는 중입니다...</p>}
-            {!hasMore && <p>모든 데이터를 불러왔습니다.</p>}
-        </div>
-    );
+          <div className='block-text-header'>
+        <h3>Block Data Table</h3>
+      </div>
+      
+      <div className="block-display-container" style={{ padding: '20px', overflowX: 'auto' }}>
+    
+        {filteredBlockData.length > 0 ? (
+          <table style={{ 
+            borderCollapse: 'collapse', 
+            width: '100%', 
+            fontSize: '12px',         // 글씨 크기 조정
+            textAlign: 'center'        // 글씨 가운데 정렬
+          }}>
+            <thead>
+              <tr>
+                {blockHeaders.map((header) => (
+                  <th 
+                    key={header} 
+                    style={{ 
+                      border: '1px solid #ccc', 
+                      padding: '8px', 
+                      backgroundColor: '#f5f5f5',
+                      textAlign: 'center'       // 헤더도 가운데 정렬
+                    }}
+                  >
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filteredBlockData.map((row, index) => (
+                <tr key={index}>
+                  {blockHeaders.map((header) => (
+                    <td 
+                      key={header} 
+                      style={{ 
+                        border: '1px solid #ccc', 
+                        padding: '8px',
+                        textAlign: 'center'      // 본문도 가운데 정렬
+                      }}
+                    >
+                      {row[header] ?? ''}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>Loading...</p>
+        )}
+        
+      </div>
+    </div>
+  );
 };
 
 export default JSONDisplay;
-
-/*
-// --- 아래는 주석으로 처리된 recipeInfoCollected 엔드포인트를 위한 코드 예시입니다. ---
-const RecipeInfoCollectedDisplay = () => {
-    const [data, setData] = useState([]);
-    const [headers, setHeaders] = useState([]);
-
-    const fetchData = async () => {
-        try {
-            // recipeInfoCollected 데이터를 가져올 API 엔드포인트입니다.
-            const response = await axios.get('http://13.125.96.124:8080/api/v1/recipeInfoCollected');
-
-            const fetchedData = response.data;
-            if (Array.isArray(fetchedData)) {
-                setData(fetchedData);
-                if (fetchedData.length > 0) {
-                    setHeaders(Object.keys(fetchedData[0]));
-                }
-            }
-        } catch (error) {
-            console.error('Failed to load recipeInfoCollected data:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const renderTable = (headers, data) => {
-        if (data.length === 0) return <p>데이터가 없습니다.</p>;
-
-        return (
-            <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '12px', textAlign: 'center' }}>
-                <thead>
-                <tr>
-                    {headers.map((header) => (
-                        <th key={header} style={{ border: '1px solid #ccc', padding: '8px', backgroundColor: '#f5f5f5' }}>
-                            {header}
-                        </th>
-                    ))}
-                </tr>
-                </thead>
-                <tbody>
-                {data.map((row, index) => (
-                    <tr key={index}>
-                        {headers.map((header) => (
-                            <td key={header} style={{ border: '1px solid #ccc', padding: '8px' }}>
-                                {row[header] ?? ''}
-                            </td>
-                        ))}
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        );
-    };
-
-    return (
-        <div className="json-display-container">
-            <h3>레시피 정보 (Recipe Info Collected)</h3>
-            {renderTable(headers, data)}
-        </div>
-    );
-};
-// --- 주석 처리된 RecipeInfoCollectedDisplay 컴포넌트 끝 ---
-*/
