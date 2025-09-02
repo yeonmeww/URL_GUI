@@ -145,7 +145,7 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
   </div>
 </header>
 
-      <subHeader>{getSubHeaderText()}</subHeader> {/* 동적 텍스트 표시 */}
+      {/* <subHeader>{getSubHeaderText()}</subHeader>  */}
       <Outlet /> {/* This is where the routed components will be rendered */}
     </div>
   );
