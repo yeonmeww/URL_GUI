@@ -10,7 +10,8 @@ const SearchBox = ({
   buttonConfig = {
     showSearch: true,
     showSave: true,
-    showDelete: true
+    showDelete: true,
+    showDownload:true
   }
 }) => {
   const formRef = useRef(null); // form을 참조할 ref 생성
@@ -110,6 +111,11 @@ const SearchBox = ({
           <button type="button" className="btn-delete">
             Delete
           </button>
+        )}
+        {buttonConfig.showDownload && (
+            <button type="button" className="btn-download">
+              Download
+            </button>
         )}
       </div>
     </div>
