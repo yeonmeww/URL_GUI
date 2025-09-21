@@ -46,6 +46,8 @@
   border-top: none;
   border-radius: 0 0 12px 12px;
   margin-left: 20px;
+
+  overflow-y: auto;
 }
 
 
