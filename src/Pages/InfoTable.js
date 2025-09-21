@@ -4,12 +4,12 @@ import './InfoTable.css';
 // 텍스트 포맷팅 함수
 const formatHeaderText = (text) => {
   if (!text) return '';
-  // 1. 언더바 제거
-  let noUnderscore = text.replace(/_/g, '');
-  // 2. 대문자 앞에 띄어쓰기 삽입 (맨 첫 글자는 제외)
-  let spacedText = noUnderscore.replace(/([A-Z])/g, ' $1').trim();
-  // 3. 첫 글자 대문자로 변환
-  return spacedText.charAt(0).toUpperCase() + spacedText.slice(1);
+
+  // 1. 언더바를 띄어쓰기로 변경
+  let withSpaces = text.replace(/_/g, ' ');
+
+  // 2. 첫 글자 대문자로 변환
+  return withSpaces.charAt(0).toUpperCase() + withSpaces.slice(1);
 };
 
 const InfoTable = ({

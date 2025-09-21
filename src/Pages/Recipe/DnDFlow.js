@@ -139,182 +139,9 @@ const DnDFlow = () => {
     }
   }, [initialData, setNodes, setEdges]);
 
-  // const generateNodesAndEdges = (data) => {
-  //   const nodes = [];
-  //   const edges = [];
-  //   console.log('data:', data);
-  //   const typeMapping = {
-  //     M: 'Material',
-  //     P: 'Process',
-  //     A: 'Analysis',
-  //     R: 'Result',
-  //     S: 'Simulation',
-  //     PR: 'Product',
-  //   };
-  //  const sortedData = [...data].sort(
-  //     (a, b) => parseInt(a.block_id.split('_')[1]) - parseInt(b.block_id.split('_')[1])
-  //   );
-  //   console.log('sortedData:', sortedData);
-
-
-  //   // helper: 핸들 번호 → 방향 이름
-  //   const handleMap = {
-  //     3: 'right',
-  //     6: 'bottom',
-  //     9: 'left',
-  //     12: 'top',
-  //   };
 
 
 
-  //   // const sortedData = [...data].sort((a, b) => a.seq_no - b.seq_no);
-  //   let idCounter = 1;
-  //   const idMap = new Map();
-  
-  //   const addNode = (item, position, isHorizontal = false) => {
-  //     const nodeType = typeMapping[item.block_type] || 'default';
-  //     const bullets = item.condition_info2 ? [item.condition_info2.replace(/[{}]/g, '').trim()] : [];
-  //     const nodeId = idCounter.toString();
-  //     idMap.set(item.seq_no, nodeId);
-      
-  //     const nodeStyle = nodeStyles[nodeType]?.style ?? nodeStyles.default.style;
-      
-  //     const node = {
-  //       id: nodeId,
-  //       type: nodeType,
-  //       data: { label: nodeType, bullets },
-  //       position,
-  //       style: nodeStyle,
-  //     };
-      
-  //     if (isHorizontal) {
-  //       // For horizontal connections
-  //       node.sourcePosition = Position.Right;
-  //       node.targetPosition = Position.Left;
-  //     } else {
-  //       // For vertical connections (default)
-  //       node.sourcePosition = Position.Bottom;
-  //       node.targetPosition = Position.Top;
-  //     }
-      
-  //     nodes.push(node);
-  //     idCounter++;
-  //     return nodeId;
-  //   };
-  
-  //   const materialNodes = sortedData.filter(d => d.block_type === 'M');
-  //   const topMaterials = materialNodes.slice(0, 5);
-  //   const sideMaterials = materialNodes.slice(5, 7);
-  
-  //   const allOtherNodes = sortedData.filter(d => d.block_type !== 'M');
-  
-  //   let yOffset = 0;
-  //   const materialTopIds = topMaterials.map((m, i) => addNode(m, { x: i * 200 - 75, y: yOffset }));
-  //   yOffset += 150;
-  
-  //   const processId = addNode(allOtherNodes[0], { x: 300, y: yOffset });
-  
-  //   materialTopIds.forEach((mid) => {
-  //     edges.push({
-  //       id: `e${mid}-${processId}`,
-  //       source: mid,
-  //       target: processId,
-  //       type: 'smoothstep',
-  //       markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#222' },
-  //       style: { strokeWidth: 2 },
-  //       sourceHandle: `${mid}-source-bottom`,
-  //       targetHandle: `${processId}-target-top`,
-  //     });
-  //   });
-  
-  //   let prevId = processId;
-  //   let currentX = 300;
-  //   yOffset += 150;
-  //   for (let i = 1; i < allOtherNodes.length; i++) {
-  //     const nodeData = allOtherNodes[i];
-  
-  //     const nodeId = addNode(nodeData, { x: currentX, y: yOffset });
-  //     edges.push({
-  //       id: `e${prevId}-${nodeId}`,
-  //       source: prevId,
-  //       target: nodeId,
-  //       type: 'smoothstep',
-  //       markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#222' },
-  //       style: { strokeWidth: 2 },
-  //       sourceHandle: `${prevId}-source-bottom`,
-  //       targetHandle: `${nodeId}-target-top`,
-  //     });
-      
-  //     // Handle special case for seq_no 8 (branch node)
-  //     if (nodeData.seq_no === 8) {
-  //       sideMaterials.forEach((sm, j) => {
-  //         const mId = addNode(sm, { x: currentX + 300 , y: yOffset + j * 150 -75}, true); // true means horizontal
-          
-  //         edges.push({
-  //           id: `e${nodeId}-${mId}`,
-  //           source: nodeId,
-  //           target: mId,
-  //           type: 'smoothstep',
-  //           markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#222' },
-  //           style: { strokeWidth: 2 },
-  //           sourceHandle: `${nodeId}-source-right`,
-  //           targetHandle: `${mId}-target-left`,
-  //         });
-  //       });
-  //     }
-  
-  //     prevId = nodeId;
-  //     yOffset += 150;
-  //   }
-  
-  //   const productNode = sortedData.find(d => d.seq_no === 22);
-  //   if (productNode) {
-  //     const productId = addNode(productNode, { x: currentX, y: yOffset });
-  //     edges.push({
-  //       id: `e${prevId}-${productId}`,
-  //       source: prevId,
-  //       target: productId,
-  //       type: 'smoothstep',
-  //       markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#222' },
-  //       style: { strokeWidth: 2 },
-  //       sourceHandle: `${prevId}-source-bottom`,
-  //       targetHandle: `${productId}-target-top`,
-  //     });
-  
-  //     const analysis = sortedData.find(d => d.block_type === 'A');
-  //     const results = sortedData.filter(d => d.block_type === 'R');
-      
-  //     const analysisId = addNode(analysis, { x: currentX + 300, y: yOffset }, true); // horizontal
-      
-  //     edges.push({
-  //       id: `e${productId}-${analysisId}`,
-  //       source: productId,
-  //       target: analysisId,
-  //       type: 'smoothstep',
-  //       markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#222' },
-  //       style: { strokeWidth: 2 },
-  //       sourceHandle: `${productId}-source-right`,
-  //       targetHandle: `${analysisId}-target-left`,
-  //     });
-  
-  //     results.forEach((r, i) => {
-  //       const rId = addNode(r, { x: currentX + 600, y: yOffset +i * 150}, true); // horizontal
-        
-  //       edges.push({
-  //         id: `e${analysisId}-${rId}`,
-  //         source: analysisId,
-  //         target: rId,
-  //         type: 'smoothstep',
-  //         markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#222' },
-  //         style: { strokeWidth: 2 },
-  //         sourceHandle: `${analysisId}-source-right`,
-  //         targetHandle: `${rId}-target-left`,
-  //       });
-  //     });
-  //   }
-  
-  //   return { nodes, edges };
-  // };
 
 // const generateNodesAndEdges = (data) => {
 //   const nodes = [];
@@ -329,7 +156,6 @@ const DnDFlow = () => {
 //     PR: 'Product',
 //   };
 
-//   // 핸들 번호 매핑
 //   const handleMap = {
 //     3: 'right',
 //     6: 'bottom',
@@ -337,43 +163,92 @@ const DnDFlow = () => {
 //     12: 'top',
 //   };
 
-//   // block_id 숫자 기준 정렬
-//   const sortedData = [...data].sort((a, b) => a.block_no - b.block_no);
-//   console.log("sortedData:", sortedData);
-
-//   // node 생성
-//   sortedData.forEach((item, idx) => {
-//     const nodeType = typeMapping[item.block_type] || 'default';
-//     const nodeId = item.block_id;
-
-//     nodes.push({
-//       id: nodeId,
-//       type: nodeType,
-//       data: { label: nodeType, bullets: [] },
-//       position: { x: idx * 250, y: 100 }, // 기본 위치
-//       style: nodeStyles[nodeType]?.style ?? nodeStyles.default.style,
-//       sourcePosition: Position.Right,
-//       targetPosition: Position.Left,
-//     });
+//   const blockMap = {};
+//   data.forEach((item) => {
+//     blockMap[item.block_id] = item;
 //   });
-//   console.log("sortedData:", sortedData);
 
-
-//   // edge 생성
-//   sortedData.forEach((item) => {
+//   const graph = {};
+//   data.forEach((item) => {
 //     if (item.block_conn_info && item.block_conn_info.trim() !== '') {
-//       // 예: "{Block_8,3, Block_10,9}"
 //       const regex = /Block_(\d+),\s*(\d+)/g;
 //       const matches = [...item.block_conn_info.matchAll(regex)];
+//       // if (matches.length === 2) {
+//       //   const src = `Block_${matches[0][1]}`;
+//       //   const tgt = `Block_${matches[1][1]}`;
+//       //   if (!graph[src]) graph[src] = [];
+//       //   graph[src].push(tgt);
+//       // }
+//       matches.forEach((match, idx) => {
+//       const src = `Block_${match[1]}`;
+//       const tgt = `Block_${matches[idx + 1] ? matches[idx + 1][1] : match[1]}`;
+//       if (!graph[src]) graph[src] = [];
+//       if (tgt !== src) graph[src].push(tgt);
+//     });
 
-//       console.log('matches:', matches);
+//     }
+//   });
 
+//   const visited = new Set();
+//   const usedY = new Set(); // 이미 사용된 y 좌표 추적
+//   const startNode = data.find((d) => !d.block_conn_info || d.block_conn_info.trim() === '');
+//   let xGap = 250;
+//   let yGap = 150;
+
+//  const getNextY = (y) => {
+//   while (usedY.has(y)) {
+//     y += yGap; // 이미 사용된 y이면 아래로 이동
+//   }
+//   usedY.add(y);
+//   return y;
+// };
+
+// const assignPosition = (block_id, x, y) => {
+//   if (visited.has(block_id)) return;
+//   visited.add(block_id);
+
+//   const item = blockMap[block_id];
+//   const nodeType = typeMapping[item.block_type] || 'default';
+
+//   y = getNextY(y); // y 좌표 충돌 체크
+
+//   nodes.push({
+//     id: block_id,
+//     type: nodeType,
+//     data: { label: nodeType, bullets: [] },
+//     position: { x, y },
+//     style: nodeStyles[nodeType]?.style ?? nodeStyles.default.style,
+//     sourcePosition: Position.Right,
+//     targetPosition: Position.Left,
+//   });
+
+//   const children = graph[block_id] || [];
+//   console.log('block_id:', block_id, 'children:', children);
+//   if (children.length === 1) {
+//     // 단일 자식 → 같은 y 유지
+//     assignPosition(children[0], x + xGap, y);
+//   } else if (children.length > 1) {
+//     // 여러 자식 → 겹치지 않도록 y 나눠서 배치
+//     let startY = y - ((children.length - 1) * yGap) / 2; // 중앙 기준 배치
+//     children.forEach((child, idx) => {
+//       console.log('child:', child, 'idx:', idx, 'startY:', startY + idx * yGap);
+//       assignPosition(child, x + xGap, startY + idx * yGap);
+//     });
+//   }
+// };
+
+//   if (startNode) {
+//     assignPosition(startNode.block_id, 100, 100);
+//   }
+
+//   // edge 생성
+//   data.forEach((item) => {
+//     if (item.block_conn_info && item.block_conn_info.trim() !== '') {
+//       const regex = /Block_(\d+),\s*(\d+)/g;
+//       const matches = [...item.block_conn_info.matchAll(regex)];
 //       if (matches.length === 2) {
 //         const [srcBlock, srcHandle] = [matches[0][1], matches[0][2]];
 //         const [tgtBlock, tgtHandle] = [matches[1][1], matches[1][2]];
-//         console.log('Creating edge from', srcBlock, 'to', tgtBlock);
-//         console.log('Using handles', srcHandle, 'and', tgtHandle);
-        
 //         edges.push({
 //           id: `e${srcBlock}-${tgtBlock}`,
 //           source: `Block_${srcBlock}`,
@@ -423,75 +298,73 @@ const generateNodesAndEdges = (data) => {
     if (item.block_conn_info && item.block_conn_info.trim() !== '') {
       const regex = /Block_(\d+),\s*(\d+)/g;
       const matches = [...item.block_conn_info.matchAll(regex)];
-      // if (matches.length === 2) {
-      //   const src = `Block_${matches[0][1]}`;
-      //   const tgt = `Block_${matches[1][1]}`;
-      //   if (!graph[src]) graph[src] = [];
-      //   graph[src].push(tgt);
-      // }
-      matches.forEach((match, idx) => {
-      const src = `Block_${match[1]}`;
-      const tgt = `Block_${matches[idx + 1] ? matches[idx + 1][1] : match[1]}`;
-      if (!graph[src]) graph[src] = [];
-      if (tgt !== src) graph[src].push(tgt);
-    });
+      if (matches.length === 2) {
+        const [srcBlock, srcHandle] = [matches[0][1], matches[0][2]];
+        const [tgtBlock, tgtHandle] = [matches[1][1], matches[1][2]];
 
+        if (!graph[`Block_${srcBlock}`]) graph[`Block_${srcBlock}`] = [];
+        graph[`Block_${srcBlock}`].push(`Block_${tgtBlock}`);
+      }
     }
   });
 
-  const visited = new Set();
-  const usedY = new Set(); // 이미 사용된 y 좌표 추적
+  const xGap = 250;
+  const yGap = 120;
+
+  // 1) DFS로 레벨 계산
+  const levels = {};
+  const dfsDepth = (id, depth) => {
+    levels[id] = Math.max(levels[id] ?? 0, depth);
+    (graph[id] || []).forEach((child) => dfsDepth(child, depth + 1));
+  };
   const startNode = data.find((d) => !d.block_conn_info || d.block_conn_info.trim() === '');
-  let xGap = 250;
-  let yGap = 150;
+  if (startNode) dfsDepth(startNode.block_id, 0);
 
- const getNextY = (y) => {
-  while (usedY.has(y)) {
-    y += yGap; // 이미 사용된 y이면 아래로 이동
-  }
-  usedY.add(y);
-  return y;
-};
-
-const assignPosition = (block_id, x, y) => {
-  if (visited.has(block_id)) return;
-  visited.add(block_id);
-
-  const item = blockMap[block_id];
-  const nodeType = typeMapping[item.block_type] || 'default';
-
-  y = getNextY(y); // y 좌표 충돌 체크
-
-  nodes.push({
-    id: block_id,
-    type: nodeType,
-    data: { label: nodeType, bullets: [] },
-    position: { x, y },
-    style: nodeStyles[nodeType]?.style ?? nodeStyles.default.style,
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
+  // 2) 같은 레벨에 있는 leaf 배치
+  const levelGroups = {};
+  Object.entries(levels).forEach(([id, lvl]) => {
+    if (!levelGroups[lvl]) levelGroups[lvl] = [];
+    levelGroups[lvl].push(id);
   });
 
-  const children = graph[block_id] || [];
-  console.log('block_id:', block_id, 'children:', children);
-  if (children.length === 1) {
-    // 단일 자식 → 같은 y 유지
-    assignPosition(children[0], x + xGap, y);
-  } else if (children.length > 1) {
-    // 여러 자식 → 겹치지 않도록 y 나눠서 배치
-    let startY = y - ((children.length - 1) * yGap) / 2; // 중앙 기준 배치
-    children.forEach((child, idx) => {
-      console.log('child:', child, 'idx:', idx, 'startY:', startY + idx * yGap);
-      assignPosition(child, x + xGap, startY + idx * yGap);
+  const positions = {};
+  let currentY = 100;
+  Object.keys(levelGroups)
+    .sort((a, b) => b - a)
+    .forEach((lvl) => {
+      levelGroups[lvl].forEach((id, idx) => {
+        positions[id] = { x: lvl * xGap + 100, y: currentY + idx * yGap };
+      });
     });
-  }
-};
 
-  if (startNode) {
-    assignPosition(startNode.block_id, 100, 100);
-  }
+  // 3) 부모는 자식들의 평균 위치
+  const adjustParent = (id) => {
+    const children = graph[id] || [];
+    if (children.length > 0) {
+      children.forEach((c) => adjustParent(c));
+      const childYs = children.map((c) => positions[c].y);
+      const avgY = childYs.reduce((a, b) => a + b, 0) / childYs.length;
+      positions[id].y = avgY; // 자식 중앙
+    }
+  };
+  if (startNode) adjustParent(startNode.block_id);
 
-  // edge 생성
+  // 4) node 생성
+  Object.entries(positions).forEach(([id, pos]) => {
+    const item = blockMap[id];
+    const nodeType = typeMapping[item.block_type] || 'default';
+    nodes.push({
+      id,
+      type: nodeType,
+      data: { label: nodeType, bullets: [] },
+      position: pos,
+      style: nodeStyles[nodeType]?.style ?? nodeStyles.default.style,
+      sourcePosition: Position.Right,
+      targetPosition: Position.Left,
+    });
+  });
+
+  // 5) edge 생성 (기존 handleMap 방식 사용)
   data.forEach((item) => {
     if (item.block_conn_info && item.block_conn_info.trim() !== '') {
       const regex = /Block_(\d+),\s*(\d+)/g;
@@ -515,9 +388,6 @@ const assignPosition = (block_id, x, y) => {
 
   return { nodes, edges };
 };
-
-
-
 
 
 

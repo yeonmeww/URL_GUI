@@ -64,8 +64,8 @@ const EquipmentCode = () => {
     const headers = rows.length > 0 ? Object.keys(rows[0]) : [];
 
     return (
-        <div ref={containerRef} className="equipment-code-container">
-            {/* FormAndTable 컴포넌트에 headers와 rows를 직접 전달합니다. */}
+        // ✨ className을 "equipment-code-container"에서 "user-info"로 변경
+        <div ref={containerRef} className="user-info">
             <FormAndTable headers={headers} rows={rows} loading={loading} hasMore={hasMore} />
         </div>
     );

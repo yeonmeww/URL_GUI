@@ -13,8 +13,6 @@ const UserInformation = () => {
             try {
                 const response = await axios.get('http://13.125.96.124:8080/api/v1/user');
                 const userData = response.data;
-
-                // API 응답이 배열인지 확인하고, 아니면 배열로 변환
                 const processedData = Array.isArray(userData) ? userData : [userData];
 
                 if (processedData.length > 0) {
@@ -32,26 +30,18 @@ const UserInformation = () => {
                 setIsLoading(false);
             }
         };
-
         fetchUserData();
     }, []);
 
-    // 로딩 중이거나 에러가 발생했을 때의 UI
-    if (isLoading) {
-        return <div>데이터를 불러오는 중입니다...</div>;
-    }
+    if (isLoading) return <div>데이터를 불러오는 중입니다...</div>;
+    if (error) return <div>오류: {error}</div>;
+    if (rows.length === 0) return <div>사용자 정보가 없습니다.</div>;
 
-    if (error) {
-        return <div>오류: {error}</div>;
-    }
-
-    // 데이터가 없으면 빈 테이블 표시
-    if (rows.length === 0) {
-        return <div>사용자 정보가 없습니다.</div>;
-    }
-
+    // ✨ className="user-info" div로 감싸줍니다.
     return (
-        <FormAndTable headers={headers} rows={rows} />
+        <div className="user-info">
+            <FormAndTable headers={headers} rows={rows} />
+        </div>
     );
 };
 
