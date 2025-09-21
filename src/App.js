@@ -27,6 +27,13 @@ import Property from './Pages/Search/Property'
 import './App.css';
 import './Pages/Home/HomeDashBoard.css'
 
+// Data Management 페이지를 위한 임시 컴포넌트
+const DataManagement = () => (
+    <div style={{ padding: '50px', textAlign: 'center', fontSize: '24px' }}>
+      구현 예정입니다.
+    </div>
+);
+
 const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
   const location = useLocation(); // 현재 경로 정보 가져오기
 
@@ -104,7 +111,7 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
         <Link to="/Search/ProcessSimulation" className="dropdown-item">Process Simulation</Link>
       </div>
     </div>
-    {['Work Order', 'Recipe', 'User Information'].map((page) => (
+    {['Work Order', 'Recipe', 'User Information', 'Data Management'].map((page) => (
       <div className="nav-item" key={page}>
         <Link to={`/${page}`} className="nav-button">
           {page}
@@ -179,6 +186,7 @@ export default function App() {
           <Route path="Search/Literature" element={<Literature />} />
           <Route path="Search/ProcessSimulation" element={<ProcessSimulation />} />
           <Route path="Search/Property" element={<Property />} />
+          <Route path="Data Management" element={<DataManagement />} />
         </Route>
       </Routes>
     </Router>
