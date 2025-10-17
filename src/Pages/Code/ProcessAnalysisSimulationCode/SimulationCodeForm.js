@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FormAndTable from '../../../components/FormAndTable';
 import './ProAnaSimulCode.css';
@@ -6,66 +6,37 @@ import './ProAnaSimulCode.css';
 const SimulationCodeForm = () => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const containerRef = useRef(null);
-  const limit = 10; // 한 번에 불러올 데이터 수
 
   const fetchSimulationData = async () => {
-    if (loading || !hasMore) return;
-
     setLoading(true);
     try {
-      const response = await axios.get('http://13.125.96.124:8080/api/v1/simulationCode', {
-        params: { page, limit }
-      });
-
+      // 1. API URL을 'simulationCodeView'로 수정하고, 페이지네이션 파라미터 제거
+      const response = await axios.get('http://13.125.96.124:8080/api/v1/simulationCodeView');
       const newFetchedData = response.data;
 
+      // 2. 전체 데이터를 한 번에 받아 state에 저장
       if (Array.isArray(newFetchedData)) {
-        setRows(prevData => [...prevData, ...newFetchedData]);
-        if (newFetchedData.length < limit) {
-          setHasMore(false);
-        }
-      } else {
-        setHasMore(false);
+        setRows(newFetchedData);
       }
     } catch (err) {
       console.error('시뮬레이션 코드 불러오기 실패:', err);
-      setHasMore(false);
     } finally {
       setLoading(false);
     }
   };
 
+  // 3. 컴포넌트가 처음 마운트될 때 한 번만 데이터를 가져오도록 변경
   useEffect(() => {
     fetchSimulationData();
-  }, [page]);
+  }, []); // 의존성 배열을 비워 최초 1회만 실행
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (containerRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-        if (scrollTop + clientHeight >= scrollHeight - 50 && !loading && hasMore) {
-          setPage(prevPage => prevPage + 1);
-        }
-      }
-    };
-
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener('scroll', handleScroll);
-    }
-    return () => container && container.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore]);
-
-  // rows 상태의 첫 번째 객체를 기반으로 헤더를 동적으로 추출합니다.
+  // 헤더 정보는 기존 로직과 동일
   const headers = rows.length > 0 ? Object.keys(rows[0]) : [];
 
+  // 4. 무한 스크롤 관련 ref와 hasMore prop 제거
   return (
-      <div ref={containerRef} className="material-code-container">
-        {/* FormAndTable 컴포넌트에 headers와 rows를 직접 전달합니다. */}
-        <FormAndTable headers={headers} rows={rows} loading={loading} hasMore={hasMore} />
+      <div className="material-code-container">
+        <FormAndTable headers={headers} rows={rows} loading={loading} />
       </div>
   );
 };
