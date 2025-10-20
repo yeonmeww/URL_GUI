@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Handle, Position } from 'reactflow';
 import nodeStyles from './nodeStyle';
@@ -59,3 +60,4 @@ const CustomNode = ({ id, type, data, selected }) => {
 };
 
 export default CustomNode;
+

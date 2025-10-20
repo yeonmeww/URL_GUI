@@ -16,7 +16,7 @@ const MaterialAliasForm = () => {
         try {
             const response = await axios.get('http://13.125.96.124:8080/api/v1/materialAlias', {
                 params: { page, limit }
-            });
+            }); 
             const newFetchedData = response.data;
             if (Array.isArray(newFetchedData)) {
                 setRows(prevData => [...prevData, ...newFetchedData]);
