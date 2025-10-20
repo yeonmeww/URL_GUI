@@ -37,7 +37,7 @@ const CustomNode = ({ id, type, data, selected }) => {
       </div>
 
       {bullets.length > 0 && (
-        <ul style={{ fontSize: 13, margin: 0, paddingLeft: 18 }}>
+        <ul style={{ fontSize: 17, margin: 0, paddingLeft: 18 }}>
           {bullets.map((item, idx) => (
             <li key={idx}>{item}</li>
           ))}

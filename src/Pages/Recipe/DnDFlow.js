@@ -79,9 +79,9 @@ const DnDFlow = () => {
     //       console.log('coll_data[0]):', coll_data[0]);
     //       console.log('coll_data):', coll_data);
           
-    //       // Filter data for rcpId "rcp_exp_250818_1"
+    //       // Filter data for rcpId "rcp_sim_250818_108"
     //       const dataArray = Object.values(coll_data);
-    //       const filtered = dataArray.filter(item => item.rcp_id === "rcp_sim_250818_108");
+    //       const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_sim_250818_108");
     //       console.log('coll_data filtered:', filtered);
 
     //       const processedData_coll = generateNodesAndEdges(coll_data);
@@ -105,13 +105,12 @@ const DnDFlow = () => {
         if (gen_data.length > 0) {
           setInitialTableHeaders(Object.keys(gen_data[0]));
 
-          console.log('gen_data[0]):', gen_data[0]);
-          console.log('gen_data):', gen_data);
+          console.log('dndflow_gen_data[0]):', gen_data[0]);
+          console.log('dndflow_gen_data):', gen_data);
           
-          // Filter data for rcpId "rcp_exp_250818_1"
+          // Filter data for rcpId "rcp_sim_250818_108"
           const dataArray = Object.values(gen_data);
-          // const filtered = dataArray.filter(item => item.rcpId === "rcp_exp_250818_1");
-          const filtered = dataArray.filter(item => item.rcp_id === "rcp_sim_250818_108");
+          const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_sim_250818_108");
           console.log('gen_data filtered:', filtered);
 
           const processedData_gen = generateNodesAndEdges(filtered);
@@ -165,14 +164,14 @@ const DnDFlow = () => {
 
 //   const blockMap = {};
 //   data.forEach((item) => {
-//     blockMap[item.block_id] = item;
+//     blockMap[item.Block_ID] = item;
 //   });
 
 //   const graph = {};
 //   data.forEach((item) => {
-//     if (item.block_conn_info && item.block_conn_info.trim() !== '') {
+//     if (item.Block_Connection_Info && item.Block_Connection_Info.trim() !== '') {
 //       const regex = /Block_(\d+),\s*(\d+)/g;
-//       const matches = [...item.block_conn_info.matchAll(regex)];
+//       const matches = [...item.Block_Connection_Info.matchAll(regex)];
 //       // if (matches.length === 2) {
 //       //   const src = `Block_${matches[0][1]}`;
 //       //   const tgt = `Block_${matches[1][1]}`;
@@ -191,7 +190,7 @@ const DnDFlow = () => {
 
 //   const visited = new Set();
 //   const usedY = new Set(); // 이미 사용된 y 좌표 추적
-//   const startNode = data.find((d) => !d.block_conn_info || d.block_conn_info.trim() === '');
+//   const startNode = data.find((d) => !d.Block_Connection_Info || d.Block_Connection_Info.trim() === '');
 //   let xGap = 250;
 //   let yGap = 150;
 
@@ -203,17 +202,17 @@ const DnDFlow = () => {
 //   return y;
 // };
 
-// const assignPosition = (block_id, x, y) => {
-//   if (visited.has(block_id)) return;
-//   visited.add(block_id);
+// const assignPosition = (Block_ID, x, y) => {
+//   if (visited.has(Block_ID)) return;
+//   visited.add(Block_ID);
 
-//   const item = blockMap[block_id];
-//   const nodeType = typeMapping[item.block_type] || 'default';
+//   const item = blockMap[Block_ID];
+//   const nodeType = typeMapping[item.Block_Type] || 'default';
 
 //   y = getNextY(y); // y 좌표 충돌 체크
 
 //   nodes.push({
-//     id: block_id,
+//     id: Block_ID,
 //     type: nodeType,
 //     data: { label: nodeType, bullets: [] },
 //     position: { x, y },
@@ -222,8 +221,8 @@ const DnDFlow = () => {
 //     targetPosition: Position.Left,
 //   });
 
-//   const children = graph[block_id] || [];
-//   console.log('block_id:', block_id, 'children:', children);
+//   const children = graph[Block_ID] || [];
+//   console.log('Block_ID:', Block_ID, 'children:', children);
 //   if (children.length === 1) {
 //     // 단일 자식 → 같은 y 유지
 //     assignPosition(children[0], x + xGap, y);
@@ -238,14 +237,14 @@ const DnDFlow = () => {
 // };
 
 //   if (startNode) {
-//     assignPosition(startNode.block_id, 100, 100);
+//     assignPosition(startNode.Block_ID, 100, 100);
 //   }
 
 //   // edge 생성
 //   data.forEach((item) => {
-//     if (item.block_conn_info && item.block_conn_info.trim() !== '') {
+//     if (item.Block_Connection_Info && item.Block_Connection_Info.trim() !== '') {
 //       const regex = /Block_(\d+),\s*(\d+)/g;
-//       const matches = [...item.block_conn_info.matchAll(regex)];
+//       const matches = [...item.Block_Connection_Info.matchAll(regex)];
 //       if (matches.length === 2) {
 //         const [srcBlock, srcHandle] = [matches[0][1], matches[0][2]];
 //         const [tgtBlock, tgtHandle] = [matches[1][1], matches[1][2]];
@@ -290,14 +289,14 @@ const generateNodesAndEdges = (data) => {
 
   const blockMap = {};
   data.forEach((item) => {
-    blockMap[item.block_id] = item;
+    blockMap[item.Block_ID] = item;
   });
 
   const graph = {};
   data.forEach((item) => {
-    if (item.block_conn_info && item.block_conn_info.trim() !== '') {
+    if (item.Block_Connection_Info && item.Block_Connection_Info.trim() !== '') {
       const regex = /Block_(\d+),\s*(\d+)/g;
-      const matches = [...item.block_conn_info.matchAll(regex)];
+      const matches = [...item.Block_Connection_Info.matchAll(regex)];
       if (matches.length === 2) {
         const [srcBlock, srcHandle] = [matches[0][1], matches[0][2]];
         const [tgtBlock, tgtHandle] = [matches[1][1], matches[1][2]];
@@ -317,8 +316,8 @@ const generateNodesAndEdges = (data) => {
     levels[id] = Math.max(levels[id] ?? 0, depth);
     (graph[id] || []).forEach((child) => dfsDepth(child, depth + 1));
   };
-  const startNode = data.find((d) => !d.block_conn_info || d.block_conn_info.trim() === '');
-  if (startNode) dfsDepth(startNode.block_id, 0);
+  const startNode = data.find((d) => !d.Block_Connection_Info || d.Block_Connection_Info.trim() === '');
+  if (startNode) dfsDepth(startNode.Block_ID, 0);
 
   // 2) 같은 레벨에 있는 leaf 배치
   const levelGroups = {};
@@ -347,16 +346,20 @@ const generateNodesAndEdges = (data) => {
       positions[id].y = avgY; // 자식 중앙
     }
   };
-  if (startNode) adjustParent(startNode.block_id);
+  if (startNode) adjustParent(startNode.Block_ID);
 
   // 4) node 생성
   Object.entries(positions).forEach(([id, pos]) => {
     const item = blockMap[id];
-    const nodeType = typeMapping[item.block_type] || 'default';
+    const nodeType = typeMapping[item.Block_Type] || 'default';
+
+    // Reference_Name 가져오기
+    const referenceName = item.Reference_Name || item.Reference_Name || '(no reference)';
+
     nodes.push({
       id,
       type: nodeType,
-      data: { label: nodeType, bullets: [] },
+      data: { label: nodeType, bullets: [referenceName]},
       position: pos,
       style: nodeStyles[nodeType]?.style ?? nodeStyles.default.style,
       sourcePosition: Position.Right,
@@ -366,9 +369,9 @@ const generateNodesAndEdges = (data) => {
 
   // 5) edge 생성 (기존 handleMap 방식 사용)
   data.forEach((item) => {
-    if (item.block_conn_info && item.block_conn_info.trim() !== '') {
+    if (item.Block_Connection_Info && item.Block_Connection_Info.trim() !== '') {
       const regex = /Block_(\d+),\s*(\d+)/g;
-      const matches = [...item.block_conn_info.matchAll(regex)];
+      const matches = [...item.Block_Connection_Info.matchAll(regex)];
       if (matches.length === 2) {
         const [srcBlock, srcHandle] = [matches[0][1], matches[0][2]];
         const [tgtBlock, tgtHandle] = [matches[1][1], matches[1][2]];
@@ -377,7 +380,7 @@ const generateNodesAndEdges = (data) => {
           source: `Block_${srcBlock}`,
           target: `Block_${tgtBlock}`,
           type: 'smoothstep',
-          markerEnd: { type: MarkerType.ArrowClosed, width: 20, height: 20, color: '#222' },
+          markerEnd: { type: MarkerType.ArrowClosed, width: 15, height: 15, color: '#222' },
           style: { strokeWidth: 2 },
           sourceHandle: `Block_${srcBlock}-source-${handleMap[srcHandle]}`,
           targetHandle: `Block_${tgtBlock}-target-${handleMap[tgtHandle]}`,
@@ -467,8 +470,8 @@ const generateNodesAndEdges = (data) => {
   const onNodeClick = useCallback((event, node) => {
   event.stopPropagation();
   const viewport = getViewport();
-
-  setSelectedBlockId(node.id); // block_id 저장
+  console.log("node.idnode.idnode.idnode.id", node.id)
+  setSelectedBlockId(node.id); // Block_ID 저장
 
   setSelectedNode({
     id: node.id,
@@ -549,11 +552,20 @@ const generateNodesAndEdges = (data) => {
             onClick={(e) => e.stopPropagation()}
           >
             <strong>{selectedNode.data.label}</strong>
-            <ul style={{ marginTop: '6px', paddingLeft: '20px' }}>
-              {selectedNode.data.bullets?.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
+           <ul
+            style={{
+              marginTop: '6px',
+              paddingLeft: '20px',
+              fontSize: '18px',      
+              lineHeight: '1.8',
+              fontWeight: '500',
+            }}
+          >
+            {selectedNode.data.bullets?.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+
           </div>
         )}
       </div>
