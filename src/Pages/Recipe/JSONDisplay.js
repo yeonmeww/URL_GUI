@@ -58,9 +58,9 @@ const JSONDisplay = () => {
                         console.log('gen_table_data[0]):', gen_table_data[0]);
                         console.log('gen_table_data):', gen_table_data);
 
-                        // Filter data for rcpId "rcp_sim_250818_108"
+                        // Filter data for rcpId "rcp_exp_251118_1"
                         const dataArray = Object.values(gen_table_data);
-                        const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_sim_250818_108");
+                        const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_exp_251118_1");
                         console.log('gen_table_data filtered:', filtered);
                     }
                     
@@ -101,9 +101,9 @@ const JSONDisplay = () => {
                         console.log('block_table_data[0]):', block_table_data[0]);
                         console.log('block_table_data):', block_table_data);
 
-                        // Filter data for rcpId "rcp_sim_250818_108"
+                        // Filter data for rcpId "rcp_exp_251118_1"
                         const dataArray = Object.values(block_table_data);
-                        const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_sim_250818_108");
+                        const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_exp_251118_1");
                         console.log('block_table_data filtered:', filtered);
 
 
@@ -126,13 +126,13 @@ const JSONDisplay = () => {
     // 선택한 block_id에 따라 blockData 필터링
     // const filteredRecipeData = genData.filter(
     //     item =>
-    //         item.Recipe_ID === "rcp_sim_250818_108"   
+    //         item.Recipe_ID === "rcp_exp_251118_1"   
     // );
 
     // // 선택한 block_id에 따라 blockData 필터링
     // const filteredBlockData = blockData.filter(
     //     item =>
-    //         item.Recipe_ID === "rcp_sim_250818_108" &&
+    //         item.Recipe_ID === "rcp_exp_251118_1" &&
     //         // item.Block_ID === selectedBlockId
     //         `Block_${item.Order_Sequence_Number}` === selectedBlockId
             
@@ -140,15 +140,16 @@ const JSONDisplay = () => {
 
     // 선택한 block_id에 따라 genData 필터링 + 내림차순 정렬
     const filteredRecipeData = genData
-    .filter(item => item.Recipe_ID === "rcp_sim_250818_108")
+    .filter(item => item.Recipe_ID === "rcp_exp_251118_1")
     .sort((a, b) => Number(a.Order_Sequence_Number) - Number(b.Order_Sequence_Number))
 
     // // 선택한 block_id에 따라 blockData 필터링
+    
     const filteredBlockData = blockData.filter(
         item =>
-            item.Recipe_ID === "rcp_sim_250818_108" &&
+            item.Recipe_ID === "rcp_exp_251118_1" &&
             // item.Block_ID === selectedBlockId
-            `Block_${item.Order_Sequence_Number}` === selectedBlockId
+            `Block_${item.Block_No}` === selectedBlockId
             
     );
 
@@ -267,7 +268,7 @@ const JSONDisplay = () => {
             <div className='block-text-header'>
                 <h3>
                     {filteredBlockData.length > 0
-                        ? `Recipe Information - Block #${filteredBlockData[0].Order_Sequence_Number}`
+                        ? `Recipe Information - Block #${filteredBlockData[0].Block_No}`
                         : 'Recipe Information'}
                 </h3>
             </div>
