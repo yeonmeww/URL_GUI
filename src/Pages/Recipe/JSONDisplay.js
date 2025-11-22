@@ -68,7 +68,28 @@ const JSONDisplay = () => {
                     console.log('Successfully loaded initial data:', gen_table_data);
                 }
 
-                const response_block_tab = await axios.get('http://13.125.96.124:8080/api/v1/recipeInfoCollected');
+                const requestBody = {
+                  "wo_id": null,
+                  "rcp_id": 'rcp_exp_251118_1',
+                  "module_id": null,
+                  "block_id": null,
+                  "hub_voc_id": null,
+                  "module_no": null,
+                  "block_no": null,
+                  "block_type": null,
+                  "reference_id": null,
+                  "ord_seq_no_1": null,
+                  "ord_seq_no_2": null,
+                  "eco_voc_id": null,
+                  "voc_level_1": null,
+                  "voc_level_2": null,
+                  "voc_level_3": null,
+                  "voc_level_4": null,
+                  "voc_name": null,
+                  "voc_value": null,
+                  "voc_unit": null
+                };
+                const response_block_tab = await axios.post('http://13.125.96.124:8080/api/v1/recipeInfoCollected/search', requestBody);
                 const block_table_data = response_block_tab.data;
                 console.log('block_table_data:', block_table_data);
                 if (Array.isArray(block_table_data)) {
