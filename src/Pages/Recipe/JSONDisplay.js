@@ -27,7 +27,7 @@ const JSONDisplay = () => {
                   "ord_seq_no": null,
                   "block_conn_info": null
                 };
-                const response_gen_tab = await axios.get('http://13.125.96.124:8080/api/v1//recipeInfoGeneral/search');
+                const response_gen_tab = await axios.post('http://13.125.96.124:8080/api/v1/recipeInfoGeneral/search', requestBodyGeneral);
                 const gen_table_data = response_gen_tab.data;
                 if (Array.isArray(gen_table_data)) {
 
