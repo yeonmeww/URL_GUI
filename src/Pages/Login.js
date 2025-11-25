@@ -63,6 +63,12 @@ const Login = ( { setIsLoggedIn } ) => {
         <div className='login-full'>
         <div className="contents">
             <div className="container">
+                <img
+                    src={require('./PCEC.png')}
+                        alt="PCEC Logo"
+                        style={{width: '80%', marginBottom: '20px' }}
+
+                />
                 <h3>Login</h3>
                 <form noValidate className={validated ? 'was-validated' : ''} onSubmit={handleSubmit}>
                     <div className="form-group">

@@ -38,7 +38,7 @@
     },
     {
       "simulationId": "SIM5",
-      "simulationName": "Drying Process Simulation",
+      "simulationName": "Drying Simulation",
       "simulationPurpose": "Evaluate solvent evaporation and moisture profile",
       "simulationType": "Heat and mass transfer",
       "simulationAppClass1": "Drying kinetics",

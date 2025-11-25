@@ -63,7 +63,7 @@ body {
 .nav-button {
   color: #ecf0f1;
   text-decoration: none;
-  padding: 10px;
+  padding: 0px;
   font-size: 18px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
@@ -110,6 +110,12 @@ h1 {
 .home-page h1 {
   font-size: 36px;
   color: #2980b9;
+}
+
+.nav-logo {
+  height: 40px;  /* 네비게이션 바 높이에 맞춰 조절 (예: 30px ~ 50px) */
+  width: auto;   /* 비율 유지 */
+  vertical-align: middle;
 }
 
 .nav-left .nav-button {
