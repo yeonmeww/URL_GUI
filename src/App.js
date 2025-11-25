@@ -19,7 +19,7 @@ import MaterialCodeForm from './Pages/Code/MaterialCode/MaterialCodeForm';
 import ProviderCode from './Pages/Code/ProviderCode';
 import Analysis from './Pages/Search/Analysis'
 import Literature from './Pages/Search/Literature'
-import ProcessSimulation from './Pages/Search/ProcessSimulation'
+import Simulation from './Pages/Search/Simulation'
 import Property from './Pages/Search/Property'
 
 
@@ -54,7 +54,7 @@ const navItems = [
       { name: 'Property', path: '/Search/Property' },
       { name: 'Analysis', path: '/Search/Analysis' },
       { name: 'Literature', path: '/Search/Literature' },
-      { name: 'Process Simulation', path: '/Search/ProcessSimulation' },
+      { name: 'Simulation', path: '/Search/Simulation' },
     ],
   },
   { name: 'Work Order', path: '/Work Order' },
@@ -86,7 +86,7 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
       case '/Search/Property': return 'Property';
       case '/Search/Analysis': return 'Analysis';
       case '/Search/Literature': return 'Literature';
-      case '/Search/ProcessSimulation': return 'ProcessSimulation';
+      case '/Search/Simulation': return 'Simulation';
       default: return 'Hello';
     }
   };
@@ -166,7 +166,7 @@ export default function App() {
 
             <Route path="Search/Analysis" element={<Analysis />} />
             <Route path="Search/Literature" element={<Literature />} />
-            <Route path="Search/ProcessSimulation" element={<ProcessSimulation />} />
+            <Route path="Search/Simulation" element={<Simulation />} />
             <Route path="Search/Property" element={<Property />} />
             <Route path="Data Management" element={<DataManagement />} />
           </Route>
