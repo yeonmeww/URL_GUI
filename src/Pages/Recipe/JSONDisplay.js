@@ -15,7 +15,19 @@ const JSONDisplay = () => {
     useEffect(() => {
         const fetchJsonData = async () => {
             try {
-                const response_gen_tab = await axios.get('http://13.125.96.124:8080/api/v1/recipeInfoGeneral');
+                const requestBodyGeneral = {
+                  "wo_id": null,
+                  "rcp_id": 'rcp_exp_251118_1',
+                  "module_id": null,
+                  "block_id": null,
+                  "module_no": null,
+                  "block_no": null,
+                  "block_type": null,
+                  "reference_id": null,
+                  "ord_seq_no": null,
+                  "block_conn_info": null
+                };
+                const response_gen_tab = await axios.post('http://13.125.96.124:8080/api/v1/recipeInfoGeneral/search', requestBodyGeneral);
                 const gen_table_data = response_gen_tab.data;
                 if (Array.isArray(gen_table_data)) {
 
@@ -68,7 +80,7 @@ const JSONDisplay = () => {
                     console.log('Successfully loaded initial data:', gen_table_data);
                 }
 
-                const requestBody = {
+                const requestBodyCollected = {
                   "wo_id": null,
                   "rcp_id": 'rcp_exp_251118_1',
                   "module_id": null,
@@ -89,7 +101,7 @@ const JSONDisplay = () => {
                   "voc_value": null,
                   "voc_unit": null
                 };
-                const response_block_tab = await axios.post('http://13.125.96.124:8080/api/v1/recipeInfoCollected/search', requestBody);
+                const response_block_tab = await axios.post('http://13.125.96.124:8080/api/v1/recipeInfoCollected/search', requestBodyCollected);
                 const block_table_data = response_block_tab.data;
                 console.log('block_table_data:', block_table_data);
                 if (Array.isArray(block_table_data)) {
