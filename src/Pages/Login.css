@@ -22,10 +22,9 @@
     margin-top: -100px; /* 원하는 만큼 조절 가능 */
 
     min-height: 350px;
-
   }
 
-.container img {
+container img {
   width: 100%;       /* 로고 폭 80% */
   height: auto;     /* 비율 유지 */
   margin-bottom: 30px; /* 로고와 로그인 입력창 사이 간격 */

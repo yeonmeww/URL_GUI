@@ -11,7 +11,7 @@ const Simulation = () => {
     return (
         <div className="user-info">
             <FormAndTable
-                jsonPath="/Simulation.json"
+                jsonPath="/ProcessSimulation.json"
                 buttonConfig={buttonConfig}
             />
         </div>

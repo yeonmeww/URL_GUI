@@ -19,7 +19,7 @@ import MaterialCodeForm from './Pages/Code/MaterialCode/MaterialCodeForm';
 import ProviderCode from './Pages/Code/ProviderCode';
 import Analysis from './Pages/Search/Analysis'
 import Literature from './Pages/Search/Literature'
-import Simulation from './Pages/Search/Simulation'
+import ProcessSimulation from './Pages/Search/ProcessSimulation'
 import Property from './Pages/Search/Property'
 
 
@@ -54,7 +54,7 @@ const navItems = [
       { name: 'Property', path: '/Search/Property' },
       { name: 'Analysis', path: '/Search/Analysis' },
       { name: 'Literature', path: '/Search/Literature' },
-      { name: 'Simulation', path: '/Search/Simulation' },
+      { name: 'Simulation', path: '/Search/ProcessSimulation' },
     ],
   },
   { name: 'Work Order', path: '/Work Order' },
@@ -86,7 +86,7 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
       case '/Search/Property': return 'Property';
       case '/Search/Analysis': return 'Analysis';
       case '/Search/Literature': return 'Literature';
-      case '/Search/Simulation': return 'Simulation';
+      case '/Search/ProcessSimulation': return 'Simulation';
       default: return 'Hello';
     }
   };
@@ -97,10 +97,10 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
           <div className="nav-left">
             <Link to="/" className="nav-button">
               <img
-                  src={require('./Pages/H2HUB.png')}
-                  alt="PCEC HUB"
-                  className="nav-logo"
-                />
+                  src={require('./h2.png')}
+                  alt="h2 Logo"
+                  style={{ height: '30px', width: '180px', display: 'block' }}
+              />
             </Link>
           </div>
           <div className="nav-right">
@@ -133,9 +133,11 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
         </header>
 
         {/* 2. 서브 헤더 보이도록 수정 */}
-        <div className="Sub-header">{getSubHeaderText()}</div>
+        <main style={{ paddingTop: '60px' }}>
+          <div className="Sub-header">{getSubHeaderText()}</div>
+          <Outlet />
+        </main>
 
-        <Outlet />
       </div>
   );
 };
@@ -172,7 +174,7 @@ export default function App() {
 
             <Route path="Search/Analysis" element={<Analysis />} />
             <Route path="Search/Literature" element={<Literature />} />
-            <Route path="Search/Simulation" element={<Simulation />} />
+            <Route path="Search/ProcessSimulation" element={<ProcessSimulation />} />
             <Route path="Search/Property" element={<Property />} />
             <Route path="Data Management" element={<DataManagement />} />
           </Route>
