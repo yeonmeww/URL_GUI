@@ -1,7 +1,7 @@
 import React from 'react';
 import FormAndTable from '../../components/FormAndTable';
 
-const Simulation = () => {
+const ProcessSimulation = () => {
     // Download 버튼 설정은 그대로 유지합니다.
     const buttonConfig = {
         showDownload: true,
@@ -11,11 +11,11 @@ const Simulation = () => {
     return (
         <div className="user-info">
             <FormAndTable
-                jsonPath="/Simulation.json"
+                jsonPath="/ProcessSimulation.json"
                 buttonConfig={buttonConfig}
             />
         </div>
     );
 };
 
-export default Simulation;
+export default ProcessSimulation;
