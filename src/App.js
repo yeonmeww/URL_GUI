@@ -54,7 +54,7 @@ const navItems = [
       { name: 'Property', path: '/Search/Property' },
       { name: 'Analysis', path: '/Search/Analysis' },
       { name: 'Literature', path: '/Search/Literature' },
-      { name: 'Process Simulation', path: '/Search/ProcessSimulation' },
+      { name: 'Simulation', path: '/Search/ProcessSimulation' },
     ],
   },
   { name: 'Work Order', path: '/Work Order' },
@@ -86,7 +86,7 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
       case '/Search/Property': return 'Property';
       case '/Search/Analysis': return 'Analysis';
       case '/Search/Literature': return 'Literature';
-      case '/Search/ProcessSimulation': return 'ProcessSimulation';
+      case '/Search/ProcessSimulation': return 'Simulation';
       default: return 'Hello';
     }
   };
@@ -95,7 +95,13 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
       <div className="layout">
         <header className="navbar follow-scroll">
           <div className="nav-left">
-            <Link to="/" className="nav-button">PCEC HUB</Link>
+            <Link to="/" className="nav-button">
+              <img
+                  src={require('./h2.png')}
+                  alt="h2 Logo"
+                  style={{ height: '30px', width: '180px', display: 'block' }}
+              />
+            </Link>
           </div>
           <div className="nav-right">
             {navItems.map((item) => (
@@ -127,9 +133,11 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
         </header>
 
         {/* 2. 서브 헤더 보이도록 수정 */}
-        <div className="Sub-header">{getSubHeaderText()}</div>
+        <main style={{ paddingTop: '60px' }}>
+          <div className="Sub-header">{getSubHeaderText()}</div>
+          <Outlet />
+        </main>
 
-        <Outlet />
       </div>
   );
 };
