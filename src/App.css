@@ -33,6 +33,12 @@ body {
 
 /* 상단 네비게이션 바 */
 .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   background-color: #141D57;
@@ -63,10 +69,16 @@ body {
 .nav-button {
   color: #ecf0f1;
   text-decoration: none;
-  padding: 10px;
+  padding: 0px;
   font-size: 18px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+}
+
+.nav-logo {
+  height: 40px;  /* 네비게이션 바 높이에 맞춰 조절 (예: 30px ~ 50px) */
+  width: auto;   /* 비율 유지 */
+  vertical-align: middle;
 }
 
 .nav-button:hover {
@@ -139,6 +151,8 @@ h1 {
   z-index: 10;
   transition: opacity 1.1s ease, visibility 1.1s ease;
   transition-delay: 1s;
+  margin-top: -5px;
+  z-index: 9999;
 }
 
 .nav-item:hover .dropdown-menu {
@@ -184,6 +198,5 @@ h1 {
   background-color: white;
   margin: 20px;
 }
-
 
 

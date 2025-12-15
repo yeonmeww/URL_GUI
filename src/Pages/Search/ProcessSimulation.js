@@ -1,7 +1,7 @@
 import React from 'react';
 import FormAndTable from '../../components/FormAndTable';
 
-const ProcessSimulation = () => {
+const Simulation = () => {
     // Download 버튼 설정은 그대로 유지합니다.
     const buttonConfig = {
         showDownload: true,
@@ -18,4 +18,4 @@ const ProcessSimulation = () => {
     );
 };
 
-export default ProcessSimulation;
+export default Simulation;
