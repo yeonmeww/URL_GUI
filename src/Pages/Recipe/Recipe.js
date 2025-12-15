@@ -1,33 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import {
-  ReactFlow,
-  ReactFlowProvider,
-  addEdge,
-  useNodesState,
-  useEdgesState,
-  Controls,
-  useReactFlow,
-  Background,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
-import './Recipe.css';
-import Sidebar from './Sidebar';
-
+import React, { useState } from 'react';
+import { ReactFlowProvider } from 'reactflow';
 import { DnDProvider } from './DnDContext';
+import Sidebar from './Sidebar';
 import DnDFlow from './DnDFlow';
 import JSONDisplay from './JSONDisplay';
 
 const Recipe = () => {
+  const [selectedRecipeIndex, setSelectedRecipeIndex] = useState(1); // 기본값 1
+
   return (
-      <ReactFlowProvider>
-        <DnDProvider>
-          <div className="recipe-container">
-            <DnDFlow />
-            {/* 👇 이 위치로 옮겨야 합니다. */}
-            <JSONDisplay />
-          </div>
-        </DnDProvider>
-      </ReactFlowProvider>
+    <ReactFlowProvider>
+      <DnDProvider>
+        <div className="recipe-container">
+          <Sidebar
+            selectedRecipeIndex={selectedRecipeIndex}
+            onSelectRecipe={setSelectedRecipeIndex}
+          />
+
+          <DnDFlow recipeIndex={selectedRecipeIndex} />
+          <JSONDisplay recipeIndex={selectedRecipeIndex} />
+        </div>
+      </DnDProvider>
+    </ReactFlowProvider>
   );
 };
 
