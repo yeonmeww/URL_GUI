@@ -34,12 +34,13 @@ const defaultViewport = { x: 0, y: 0, zoom: 0.5 };
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-const DnDFlow = () => {
+const DnDFlow = ({ recipeIndex }) => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { screenToFlowPosition } = useReactFlow();
   const { project } = useReactFlow();
+  const [loading, setLoading] = useState(false);
 
   const { type } = useDnD();
 
@@ -54,83 +55,50 @@ const DnDFlow = () => {
   const [generalTableData, setGeneralTableData] = useState([]);
   const [generalTableHeaders, setGeneralTableHeaders] = useState([]);
 
+  // const makeRecipeId = (recipeIndex) => {
+  //   return `rcp_exp_251121_${recipeIndex}`;
+  // };
+
+  const recipeDateMap = {
+    1: '251118',
+    };
+
+    const getRecipeId = (recipeIndex) => {
+    const date = recipeDateMap[recipeIndex] ?? '251121';
+    return `rcp_exp_${date}_${recipeIndex}`;
+    };
+    const recipeId = getRecipeId(recipeIndex);
 
   useEffect(() => {
-    const fetchNodesData = async () => {
-      // try {
-      //   const response = await fetch('/InitialNodePositionFixed.json');
-      //   if (!response.ok) {
-      //     throw new Error(`HTTP error! status: ${response.status}`);
-      //   }
-      //   const rawData = await response.json();
-      //   const processedData = generateNodesAndEdges(rawData);
-      //   setInitialData(processedData);
-      // } catch (error) {
-      //   console.error('Failed to load nodes data:', error);
-      // }
-
-    // try {
-    //   const response_coll = await axios.get('http://13.125.96.124:8080/api/v1/recipeInfoCollected');
-    //   const coll_data = response_coll.data;
-    //   if (Array.isArray(coll_data)) {
-    //     setInitialTableData(coll_data);
-    //     if (coll_data.length > 0) {
-    //       setInitialTableHeaders(Object.keys(coll_data[0]));
-    //       console.log('coll_data[0]):', coll_data[0]);
-    //       console.log('coll_data):', coll_data);
-          
-    //       // Filter data for rcpId "rcp_exp_251118_1"
-    //       const dataArray = Object.values(coll_data);
-    //       const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_exp_251118_1");
-    //       console.log('coll_data filtered:', filtered);
-
-    //       const processedData_coll = generateNodesAndEdges(coll_data);
-    //       setInitialData(processedData_coll);
-    //       console.log('hi');
-          
-    //     }
-    //     // console.log('processedData_coll:', processedData_coll);
-    //     console.log('Successfully loaded initial data:', coll_data);
-
-    //   }
-    // } catch (error) {
-    //   console.error('Failed to load initial data:', error);
-    // }
- 
+  if (!recipeIndex) return;
+  const fetchNodesData = async () => {
+    setLoading(true);
     try {
-      const response_gen = await axios.get('http://13.125.96.124:8080/api/v1/recipeInfoGeneral');
-      const gen_data = response_gen.data;
+      const response = await axios.get(
+        'http://13.125.96.124:8080/api/v1/recipeInfoGeneral'
+      );
+
+      const gen_data = response.data;
+      const recipeId = getRecipeId(recipeIndex);
+
       if (Array.isArray(gen_data)) {
-        setInitialTableData(gen_data);
-        if (gen_data.length > 0) {
-          setInitialTableHeaders(Object.keys(gen_data[0]));
+        const filtered = gen_data.filter(
+          item => item.Recipe_ID === recipeId
+        );
 
-          console.log('dndflow_gen_data[0]):', gen_data[0]);
-          console.log('dndflow_gen_data):', gen_data);
-          
-          // Filter data for rcpId "rcp_exp_251118_1"
-          const dataArray = Object.values(gen_data);
-          const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_exp_251118_1");
-          console.log('gen_data filtered:', filtered);
-
-          const processedData_gen = generateNodesAndEdges(filtered);
-          console.log('processedData_gen:', processedData_gen);
-          console.log('hi1111111111111111');
-          setInitialData(processedData_gen);
-          console.log('hi2222222222222222');
-
-        }
-        // console.log('processedData_gen:', processedData_gen);
-        console.log('Successfully loaded initial data:', gen_data);
+        const processed = generateNodesAndEdges(filtered);
+        setInitialData(processed);
       }
-    } catch (error) {
-      console.error('Failed to load initial data:', error);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false); 
     }
+  };
 
+  fetchNodesData();
+}, [recipeIndex]);
 
-    };
-    fetchNodesData();
-  }, []);
 
   useEffect(() => {
     if (initialData.nodes.length > 0) {
@@ -1227,8 +1195,25 @@ rows.forEach((row, rowIdx) => {
 
   return (
     <div className="dndflow" style={{ position: 'relative' }}>
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+        {loading && (
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 100,
+              background: 'rgba(255,255,255,0.85)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '20px',
+              fontWeight: 600,
+            }}
+          >
+            로딩중...
+          </div>
+        )}
         <ReactFlow
           nodes={nodes}
           edges={edges}
