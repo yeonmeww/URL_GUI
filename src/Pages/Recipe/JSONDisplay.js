@@ -25,6 +25,7 @@ const JSONDisplay = ({ recipeIndex }) => {
   const [blockHeaders, setBlockHeaders] = useState([]);
 
   const { selectedBlockId, setSelectedBlockId } = useDnD();
+  
 useEffect(() => {
   // 레시피 변경 시 선택된 블록 완전 초기화
   setSelectedBlockId(null);
@@ -36,110 +37,6 @@ useEffect(() => {
         const fetchJsonData = async () => {
             setLoading(true);
             try {
-<<<<<<< Updated upstream
-                const response_gen_tab = await axios.get('http://13.125.96.124:8080/api/v1/recipeInfoGeneral');
-                const gen_table_data = response_gen_tab.data;
-                if (Array.isArray(gen_table_data)) {
-
-                    if (gen_table_data.length > 0) {
-
-                        // 1. 첫 번째 항목 기준으로 !!!자동으로 !!!!!!!!! 헤더 추출
-                        // setHeaders(Object.keys(gen_table_data[0])); // 첫 번째 항목 기준으로 헤더 추출
-
-
-                        // 2. 원하는 순서대로 헤더 배열 !!수동!! 정의
-                        const genHeaderOrder = [
-                            // // "block_conn_info",
-                            // // "block_id",
-                            // "block_no",
-                            // "block_type",
-                            // // "module_id",
-                            // "module_no",
-                            // "ord_seq_no",
-                            // "rcp_id",
-                            // "reference_id",
-                            // "wo_id"
-
-                            "Block_Connection_Info",
-                            "Block_ID",
-                            "Block_Type",
-                            "Module_ID",
-                            "Order_Sequence_Number",
-                            "Recipe_ID",
-                            "Reference_ID",
-                            "Reference_Name",
-                            "Work_Order_ID",
-                        ];
-
-
-
-
-                        // setHeaders 호출
-                        setGenHeaders(genHeaderOrder);
-                        setGenData(gen_table_data);
-                        console.log('gen_table_data[0]):', gen_table_data[0]);
-                        console.log('gen_table_data):', gen_table_data);
-
-                        // Filter data for rcpId "rcp_exp_251118_1"
-                        const dataArray = Object.values(gen_table_data);
-                        const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_exp_251118_1");
-                        console.log('gen_table_data filtered:', filtered);
-                    }
-                    
-                    // console.log('processedData_gen:', processedData_gen);
-                    console.log('Successfully loaded initial data:', gen_table_data);
-                }
-
-                const response_block_tab = await axios.get('http://13.125.96.124:8080/api/v1/recipeInfoCollected');
-                const block_table_data = response_block_tab.data;
-                console.log('block_table_data:', block_table_data);
-                if (Array.isArray(block_table_data)) {
-
-                    if (block_table_data.length > 0) {
-
-                        // 첫 번째 항목 기준으로 !!!자동으로 !!!!!!!!! 헤더 추출
-                        // setHeaders(Object.keys(block_table_data[0])); // 첫 번째 항목 기준으로 헤더 추출
-
-
-                        // 원하는 순서대로 헤더 배열 !!수동!! 정의
-                        const blockHeaderOrder = [
-                            "Recipe_ID",
-                            "Eco_Vocabulary_ID",
-                            "Hub_Vocabulary_ID",
-                            "Order_Sequence_Number",
-                            "Vocabulary_Level_1",
-                            "Vocabulary_Level_2",
-                            "Vocabulary_Level_3",
-                            "Vocabulary_Name",
-                            "Vocabulary_Unit",
-                            "Vocabulary_Value"
-
-                        ];
-
-
-                        // setHeaders 호출
-                        setBlockHeaders(blockHeaderOrder);
-                        setBlockData(block_table_data);
-                        console.log('block_table_data[0]):', block_table_data[0]);
-                        console.log('block_table_data):', block_table_data);
-
-                        // Filter data for rcpId "rcp_exp_251118_1"
-                        const dataArray = Object.values(block_table_data);
-                        const filtered = dataArray.filter(item => item.Recipe_ID === "rcp_exp_251118_1");
-                        console.log('block_table_data filtered:', filtered);
-
-
-                    }
-                    // console.log('processedData_gen:', processedData_gen);
-                    console.log('Successfully loaded initial data:', block_table_data);
-                }
-
-
-
-            } catch (error) {
-                console.error('Failed to load initial data:', error);
-            }
-=======
                 const requestBodyGeneral = {
                   "wo_id": null,
                   "rcp_id": recipeId,
@@ -171,7 +68,6 @@ useEffect(() => {
                 ]);
                 
       
->>>>>>> Stashed changes
 
                  /* ---------- Block ---------- */
         const requestBodyCollected = {
