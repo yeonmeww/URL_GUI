@@ -6,15 +6,20 @@ import axios from 'axios';
 
 const JSONDisplay = ({ recipeIndex }) => {
 //   const recipeId = `rcp_exp_251121_${recipeIndex}`;
-    const recipeDateMap = {
-    1: '251118',
-    };
+    const recipeIdMap = {
+  1: 'rcp_sim_251215_935',
+  2: 'rcp_exp_251215_1038',
+  3: 'rcp_exp_251215_1043',
+  4: 'rcp_exp_251215_1018',
+  5: 'rcp_exp_251215_1060',
+};
 
-    const getRecipeId = (recipeIndex) => {
-    const date = recipeDateMap[recipeIndex] ?? '251121';
-    return `rcp_exp_${date}_${recipeIndex}`;
-    };
-    const recipeId = getRecipeId(recipeIndex);
+const getRecipeId = (recipeIndex) => {
+  return recipeIdMap[recipeIndex] ?? null;
+};
+
+const recipeId = getRecipeId(recipeIndex);
+
 
   const [loading, setLoading] = useState(false);
 
