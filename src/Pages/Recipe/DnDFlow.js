@@ -16,6 +16,7 @@ import Sidebar from './Sidebar';
 import { useDnD } from './DnDContext';
 import CustomNode from './CustomNode';
 import axios from 'axios';
+import { useNodesInitialized } from 'reactflow';
 
 
 const nodeTypes = {
@@ -30,16 +31,22 @@ const nodeTypes = {
 };
 
 const defaultViewport = { x: 0, y: 0, zoom: 0.5 };
-
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 const DnDFlow = ({ recipeIndex }) => {
+  const nodesInitialized = useNodesInitialized();
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { screenToFlowPosition } = useReactFlow();
-  const { project } = useReactFlow();
+  const {
+  screenToFlowPosition,
+  project,
+  fitView,
+  getViewport,
+} = useReactFlow();
+
+
   const [loading, setLoading] = useState(false);
 
   const { type } = useDnD();
@@ -59,15 +66,90 @@ const DnDFlow = ({ recipeIndex }) => {
   //   return `rcp_exp_251121_${recipeIndex}`;
   // };
 
-  const recipeDateMap = {
-    1: '251118',
-    };
+  const recipeIdMap = {
+  1: 'rcp_sim_251215_935',
+  2: 'rcp_exp_251215_1038',
+  3: 'rcp_exp_251215_1043',
+  4: 'rcp_exp_251215_1018',
+  5: 'rcp_exp_251215_1060',
+};
 
-    const getRecipeId = (recipeIndex) => {
-    const date = recipeDateMap[recipeIndex] ?? '251121';
-    return `rcp_exp_${date}_${recipeIndex}`;
-    };
-    const recipeId = getRecipeId(recipeIndex);
+const getRecipeId = (recipeIndex) => {
+  return recipeIdMap[recipeIndex] ?? null;
+};
+  const recipeLayouts = {
+  rcp_sim_251215_935: [
+    ["Block_1","Block_2","Block_3","Block_4","Block_5","Block_6","Block_7"],
+    ["Block_8","Block_9"],
+    ["Block_10"],
+    ["Block_11","Block_12"],
+    ["Block_13"],
+    ["Block_14"],
+    ["Block_15"],
+  ],
+
+  rcp_exp_251215_1038: [
+    ["Block_1","Block_2","Block_3"],
+    ["Block_4","Block_5"],
+    ["Block_6"],
+    ["Block_7","Block_8","Block_9"],
+    ["Block_10"],
+  ],
+
+  rcp_exp_251215_1043: [
+    ["Block_1","Block_2","Block_3","Block_4","Block_5","Block_6","Block_7"],
+    ["Block_8"],
+    ["Block_9"],
+    ["Block_10"],
+    ["Block_11"],
+    ["Block_12"],
+    ["Block_13"],
+    ["Block_14","Block_15"],
+    ["Block_16"],
+    ["Block_17"],
+    ["Block_18"],
+    ["Block_19"],
+    ["Block_20","Block_21"],
+    ["Block_22"],
+    ["Block_23"],
+    ["Block_24"],
+    ["Block_25"],
+    ["Block_26","Block_27","Block_28"],
+    ["Block_29"],
+    ["Block_30"],
+    ["Block_31"],
+    ["Block_32"],
+    ["Block_33"],
+    ["Block_34"],
+    ["Block_35"],
+    ["Block_36"],
+    ["Block_37"],
+    ["Block_38"],
+    ["Block_39"],
+    ["Block_40"],
+    ["Block_41"],
+  ],
+
+
+  rcp_exp_251215_1018: [
+    ["Block_1"],
+    ["Block_2"],
+    ["Block_3"],
+    ["Block_4"],
+    ["Block_7", "Block_14"],
+
+  ],
+
+  
+  rcp_exp_251215_1060: [
+    ["Block_1"],
+    ["Block_2"],
+    ["Block_3"]
+  ],
+};
+
+const recipeId = getRecipeId(recipeIndex);
+const rows = recipeLayouts[recipeId] ?? [];
 
   useEffect(() => {
   if (!recipeIndex) return;
@@ -86,7 +168,8 @@ const DnDFlow = ({ recipeIndex }) => {
           item => item.Recipe_ID === recipeId
         );
 
-        const processed = generateNodesAndEdges(filtered);
+        const processed = generateNodesAndEdges(filtered, recipeIndex);
+
         setInitialData(processed);
       }
     } catch (err) {
@@ -107,988 +190,541 @@ const DnDFlow = ({ recipeIndex }) => {
     }
   }, [initialData, setNodes, setEdges]);
 
-
-
-
-
-
-//배치만 이상한 버전
-// const generateNodesAndEdges = (data) => {
-//   const nodes = [];
-//   const edges = [];
-
-//   const typeMapping = {
-//     M: 'Material',
-//     P: 'Process',
-//     A: 'Analysis',
-//     R: 'Result',
-//     S: 'Simulation',
-//     PR: 'Product',
-//   };
-
-//   const handleMap = {
-//     3: 'right',
-//     6: 'bottom',
-//     9: 'left',
-//     12: 'top',
-//   };
-
-//   // map of items by Block_ID from input data
-//   const itemMap = {};
-//   data.forEach((it) => {
-//     itemMap[it.Block_ID] = it;
-//   });
-
-//   // helpers
-//   const normalizeBlockId = (raw) => {
-//     if (!raw) return null;
-//     const m = raw.match(/(\d+)/);
-//     return m ? `Block_${m[1]}` : null;
-//   };
-
-//   // outMap: sourceID -> [{ target, srcHandle, tgtHandle }]
-//   const outMap = {};
-//   const inDegree = {};
-//   const nodesSet = new Set();
-
-//   // initialize nodesSet & inDegree from provided data
-//   data.forEach((it) => {
-//     nodesSet.add(it.Block_ID);
-//     inDegree[it.Block_ID] = inDegree[it.Block_ID] ?? 0;
-//     outMap[it.Block_ID] = outMap[it.Block_ID] ?? [];
-//   });
-
-//   // Robust parser:
-//   // - split Block_Connection_Info into groups by braces '}' or ';' or '),'
-//   // - for each group, extract tokens: block tokens (block_x) and plain numbers
-//   // - expect sequence: BLOCK, HANDLE, BLOCK, HANDLE  (may repeat)
-//   const groupSplitter = /[{}]+/; // we'll split and examine pieces that contain tokens
-//   data.forEach((it) => {
-//     const raw = it.Block_Connection_Info || '';
-//     if (!raw || typeof raw !== 'string') return;
-
-//     // split into candidate groups by '},{' or '}' etc.
-//     // keep segments that contain 'block' or digits
-//     const parts = raw.split(/[,]*\s*\}\s*,?\s*\{?/).map((s) => s.trim()).filter(Boolean);
-
-//     parts.forEach((part) => {
-//       // find tokens in order: either 'block_123' (any case) or numbers (handles)
-//       // token regex returns both block tokens and numbers preserving order
-//       const tokenRegex = /([Bb]lock[_\s-]*\d+)|(\d+)/g;
-//       const tokens = [];
-//       let m;
-//       while ((m = tokenRegex.exec(part)) !== null) {
-//         if (m[1]) { // block token
-//           tokens.push({ type: 'block', raw: m[1] });
-//         } else if (m[2]) { // plain number (handle)
-//           tokens.push({ type: 'num', raw: m[2] });
-//         }
-//       }
-
-//       // now walk tokens: expect [block,num,block,num,...]
-//       for (let i = 0; i + 3 < tokens.length; i += 4) {
-//         // ensure pattern matches block,num,block,num
-//         if (tokens[i].type === 'block' && tokens[i+1].type === 'num' &&
-//             tokens[i+2].type === 'block' && tokens[i+3].type === 'num') {
-//           const src = normalizeBlockId(tokens[i].raw);
-//           const srcHandle = tokens[i+1].raw;
-//           const tgt = normalizeBlockId(tokens[i+2].raw);
-//           const tgtHandle = tokens[i+3].raw;
-
-//           if (!src || !tgt) continue;
-
-//           nodesSet.add(src);
-//           nodesSet.add(tgt);
-//           outMap[src] = outMap[src] || [];
-//           outMap[src].push({ target: tgt, srcHandle, tgtHandle });
-
-//           inDegree[tgt] = (inDegree[tgt] || 0) + 1;
-//           inDegree[src] = inDegree[src] ?? 0;
-//         }
-//       }
-//     });
-//   });
-
-//   // Kahn's algorithm for topo-sort & depth assignment (robust)
-//   const depth = {};
-//   const q = [];
-//   Array.from(nodesSet).forEach((n) => {
-//     if (!inDegree[n] || inDegree[n] === 0) {
-//       q.push(n);
-//       depth[n] = 0;
-//     }
-//   });
-
-//   const topo = [];
-//   while (q.length) {
-//     const cur = q.shift();
-//     topo.push(cur);
-//     const outs = outMap[cur] || [];
-//     outs.forEach((o) => {
-//       inDegree[o.target] = (inDegree[o.target] || 1) - 1;
-//       if (inDegree[o.target] === 0) {
-//         q.push(o.target);
-//         depth[o.target] = (depth[cur] ?? 0) + 1;
-//       } else {
-//         depth[o.target] = Math.max(depth[o.target] ?? 0, (depth[cur] ?? 0) + 1);
-//       }
-//     });
-//   }
-
-//   // if some nodes remain (due to cycles or weird refs), place them deeper
-//   const remaining = Array.from(nodesSet).filter((n) => !topo.includes(n));
-//   if (remaining.length) {
-//     const maxD = Math.max(0, ...Object.values(depth));
-//     remaining.forEach((n, i) => {
-//       depth[n] = depth[n] ?? maxD + 1 + i;
-//       topo.push(n);
-//     });
-//   }
-
-//   // group by depth
-//   const depthGroups = {};
-//   Object.keys(depth).forEach((k) => {
-//     const d = depth[k];
-//     (depthGroups[d] = depthGroups[d] || []).push(k);
-//   });
-
-//   // sort nodes inside layer by original Order_Sequence_Number if available
-//   Object.keys(depthGroups).forEach((d) => {
-//     depthGroups[d].sort((a, b) => {
-//       const ai = itemMap[a]?.Order_Sequence_Number ?? Number(a.replace('Block_', '')) ?? 0;
-//       const bi = itemMap[b]?.Order_Sequence_Number ?? Number(b.replace('Block_', '')) ?? 0;
-//       return ai - bi;
-//     });
-//   });
-
-//   // initial positions (grid-like)
-//   const positions = {};
-//   const xGap = 180;
-//   const yGap = 150;
-//   const left = 80;
-//   Object.keys(depthGroups).map(Number).sort((a,b)=>a-b).forEach((d) => {
-//     let curX = left;
-//     depthGroups[d].forEach((nid) => {
-//       positions[nid] = { x: curX, y: d * yGap + 60 };
-//       curX += xGap;
-//     });
-//   });
-
-//   // parents map (for multi-parent centering)
-//   const parentsMap = {};
-//   Object.keys(outMap).forEach((s) => {
-//     (outMap[s] || []).forEach((o) => {
-//       parentsMap[o.target] = parentsMap[o.target] || new Set();
-//       parentsMap[o.target].add(s);
-//     });
-//   });
-
-//   // center nodes under parents average x (if parents exist and parent positions known)
-//   Object.keys(parentsMap).forEach((nid) => {
-//     const parents = Array.from(parentsMap[nid]);
-//     const xs = parents.map(p => positions[p]?.x).filter(v => typeof v === 'number');
-//     if (xs.length) {
-//       const avg = xs.reduce((a,b) => a+b,0) / xs.length;
-//       if (!positions[nid]) positions[nid] = { x: avg, y: (depth[nid]||0)*yGap + 60 };
-//       else positions[nid].x = avg;
-//     }
-//   });
-
-//   // resolve collisions inside same depth: ensure min gap
-//   const minGap = 130;
-//   Object.keys(depthGroups).forEach((dKey) => {
-//     const list = depthGroups[dKey];
-//     list.sort((a,b) => (positions[a].x||0) - (positions[b].x||0));
-//     for (let i=1; i<list.length; i++) {
-//       const leftId = list[i-1], curId = list[i];
-//       if ((positions[curId].x - positions[leftId].x) < minGap) {
-//         positions[curId].x = positions[leftId].x + minGap;
-//       }
-//     }
-//   });
-
-//   // finalize nodes: if item not in itemMap, create minimal placeholder
-//   Array.from(nodesSet).forEach((nid) => {
-//     const item = itemMap[nid];
-//     const labelType = item ? (typeMapping[item.Block_Type] || 'default') : 'default';
-//     const reference = item?.Reference_Name ?? (item ? '' : '(external reference)');
-//     const pos = positions[nid] || { x: 100, y: 100 };
-
-//     nodes.push({
-//       id: nid,
-//       type: labelType,
-//       data: { label: labelType, bullets: reference ? [reference] : [] },
-//       position: pos,
-//       style: nodeStyles[labelType]?.style ?? nodeStyles.default.style,
-//       sourcePosition: Position.Right,
-//       targetPosition: Position.Left,
-//     });
-//   });
-
-//   // build edges (use handleMap if possible)
-//   Object.keys(outMap).forEach((src) => {
-//     (outMap[src]||[]).forEach((o, idx) => {
-//       const srcH = handleMap[o.srcHandle] ?? 'right';
-//       const tgtH = handleMap[o.tgtHandle] ?? 'left';
-//       edges.push({
-//         id: `e-${src}-${o.target}-${idx}`,
-//         source: src,
-//         target: o.target,
-//         type: 'smoothstep',
-//         markerEnd: { type: MarkerType.ArrowClosed, width: 14, height: 14, color: '#222' },
-//         style: { strokeWidth: 2 },
-//         sourceHandle: `${src}-source-${srcH}`,
-//         targetHandle: `${o.target}-target-${tgtH}`,
-//       });
-//     });
-//   });
-
-//   return { nodes, edges };
-// };
-
-//30 하단만 잘되는 버전
-// const generateNodesAndEdges = (data) => {
-//   const nodes = [];
-//   const edges = [];
-
-//   const typeMapping = {
-//     M: 'Material',
-//     P: 'Process',
-//     A: 'Analysis',
-//     R: 'Result',
-//     S: 'Simulation',
-//     PR: 'Product',
-//   };
-
-//   const handleMap = {
-//     3: 'right',
-//     6: 'bottom',
-//     9: 'left',
-//     12: 'top',
-//   };
-
-//   const blockMap = {};
-//   data.forEach((item) => (blockMap[item.Block_ID] = item));
-
-//   // ---------------------------------------------------
-//   // 1) Block_Connection_Info 파싱하여 adjacency 생성
-//   // ---------------------------------------------------
-//   const graph = {};
-//   const reverseGraph = {};
-//   const connectedSet = new Set();
-
-//   data.forEach((item) => {
-//     if (!item.Block_Connection_Info || item.Block_Connection_Info.trim() === '') return;
-  
-//     const info = item.Block_Connection_Info;
-//     const regex = /[Bb]lock_(\d+),\s*(\d+)/g;
-//     const matches = [...info.matchAll(regex)];
-  
-//     if (matches.length > 0) {
-//       const [srcBlock, srcHandle] = [matches[0][1], matches[0][2]];
-//       const [tgtBlock, tgtHandle] = [matches[1][1], matches[1][2]];
-  
-//       connectedSet.add(`Block_${srcBlock}`);
-//       connectedSet.add(`Block_${tgtBlock}`);
-  
-//       if (!graph[`Block_${srcBlock}`]) graph[`Block_${srcBlock}`] = [];
-//       graph[`Block_${srcBlock}`].push({ child: `Block_${tgtBlock}`, handle: srcHandle });
-  
-//       reverseGraph[`Block_${tgtBlock}`] = `Block_${srcBlock}`;
-//     }
-//   console.log('graphgraphgraph', graph)
-//   });
-  
-
-//   // ---------------------------------------------------
-//   // 2) 순서 기반 y 배치
-//   // ---------------------------------------------------
-//   const yGap = 120;
-//   const xGap = 260;
-//   const sorted = [...data].sort((a, b) => a.Order_Sequence_Number - b.Order_Sequence_Number);
-
-//   const positions = {};
-
-//   sorted.forEach((item, i) => {
-//     positions[item.Block_ID] = {
-//       x: 0,                 // 기본 메인 트리 x = 0
-//       y: 100 + i * yGap,    // 순서대로 아래
-//     };
-//   });
-
-//   // ---------------------------------------------------
-//   // 3) Branch 의 x 배치: parent.x ± xGap
-//   // ---------------------------------------------------
-//   const visited = new Set();
-
-//   const assignBranchX = (id) => {
-//     if (visited.has(id)) return;
-//     visited.add(id);
-  
-//     const children = graph[id] || [];
-//     children.forEach(({ child, handle }) => {
-//       if (positions[child]) {
-//         // y 변화 없음
-//         if (handleMap[handle] === 'right') {
-//           positions[child].x = positions[id].x + xGap;
-//         } else if (handleMap[handle] === 'left') {
-//           positions[child].x = positions[id].x - xGap;
-//         } else {
-//           // top, bottom → y 변화 없음
-//           positions[child].y = positions[id].y + yGap;  
-//         }
-//       }
-  
-//       assignBranchX(child);
-//     });
-//   };
-  
-
-//   // 루트 노드 찾기 (parent 없는 노드)
-//   const mainRoots = sorted.filter((d) => !reverseGraph[d.Block_ID]);
-//   mainRoots.forEach((root) => assignBranchX(root.Block_ID));
-
-//   // ---------------------------------------------------
-//   // 4) 고립블록 오른쪽으로만 배치
-//   // ---------------------------------------------------
-//   // const lonelyBlocks = sorted
-//   //   .filter((item) => !connectedSet.has(item.Block_ID))
-//   //   .map((item) => item.Block_ID);
-
-//   // lonelyBlocks.forEach((id, idx) => {
-//   //   positions[id].x = xGap * 2 + idx * xGap; // 오른쪽 방향으로만 증가
-//   // });
-
-//   // ---------------------------------------------------
-//   // 5) Node 생성
-//   // ---------------------------------------------------
-//   sorted.forEach((item) => {
-//     const nodeType = typeMapping[item.Block_Type] || 'default';
-//     const refName = item.Reference_Name || '(no reference)';
-
-//     nodes.push({
-//       id: item.Block_ID,
-//       type: nodeType,
-//       data: { label: nodeType, bullets: [refName] },
-//       position: positions[item.Block_ID],
-//       sourcePosition: Position.Right,
-//       targetPosition: Position.Left,
-//       style: nodeStyles[nodeType]?.style ?? nodeStyles.default.style,
-//     });
-//   });
-
-//   // ---------------------------------------------------
-//   // 6) Edge 생성
-//   // ---------------------------------------------------
-//   data.forEach((item) => {
-//     const info = item.Block_Connection_Info;
-//     if (!info || info.trim() === '') return;
-
-//     const regex = /[Bb]lock_(\d+),\s*(\d+)/g;
-//     const matches = [...info.matchAll(regex)];
-//     if (matches.length !== 2) return;
-
-//     const [src, srcH] = [matches[0][1], matches[0][2]];
-//     const [tgt, tgtH] = [matches[1][1], matches[1][2]];
-
-//     edges.push({
-//       id: `e${src}-${tgt}`,
-//       source: `Block_${src}`,
-//       target: `Block_${tgt}`,
-//       type: 'smoothstep',
-//       markerEnd: {
-//         type: MarkerType.ArrowClosed,
-//         width: 15,
-//         height: 15,
-//         color: '#222',
-//       },
-//       style: { strokeWidth: 2 },
-//       sourceHandle: `Block_${src}-source-${handleMap[srcH]}`,
-//       targetHandle: `Block_${tgt}-target-${handleMap[tgtH]}`,
-//     });
-//   });
-
-//   return { nodes, edges };
-// };
-
-
-// 부모 자식 다 저장하는버전 -> 걍 세로로 쭉 연결한 버전
-// const generateNodesAndEdges = (data) => {
-//   const nodes = [];
-//   const edges = [];
-
-//   const typeMapping = {
-//     M: 'Material',
-//     P: 'Process',
-//     A: 'Analysis',
-//     R: 'Result',
-//     S: 'Simulation',
-//     PR: 'Product',
-//   };
-
-//   const handleMap = {
-//     3: 'right',
-//     6: 'bottom',
-//     9: 'left',
-//     12: 'top',
-//   };
-
-//   // ----------------------------------------------------------
-//   // 0) 불규칙한 Block_Connection_Info robust 파서
-//   // ----------------------------------------------------------
-//   const parseConnections = (info) => {
-//     if (!info || info.trim() === '') return [];
-
-//     // Block / block / BLock / bLOCK
-//     // Block_12, 3 , Block 12 3 , Block_12,3), 등 전부 허용
-//     const regex = /[Bb]lock[_ ]*(\d+)\s*[, ]\s*(\d+)/g;
-//     const matches = [...info.matchAll(regex)];
-
-//     // Block_x, handle → 배열
-//     const list = matches.map(m => ({
-//       block: `Block_${m[1]}`,
-//       handle: m[2],
-//     }));
-
-//     if (list.length < 2) return [];
-
-//     // A→B, B→C, C→D... 연속 pair 생성
-//     const pairs = [];
-//     for (let i = 0; i < list.length - 1; i++) {
-//       pairs.push({
-//         srcBlock: list[i].block,
-//         srcHandle: list[i].handle,
-//         tgtBlock: list[i + 1].block,
-//         tgtHandle: list[i + 1].handle,
-//       });
-//     }
-
-//     return pairs;
-//   };
-
-//   // ----------------------------------------------------------
-//   // 1) blockMap
-//   // ----------------------------------------------------------
-//   const blockMap = {};
-//   data.forEach(d => blockMap[d.Block_ID] = d);
-
-//   // ----------------------------------------------------------
-//   // 2) graph = children, reverseGraph = parents
-//   // ----------------------------------------------------------
-//   const graph = {};         // children
-//   const reverseGraph = {};  // parents
-//   const connectedSet = new Set();
-
-//   data.forEach(item => {
-//     const pairs = parseConnections(item.Block_Connection_Info);
-//     if (pairs.length === 0) return;
-
-//     pairs.forEach(({ srcBlock, srcHandle, tgtBlock, tgtHandle }) => {
-//       connectedSet.add(srcBlock);
-//       connectedSet.add(tgtBlock);
-
-//       if (!graph[srcBlock]) graph[srcBlock] = [];
-//       graph[srcBlock].push({
-//         child: tgtBlock,
-//         handle: srcHandle,
-//       });
-
-//       if (!reverseGraph[tgtBlock]) reverseGraph[tgtBlock] = [];
-//       reverseGraph[tgtBlock].push({
-//         parent: srcBlock,
-//         handle: tgtHandle,
-//       });
-//     });
-//   });
-//   console.log("graphgraphgraphgraph", graph)
-//   // ----------------------------------------------------------
-//   // 3) 기본 y 배치 (Order Sequence 기준)
-//   // ----------------------------------------------------------
-//   const sorted = [...data].sort(
-//     (a, b) => a.Order_Sequence_Number - b.Order_Sequence_Number
-//   );
-
-//   const positions = {};
-//   const yGap = 120;
-//   const xGap = 260;
-
-//   sorted.forEach((item, i) => {
-//     positions[item.Block_ID] = {
-//       x: 0,
-//       y: 100 + i * yGap,
-//     };
-//   });
-
-//   // ----------------------------------------------------------
-//   // 4) DFS 배치: parent/child 양쪽 방향
-//   // ----------------------------------------------------------
-//   const visited = new Set();
-
-//   const dfsLayout = (key) => {
-//     if (visited.has(key)) return;
-//     visited.add(key);
-
-//     const id = key.replace("Block_", "");
-
-//     // Children (branch outward)
-//     const children = graph[key] || [];
-//     children.forEach(({ child, handle }) => {
-//       const cid = child.replace("Block_", "");
-//       if (positions[cid]) {
-//         if (handleMap[handle] === "right") {
-//           positions[cid].x = positions[id].x + xGap;
-//         } else if (handleMap[handle] === "left") {
-//           positions[cid].x = positions[id].x - xGap;
-//         } else {
-//           positions[cid].y = positions[id].y + yGap;
-//         }
-//       }
-//       dfsLayout(child);
-//     });
-
-//     // Parents (merge inward)
-//     const parents = reverseGraph[key] || [];
-//     parents.forEach(({ parent, handle }) => {
-//       const pid = parent.replace("Block_", "");
-//       if (positions[pid]) {
-//         if (handleMap[handle] === "right") {
-//           positions[pid].x = positions[id].x + xGap;
-//         } else if (handleMap[handle] === "left") {
-//           positions[pid].x = positions[id].x - xGap;
-//         } else {
-//           positions[pid].y = positions[id].y - yGap;
-//         }
-//       }
-//       dfsLayout(parent);
-//     });
-//   };
-
-//   // 부모가 없는 루트들을 우선적으로 시작
-//   const roots = sorted.filter(d => !reverseGraph[`Block_${d.Block_ID}`]);
-//   roots.forEach(r => dfsLayout(`Block_${r.Block_ID}`));
-
-//   // ----------------------------------------------------------
-//   // 5) nodes 생성
-//   // ----------------------------------------------------------
-//   sorted.forEach((item) => {
-//     const nodeType = typeMapping[item.Block_Type] || "default";
-
-//     nodes.push({
-//       id: item.Block_ID,
-//       type: nodeType,
-//       data: {
-//         label: nodeType,
-//         bullets: [item.Reference_Name || "(no reference)"],
-//       },
-//       position: positions[item.Block_ID],
-//       sourcePosition: Position.Right,
-//       targetPosition: Position.Left,
-//       style: nodeStyles[nodeType]?.style ?? nodeStyles.default.style,
-//     });
-//   });
-
-//   // ----------------------------------------------------------
-//   // 6) edges 생성
-//   // ----------------------------------------------------------
-//   data.forEach((item) => {
-//     const pairs = parseConnections(item.Block_Connection_Info);
-//     pairs.forEach(({ srcBlock, srcHandle, tgtBlock, tgtHandle }) => {
-//       const src = srcBlock.replace("Block_", "");
-//       const tgt = tgtBlock.replace("Block_", "");
-
-//       edges.push({
-//         id: `e${src}-${tgt}`,
-//         source: srcBlock,
-//         target: tgtBlock,
-//         type: "smoothstep",
-//         markerEnd: {
-//           type: MarkerType.ArrowClosed,
-//           width: 15,
-//           height: 15,
-//           color: "#222",
-//         },
-//         style: { strokeWidth: 2 },
-//         sourceHandle: `${srcBlock}-source-${handleMap[srcHandle]}`,
-//         targetHandle: `${tgtBlock}-target-${handleMap[tgtHandle]}`,
-//       });
-//     });
-//   });
-
-//   return { nodes, edges };
-// };
-
-
-//뉴 알고리즘
-// const generateNodesAndEdges = (data) => {
-//   const nodes = [];
-//   const edges = [];
-
-//   const typeMapping = {
-//     M: 'Material',
-//     P: 'Process',
-//     A: 'Analysis',
-//     R: 'Result',
-//     S: 'Simulation',
-//     PR: 'Product',
-//   };
-
-//   const handleMap = {
-//     3: 'right',
-//     6: 'bottom',
-//     9: 'left',
-//     12: 'top',
-//   };
-
-//   // ----------------------------------------------------------
-//   // 0) robust parser
-//   // ----------------------------------------------------------
-//   const parseConnections = (info) => {
-//     if (!info || info.trim() === '') return [];
-//     const regex = /[Bb]lock[_ ]*(\d+)\s*[, ]\s*(\d+)/g;
-//     const matches = [...info.matchAll(regex)];
-
-//     const list = matches.map(m => ({
-//       block: `Block_${m[1]}`,
-//       handle: m[2],
-//     }));
-
-//     if (list.length < 2) return [];
-
-//     const pairs = [];
-//     for (let i = 0; i < list.length - 1; i++) {
-//       pairs.push({
-//         srcBlock: list[i].block,
-//         srcHandle: list[i].handle,
-//         tgtBlock: list[i + 1].block,
-//         tgtHandle: list[i + 1].handle,
-//       });
-//     }
-//     return pairs;
-//   };
-
-//   // ----------------------------------------------------------
-//   // 1) blockMap
-//   // ----------------------------------------------------------
-//   const blockMap = {};
-//   data.forEach(d => (blockMap[d.Block_ID] = d));
-
-//   // ----------------------------------------------------------
-//   // 2) graph, reverseGraph
-//   // ----------------------------------------------------------
-//   const graph = {}; // parent → children
-//   const reverseGraph = {}; // child → parents
-
-//   data.forEach(item => {
-//     const pairs = parseConnections(item.Block_Connection_Info);
-//     pairs.forEach(({ srcBlock, srcHandle, tgtBlock, tgtHandle }) => {
-//       if (!graph[srcBlock]) graph[srcBlock] = [];
-//       graph[srcBlock].push({ child: tgtBlock, handle: srcHandle });
-
-//       if (!reverseGraph[tgtBlock]) reverseGraph[tgtBlock] = [];
-//       reverseGraph[tgtBlock].push({ parent: srcBlock, handle: tgtHandle });
-//     });
-//   });
-//   console.log("graphgraphgraphgraph", graph)
-//   console.log("reverseGraphreverseGraphreverseGraphreverseGraph", reverseGraph)
-//   // ----------------------------------------------------------
-//   // 3) 기본 y 배치 (Order Sequence 기준)
-//   // ----------------------------------------------------------
-//   const sorted = [...data].sort(
-//     (a, b) => a.Order_Sequence_Number - b.Order_Sequence_Number
-//   );
-
-//   const positions = {};
-//   const baseYGap = 120;
-//   const baseXGap = 260;
-
-//   sorted.forEach((item, i) => {
-//     positions[item.Block_ID] = {
-//       x: 0,
-//       y: 100 + i * baseYGap,
-//     };
-//   });
-
-//   // ----------------------------------------------------------
-//   // 4) 부모/자식 배치 규칙 적용
-//   // ----------------------------------------------------------
-
-//   const visited = new Set();
-
-//   const dfsLayout = (block) => {
-//     if (visited.has(block)) return;
-//     visited.add(block);
-
-//     const id = block.replace("Block_", "");
-
-//     const parentList = reverseGraph[block] || [];
-//     const childList = graph[block] || [];
-
-//     console.log("parentListparentList", parentList)
-//     // ---------------------------
-//     // (1) 여러 부모가 같은 자식을 가질 때 → 부모들을 가로로 배치
-//     // ---------------------------
-//     if (parentList.length > 1) {
-//       const centerY = positions[id].y;
-
-//       const startX = positions[id].x - ((parentList.length - 1) * baseXGap) / 2;
-
-//       parentList.forEach((p, idx) => {
-//         const parent = p.parent.replace("Block_", "");
-//         if (positions[parent]) {
-//           positions[parent].y = centerY;
-//           positions[parent].x = startX + idx * baseXGap;
-//         }
-//         dfsLayout(p.parent);
-//       });
-//     }
-//     // ---------------------------
-//     // (2) 하나의 부모가 여러 자식을 가질 때 → 오른쪽에 세로 배치
-//     // ---------------------------
-//     if (childList.length > 1) {
-//       const baseX = positions[id].x + baseXGap;
-//       const baseY = positions[id].y;
-
-//       childList.forEach((c, idx) => {
-//         const child = c.child.replace("Block_", "");
-//         if (positions[child]) {
-//           positions[child].x = baseX;
-//           positions[child].y = baseY + idx * baseYGap;
-//         }
-//         dfsLayout(c.child);
-//       });
-//     } else {
-//       // 기본 규칙 (단일 자식이거나 탐색 중)
-//       childList.forEach(c => {
-//         const child = c.child.replace("Block_", "");
-//         if (positions[child] && positions[id]) {
-//           positions[child].x = positions[id].x + baseXGap;
-//         }
-//         dfsLayout(c.child);
-//       });
-//     }
-//   };
-
-//   // 루트부터 DFS 시작
-//   const roots = sorted.filter(d => !reverseGraph[`Block_${d.Block_ID}`]);
-//   roots.forEach(r => dfsLayout(`Block_${r.Block_ID}`));
-
-//   // ----------------------------------------------------------
-//   // 5) nodes 생성
-//   // ----------------------------------------------------------
-//   sorted.forEach(item => {
-//     const nodeType = typeMapping[item.Block_Type] || "default";
-
-//     nodes.push({
-//       id: item.Block_ID,
-//       type: nodeType,
-//       data: {
-//         label: nodeType,
-//         bullets: [item.Reference_Name || "(no reference)"],
-//       },
-//       position: positions[item.Block_ID],
-//       sourcePosition: Position.Right,
-//       targetPosition: Position.Left,
-//       style: nodeStyles[nodeType]?.style ?? nodeStyles.default.style,
-//     });
-//   });
-
-//  // ----------------------------------------------------------
-// // 6) edges 생성
-// // ----------------------------------------------------------
-// let edgeIdCounter = 0;
-
-// data.forEach(item => {
-//   const pairs = parseConnections(item.Block_Connection_Info);
-//   pairs.forEach(({ srcBlock, srcHandle, tgtBlock, tgtHandle }) => {
-
-//     edges.push({
-//       id: `e-${srcBlock}-${tgtBlock}-${edgeIdCounter++}`,  // 유일한 ID
-//       source: srcBlock,
-//       target: tgtBlock,
-//       type: "smoothstep",
-//       markerEnd: {
-//         type: MarkerType.ArrowClosed,
-//         width: 15,
-//         height: 15,
-//         color: "#222",
-//       },
-//       style: { strokeWidth: 2 },
-//       sourceHandle: `${srcBlock}-source-${handleMap[srcHandle]}`,
-//       targetHandle: `${tgtBlock}-target-${handleMap[tgtHandle]}`,
-//     });
-//   });
-// });
-
-//   return { nodes, edges };
-// };
-
-
-
-
-//반자동
-const generateNodesAndEdges = (data) => {
-  const nodes = [];
-  const edges = [];
-
-  const typeMapping = {
-    M: "Material",
-    P: "Process",
-    A: "Analysis",
-    R: "Result",
-    S: "Simulation",
-    PR: "Product",
-  };
-
-  const handleMap = { 3: "right", 6: "bottom", 9: "left", 12: "top" };
-
-  // -------------------------------
-  // 0) Block_Connection_Info 파싱
-  // -------------------------------
-  const parseConnections = (info) => {
-    if (!info || info.trim() === "") return [];
-    const entries = info.match(/\{([^}]+)\}/g);
-    if (!entries) return [];
-    const pairs = [];
-    entries.forEach((raw) => {
-      const parts = raw.replace(/[{}]/g, "").split(",").map((s) => s.trim());
-      if (parts.length !== 4) return;
-      const parent = parts[0].replace(/block_/i, "Block_");
-      const parentHandle = parts[1];
-      const child = parts[2].replace(/block_/i, "Block_");
-      const childHandle = parts[3];
-      if (!parent || !child || parent === child) return;
-      pairs.push({ srcBlock: parent, srcHandle: parentHandle, tgtBlock: child, tgtHandle: childHandle });
-    });
-    return pairs;
-  };
-
-  // -------------------------------
-  // 1) edges 생성
-  // -------------------------------
-  let edgeIdCounter = 0;
-  data.forEach((item) => {
-    const pairs = parseConnections(item.Block_Connection_Info);
-    pairs.forEach(({ srcBlock, srcHandle, tgtBlock, tgtHandle }) => {
-      edges.push({
-        id: `e-${srcBlock}-${tgtBlock}-${edgeIdCounter++}`,
-        source: srcBlock,
-        target: tgtBlock,
-        type: "smoothstep",
-        markerEnd: { type: MarkerType.ArrowClosed, width: 15, height: 15, color: "#222" },
-        style: { strokeWidth: 2 },
-        sourceHandle: `${srcBlock}-source-${handleMap[srcHandle] || "top"}`,
-        targetHandle: `${tgtBlock}-target-${handleMap[tgtHandle] || "bottom"}`,
-      });
-    });
-  });
-
-  // -------------------------------
-  // 2) 행(row) 단위 배치 정의
-  // -------------------------------
-  const rows = [
-    ["Block_1","Block_2","Block_3","Block_4","Block_5","Block_6","Block_7","Block_8","Block_9","Block_10"],
-    ["Block_11","Block_12","Block_13","Block_14","Block_15"],
-    ["Block_16","Block_17"],
-    ["Block_18"],
-    ["Block_19"],
-    ["Block_20","Block_21", "Block_22"],
-    ["Block_23"],
-    ["Block_24","Block_25"],
-    ["Block_43"],
-    ["Block_26"],
-    ["Block_27"],
-    ["Block_28"],
-    ["Block_29"],
-    ["Block_30"],
-    ["Block_31"],
-    ["Block_32"],
-    ["Block_33"],
-    ["Block_34"],
-    ["Block_35","Block_36", "Block_37"],
-    ["Block_38"],
-    ["Block_39","Block_40"],
-    ["Block_41"],
-    ["Block_42"]
-  ];
-
-  const positions = {};
-  const baseXGap = 280;
-  const baseYGap = 200;
-  let prevRowCenterX = 0;
-
-rows.forEach((row, rowIdx) => {
-  let y = 100 + rowIdx * baseYGap;
-
-  // 기본 totalWidth 계산
-  const totalWidth = (row.length - 1) * baseXGap;
-
-  // 그룹 1: 가운데 배치 대신 이전 행 중앙 기준
-  if(rowIdx === 1) {
-    row.forEach((blockId, idx) => {
-      const totalWidth = (row.length - 1) * baseXGap * 2;
-      const x = prevRowCenterX - totalWidth / 2 + idx * baseXGap * 2;
-
-      positions[blockId] = { x, y };
-    });
-  }
-  else if (
-    rowIdx === 5 || // ["Block_20","Block_21","Block_22"]
-    rowIdx === 7 ||// ["Block_24","Block_25"]
-    rowIdx === 18   
-  ) {
-    row.forEach((blockId, idx) => {
-      const x = prevRowCenterX + idx * baseXGap; // 이전 행 중심 기준 시작
-      positions[blockId] = { x, y };
-    });
-  }
-  else if (rowIdx > 18) {
-    prevRowCenterX = baseXGap; // 안전 초기화
-  
-    if (row.length === 1) {
-      positions[row[0]] = { x: prevRowCenterX + baseXGap, y: y };
-    } 
-    else if (row.length >= 2) {
-      row.forEach((blockId, idx) => {
-        const x = prevRowCenterX + idx * baseXGap; // 이전 행 중심 기준 시작
-        positions[blockId] = { x, y };
-      });
-    }
-  }
-  
-  // 기본 행 가운데 배치
-  else {
-    row.forEach((blockId, idx) => {
-      const x = -totalWidth / 2 + idx * baseXGap;
-      positions[blockId] = { x, y };
-    });
-  }
-
-  // prevRowCenterX 갱신: 안전하게 계산
-  const rowXs = row.map(b => positions[b]?.x).filter(x => x !== undefined);
-  if (rowXs.length > 0) {
-    prevRowCenterX = rowXs.reduce((a, b) => a + b, 0) / rowXs.length;
-  }
-});
-  
-
-  // -------------------------------
-  // 3) nodes 생성
-  // -------------------------------
-  data.forEach((item) => {
-    const nodeType = typeMapping[item.Block_Type] || "default";
-    nodes.push({
-      id: item.Block_ID,
-      type: nodeType,
-      data: { label: nodeType, bullets: [item.Reference_Name || "(no reference)"] },
-      position: positions[item.Block_ID],
-      sourcePosition: "bottom",
-      targetPosition: "top",
-      style: nodeStyles[nodeType]?.style ?? nodeStyles.default.style,
-    });
-  });
-
-  return { nodes, edges };
+  useEffect(() => {
+  if (!nodesInitialized) return;
+
+  fitView({ padding: 0.1, duration: 300 });
+}, [recipeIndex, nodesInitialized, fitView]);
+
+
+
+
+const manualPositionsRecipe4 = {
+  // 왼쪽 세로
+  Block_1:  { x: 0,   y: 0 },
+  Block_2:  { x: 0,   y: 160 },
+  Block_3:  { x: 0,   y: 320 },
+  Block_4:  { x: 0,   y: 480 },
+  Block_7: { x: 0,   y: 640 },
+  Block_14: { x: 260, y: 640 },
+
+  // 오른쪽 상단 분기
+  Block_5:  { x: 620, y: 0 },
+  Block_6:  { x: 880, y: 0 },
+
+  // 중앙 세로
+  Block_8:  { x: 750, y: 160 },
+  Block_9:  { x: 750, y: 320 },
+  Block_10: { x: 750, y: 480 },
+  Block_12: { x: 750, y: 640 },
+
+  // 하단 분기
+  Block_11: { x: 530, y: 640 },
+  Block_13: { x: 1010, y: 640 },
+  Block_15: { x: 1010, y: 780 },
+  Block_16: { x: 1010, y: 920 },
 };
+
+
+const manualPositionsRecipe3 = {
+  // 상단 가로
+  Block_1: { x: 0,    y: 0 },
+  Block_2: { x: 260,  y: 0 },
+  Block_3: { x: 520,  y: 0 },
+  Block_4: { x: 780,  y: 0 },
+  Block_5: { x: 1040, y: 0 },
+  Block_6: { x: 1300, y: 0 },
+  Block_7: { x: 1560, y: 0 },
+
+  // 메인 세로
+  Block_8:  { x: 780, y: 160 },
+  Block_9:  { x: 780, y: 320 },
+  Block_10: { x: 780, y: 480 },
+  Block_11: { x: 780, y: 640 },
+  Block_12: { x: 780, y: 800 },
+  Block_13: { x: 780, y: 960 },
+  Block_14: { x: 780, y: 1120 },
+  Block_15: { x: 780, y: 1280 },
+  Block_16: { x: 780, y: 1440 },
+  Block_17: { x: 780, y: 1600 },
+  Block_18: { x: 780, y: 1760 },
+  Block_19: { x: 780, y: 1920 },
+
+  // 우측
+  Block_20: { x: 1670, y: 480 },
+  Block_21: { x: 1930, y: 480 },
+  Block_22: { x: 1800, y: 640 },
+  Block_23: { x: 1800, y: 640 },
+  Block_24: { x: 1800, y: 800 },
+
+  Block_25: { x: 1800, y: 960 },
+  Block_26: { x: 2060, y: 960 },
+  Block_27: { x: 2320, y: 960 },
+
+  Block_28: { x: 1800, y: 1120 },
+  Block_45: { x: 1800, y: 1280 },
+
+
+  //
+  Block_29: { x: 1170, y: 1440 },
+  Block_30: { x: 1430, y: 1440 },
+  Block_31: { x: 1300, y: 1600 },
+  Block_32: { x: 1300, y: 1760 },
+  Block_33: { x: 1300, y: 1920 },
+  Block_34: { x: 1300, y: 2080 },
+
+  //
+  Block_35: { x: 1040, y: 1920 },
+  Block_36: { x: 1040, y: 2080 },
+  Block_47: { x: 1040, y: 2240 },
+
+  //
+  Block_37: { x: 1170, y: 320 },
+  Block_38: { x: 1430, y: 320 },
+  Block_39: { x: 1300, y: 480 },
+  Block_40: { x: 1300, y: 640 },
+  Block_41: { x: 1300, y: 800 },
+  Block_42: { x: 1300, y: 960 },
+  Block_43: { x: 1040, y: 960 },
+  Block_44: { x: 1300, y: 1120 },
+  Block_46: { x: 1300, y: 1280 },
+};
+
+
+const generateNodesAndEdges = (blocks, recipeIndex) => {
+  const GAP_X = 260;
+  const GAP_Y = 160;
+  const GROUP_GAP_X = 600;
+
+  /* =========================
+   * Parse nodes & edges
+   ========================= */
+  const nodesMap = {};
+  const edges = [];
+  let manualPositions = {};
+
+  if (recipeIndex === 3) manualPositions = manualPositionsRecipe3;
+  else if (recipeIndex === 4) manualPositions = manualPositionsRecipe4;
+
+  blocks.forEach(b => {
+    nodesMap[b.Block_ID] = b;
+
+    if (!b.Block_Connection_Info) return;
+    const matches = b.Block_Connection_Info.match(/\{([^}]+)\}/g) || [];
+
+    matches.forEach(raw => {
+      const [src, h1, tgt, h2] = raw
+        .replace(/[{}]/g, '')
+        .split(',')
+        .map(v => v.trim().replace(/block_/i, 'Block_'));
+
+      edges.push({
+        src,
+        tgt,
+        srcHandle: Number(h1),
+        tgtHandle: Number(h2),
+      });
+    });
+  });
+
+  const nodeIds = Object.keys(nodesMap);
+
+  /* =========================
+   * Connected Components
+   ========================= */
+  const adj = {};
+  nodeIds.forEach(id => (adj[id] = new Set()));
+
+  edges.forEach(e => {
+    adj[e.src]?.add(e.tgt);
+    adj[e.tgt]?.add(e.src);
+  });
+
+  const visited = new Set();
+  const groups = [];
+
+  nodeIds.forEach(id => {
+    if (visited.has(id)) return;
+    const stack = [id];
+    const group = [];
+
+    while (stack.length) {
+      const cur = stack.pop();
+      if (visited.has(cur)) continue;
+      visited.add(cur);
+      group.push(cur);
+      adj[cur].forEach(n => stack.push(n));
+    }
+    groups.push(group);
+  });
+
+  /* =========================
+   * Auto layout (기존 로직 그대로)
+   ========================= */
+  const autoPos = {};
+  let baseX = 0;
+
+  groups.forEach(group => {
+    const localX = {};
+    const localY = {};
+
+    const vEdges = edges.filter(
+      e =>
+        group.includes(e.src) &&
+        group.includes(e.tgt) &&
+        ((e.srcHandle === 6 && e.tgtHandle === 12) ||
+         (e.srcHandle === 12 && e.tgtHandle === 6))
+    );
+
+    const vAdj = {};
+    group.forEach(id => (vAdj[id] = []));
+
+    vEdges.forEach(e => {
+      if (e.srcHandle === 6) vAdj[e.src].push(e.tgt);
+      else vAdj[e.tgt].push(e.src);
+    });
+
+    const hasParent = new Set(
+      vEdges.map(e => (e.srcHandle === 6 ? e.tgt : e.src))
+    );
+
+    const roots = group.filter(id => !hasParent.has(id));
+
+    let yCursor = 0;
+    roots.forEach(root => {
+      const q = [root];
+      while (q.length) {
+        const cur = q.shift();
+        if (localY[cur] !== undefined) continue;
+        localY[cur] = yCursor++;
+        vAdj[cur].forEach(n => q.push(n));
+      }
+    });
+
+    const hEdges = edges.filter(
+      e =>
+        group.includes(e.src) &&
+        group.includes(e.tgt) &&
+        ((e.srcHandle === 3 && e.tgtHandle === 9) ||
+         (e.srcHandle === 9 && e.tgtHandle === 3))
+    );
+
+    group.forEach(id => (localX[id] = 0));
+
+    hEdges.forEach(e => {
+      if (e.srcHandle === 3) {
+        localX[e.tgt] = localX[e.src] + 1;
+        localY[e.tgt] = localY[e.src];
+      } else {
+        localX[e.tgt] = localX[e.src] - 1;
+        localY[e.tgt] = localY[e.src];
+      }
+    });
+
+    group.forEach(id => {
+      autoPos[id] = {
+        x: baseX + localX[id],
+        y: localY[id] ?? 0,
+      };
+    });
+
+    baseX += GROUP_GAP_X / GAP_X;
+  });
+
+  /* =========================
+   * px 변환
+   ========================= */
+  const xs = Object.values(autoPos).map(p => p.x);
+  const ys = Object.values(autoPos).map(p => p.y);
+
+  const minX = Math.min(...xs);
+  const minY = Math.min(...ys);
+
+  const autoPositions = {};
+  Object.entries(autoPos).forEach(([id, p]) => {
+    autoPositions[id] = {
+      x: (p.x - minX) * GAP_X,
+      y: (p.y - minY) * GAP_Y,
+    };
+  });
+
+ 
+
+  /* =========================
+   * ReactFlow edges
+   ========================= */
+  const handleMap = {
+    3: ['right', 'left'],
+    9: ['left', 'right'],
+    6: ['bottom', 'top'],
+    12: ['top', 'bottom'],
+  };
+
+  const rfEdges = edges.map(e => {
+    const h = handleMap[e.srcHandle];
+    if (!h) return null;
+
+    return {
+      id: `e-${e.src}-${e.tgt}`,
+      source: e.src,
+      target: e.tgt,
+      sourceHandle: `${e.src}-source-${h[0]}`,
+      targetHandle: `${e.tgt}-target-${h[1]}`,
+      type: 'smoothstep',
+      markerEnd: { type: MarkerType.ArrowClosed },
+    };
+  }).filter(Boolean);
+
+  /* =========================
+   * ReactFlow nodes
+   ========================= */
+  const typeMap = {
+    M: 'Material',
+    P: 'Process',
+    A: 'Analysis',
+    R: 'Result',
+    S: 'Simulation',
+    PR: 'Product',
+  };
+
+  const rfNodes = blocks.map(b => ({
+    id: b.Block_ID,
+    type: typeMap[b.Block_Type] || 'default',
+    position:
+      manualPositions[b.Block_ID] ??
+      autoPositions[b.Block_ID] ??
+      { x: 0, y: 0 },
+
+    data: {
+      label: typeMap[b.Block_Type],
+      bullets: b.Reference_Name ? [b.Reference_Name] : [],
+
+    },
+    style: nodeStyles[typeMap[b.Block_Type]]?.style,
+  }));
+
+  return { nodes: rfNodes, edges: rfEdges };
+};
+
+
+
+
+
+// const generateNodesAndEdges = (data) => {
+//   const GAP_X = 260;
+//   const GAP_Y = 160;
+
+//   const typeMap = {
+//     M: 'Material',
+//     P: 'Process',
+//     A: 'Analysis',
+//     R: 'Result',
+//     S: 'Simulation',
+//     PR: 'Product',
+//   };
+
+//   const handleDir = {
+//     3: { dx: 1, dy: 0, sh: 'right', th: 'left' },   // →
+//     9: { dx: -1, dy: 0, sh: 'left', th: 'right' }, // ←
+//     6: { dx: 0, dy: 1, sh: 'bottom', th: 'top' },  // ↓
+//     12:{ dx: 0, dy: -1, sh: 'top', th: 'bottom' }, // ↑
+//   };
+
+//   /* =========================
+//    * 1️⃣ Block_ID 숫자 기준 정렬
+//    ========================= */
+//   const blocks = [...data].sort(
+//     (a, b) =>
+//       Number(a.Block_ID.split('_')[1]) -
+//       Number(b.Block_ID.split('_')[1])
+//   );
+
+//   /* =========================
+//    * 2️⃣ 연결 정보 파싱
+//    ========================= */
+//   const parents = {};
+//   const children = {};
+
+//   blocks.forEach(b => {
+//     parents[b.Block_ID] = [];
+//     children[b.Block_ID] = [];
+//   });
+
+//   blocks.forEach(b => {
+//     if (!b.Block_Connection_Info) return;
+
+//     const matches = b.Block_Connection_Info.match(/\{([^}]+)\}/g) || [];
+//     matches.forEach(raw => {
+//       const [src, sH, tgt] = raw
+//         .replace(/[{}]/g, '')
+//         .split(',')
+//         .map(v => v.trim().replace(/block_/i, 'Block_'));
+
+//       parents[tgt].push({ src, sH: Number(sH) });
+//       children[src].push({ tgt, sH: Number(sH) });
+//     });
+//   });
+
+//   /* =========================
+//    * 3️⃣ 좌표 관리
+//    ========================= */
+//   const pos = {};
+//   const occupied = new Set();
+
+//   const key = (c, r) => `${c},${r}`;
+//   const isUsed = (c, r) => occupied.has(key(c, r));
+//   const occupy = (c, r) => occupied.add(key(c, r));
+
+//   /* =========================
+//    * 4️⃣ 부모 먼저 배치 (세로 체인)
+//    ========================= */
+//   let currentRow = 0;
+
+//   blocks.forEach(b => {
+//     const id = b.Block_ID;
+//     if (pos[id]) return;
+
+//     // 부모 없는 노드 → 세로 체인
+//     if (parents[id].length === 0) {
+//       pos[id] = { col: 0, row: currentRow };
+//       occupy(0, currentRow);
+//       currentRow += 1;
+//     }
+//   });
+
+//   /* =========================
+//    * 5️⃣ 부모 기준 방향별 자식 배치 (핵심)
+//    ========================= */
+//   blocks.forEach(b => {
+//     const pid = b.Block_ID;
+//     const parentPos = pos[pid];
+//     if (!parentPos) return;
+
+//     const grouped = {
+//       left: [],
+//       right: [],
+//       top: [],
+//       bottom: [],
+//     };
+
+//     (children[pid] || []).forEach(({ tgt, sH }) => {
+//       if (sH === 3) grouped.right.push(tgt);
+//       if (sH === 9) grouped.left.push(tgt);
+//       if (sH === 6) grouped.bottom.push(tgt);
+//       if (sH === 12) grouped.top.push(tgt);
+//     });
+
+//     /* ⬅ 왼쪽 (가로 1:1) */
+//     grouped.left.forEach(tgt => {
+//       if (pos[tgt]) return;
+
+//       const col = parentPos.col - 1;
+//       const row = parentPos.row;
+
+//       pos[tgt] = { col, row };
+//       occupy(col, row);
+//     });
+
+//     /* ➡ 오른쪽 (세로 스택) */
+//     if (grouped.right.length > 0) {
+//       const baseCol = parentPos.col + 1;
+//       const startRow =
+//         parentPos.row - Math.floor((grouped.right.length - 1) / 2);
+
+//       grouped.right.forEach((tgt, i) => {
+//         if (pos[tgt]) return;
+
+//         let row = startRow + i;
+//         while (isUsed(baseCol, row)) row++;
+
+//         pos[tgt] = { col: baseCol, row };
+//         occupy(baseCol, row);
+//       });
+//     }
+
+//     /* ⬇ 아래 (세로 체인) */
+//     grouped.bottom.forEach((tgt, i) => {
+//       if (pos[tgt]) return;
+
+//       let row = parentPos.row + 1 + i;
+//       while (isUsed(parentPos.col, row)) row++;
+
+//       pos[tgt] = { col: parentPos.col, row };
+//       occupy(parentPos.col, row);
+//     });
+
+//     /* ⬆ 위 */
+//     grouped.top.forEach((tgt, i) => {
+//       if (pos[tgt]) return;
+
+//       let row = parentPos.row - 1 - i;
+//       while (isUsed(parentPos.col, row)) row--;
+
+//       pos[tgt] = { col: parentPos.col, row };
+//       occupy(parentPos.col, row);
+//     });
+//   });
+
+//   /* =========================
+//    * 6️⃣ px 좌표 변환
+//    ========================= */
+//   const cols = Object.values(pos).map(p => p.col);
+//   const rows = Object.values(pos).map(p => p.row);
+
+//   const minCol = Math.min(...cols);
+//   const minRow = Math.min(...rows);
+
+//   const positions = {};
+//   Object.entries(pos).forEach(([id, p]) => {
+//     positions[id] = {
+//       x: (p.col - minCol) * GAP_X,
+//       y: (p.row - minRow) * GAP_Y,
+//     };
+//   });
+
+//   /* =========================
+//    * 7️⃣ Edge 생성
+//    ========================= */
+//   const edges = [];
+//   Object.entries(parents).forEach(([tgt, plist]) => {
+//     plist.forEach(({ src, sH }) => {
+//       const dir = handleDir[sH];
+//       if (!dir) return;
+
+//       edges.push({
+//         id: `e-${src}-${tgt}`,
+//         source: src,
+//         target: tgt,
+//         type: 'smoothstep',
+//         sourceHandle: `${src}-source-${dir.sh}`,
+//         targetHandle: `${tgt}-target-${dir.th}`,
+//         markerEnd: { type: MarkerType.ArrowClosed },
+//       });
+//     });
+//   });
+
+//   /* =========================
+//    * 8️⃣ Node 생성
+//    ========================= */
+//   const nodes = blocks.map(b => {
+//     const t = typeMap[b.Block_Type] || 'default';
+//     return {
+//       id: b.Block_ID,
+//       type: t,
+//       position: positions[b.Block_ID],
+//       data: {
+//         label: t,
+//         bullets: [b.Reference_Name || '(no reference)'],
+//       },
+//       style: nodeStyles[t]?.style ?? nodeStyles.default.style,
+//     };
+//   });
+
+//   return { nodes, edges };
+// };
+
+
+
 
 
 
@@ -1149,7 +785,7 @@ rows.forEach((row, rowIdx) => {
     [screenToFlowPosition, type]
   );
 
-  const { getViewport } = useReactFlow();
+
   const { setSelectedBlockId } = useDnD();
 
   // const onNodeClick = useCallback((event, node) => {
@@ -1228,8 +864,8 @@ rows.forEach((row, rowIdx) => {
           defaultViewport={defaultViewport}
           minZoom={0.1}
           maxZoom={4}
-          fitView
-          fitViewOptions={{ padding: 0.1 }}
+          // fitView
+          // fitViewOptions={{ padding: 0.1 }}
           style={{ backgroundColor: '#F7F9FB', height: '100vh', width: '100%' }}
           connectionLineComponent={(props) => (
             <g>
