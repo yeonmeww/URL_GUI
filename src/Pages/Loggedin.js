@@ -10,6 +10,8 @@ const Loggedin = ({ setIsLoggedIn, userEmail }) => {
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('Email');
+        localStorage.removeItem('realname')
         setIsLoggedIn(false);
         navigate('/Login');
     };
@@ -27,16 +29,22 @@ const Loggedin = ({ setIsLoggedIn, userEmail }) => {
 
                     <div className="form-group">
                         <div className="id-row">
-                            <label>ID</label>
+                            <label>이름</label>
                             <span style={{ fontSize: '14px', color: '#333' }}>
-                            {userEmail || localStorage.getItem('userEmail') || '사용자'}
-                        </span>
+                            {userEmail || localStorage.getItem('realname')}
+                            </span>
                         </div>
                         <div className="id-row">
-                            <label>Status</label>
-                            <span style={{ fontSize: '14px', color: 'green' }}>
-                            ✅ 로그인됨
-                        </span>
+                            <label>ID</label>
+                            <span style={{ fontSize: '14px', color: '#333' }}>
+                            {userEmail || localStorage.getItem('Email')}
+                            </span>
+                        </div>
+                        <div className="id-row">
+                            <label>Auth</label>
+                            <span style={{ fontSize: '14px' }}>
+                            Admin
+                            </span>
                         </div>
                     </div>
 

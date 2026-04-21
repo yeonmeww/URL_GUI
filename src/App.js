@@ -122,8 +122,20 @@ const Layout = ({ isLoggedIn, setIsLoggedIn }) => {
               {isLoggedIn ? (
                   <button
                       className="nav-button"
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        padding: 0,
+                        margin: 0,
+                        color: '#ecf0f1',
+                        textDecoration: 'none',
+                        fontSize: '18px',
+                        fontFamily: 'inherit',
+                        fontWeight: 'inherit',
+                        lineHeight: 'inherit',
+                        cursor: 'pointer'
+                      }}
                       onClick={() => { setIsLoggedIn(false); alert('로그아웃 되었습니다.'); }}
-                      style={{ background: 'none', color: '#ecf0f1', border: 'none', fontFamily: 'Arial, sans-serif' }}
                   >
                     Logout
                   </button>

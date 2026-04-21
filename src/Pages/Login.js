@@ -51,16 +51,19 @@ const Login = ( { setIsLoggedIn } ) => {
                 }),
             });
 
+            const result = await response.json();
+
             if (response.ok) {
                 const accessToken = response.headers.get('Authorization');
                 const refreshToken = response.headers.get('refreshToken');
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
+                localStorage.setItem('Email', result.data.username);
+                localStorage.setItem('realname', result.data.realname);
                 alert('로그인 성공!');
                 setIsLoggedIn(true);
                 navigate('/');
             } else {
-                const result = await response.json();
                 alert(result.message || '로그인 실패');
             }
         } catch (error) {
