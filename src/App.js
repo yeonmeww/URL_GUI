@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, Outlet, useLocation } fro
 import HomeDashBoard from './Pages/Home/HomeDashBoard';
 import UserInformation from './Pages/UserInformation';
 import Login from './Pages/Login';
+import Loggedin from './Pages/Loggedin';
 import Recipe from './Pages/Recipe/Recipe';
 import Code from './Pages/Code/Code';
 import Search from './Pages/Search/Search';
@@ -152,7 +153,7 @@ export default function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}>
-            <Route index element={<HomeDashBoard />} />
+            <Route index element={isLoggedIn ? <Loggedin setIsLoggedIn={setIsLoggedIn} /> : <HomeDashBoard />} />
             <Route path="User Information" element={<UserInformation />} />
             <Route path="Login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="Recipe" element={<Recipe />} />
