@@ -1,0 +1,123 @@
+{
+  "info": [
+    {
+      "aliasId": "mat_alias_2503_1",
+      "aliasSequenceNo": 1,
+      "aliasName": "M_Anode_001",
+      "materialId": "mat_2503_1",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_2",
+      "aliasSequenceNo": 2,
+      "aliasName": "M_Anode_002",
+      "materialId": "mat_2503_2",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_3",
+      "aliasSequenceNo": 3,
+      "aliasName": "M_Anode_003",
+      "materialId": "mat_2503_3",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_4",
+      "aliasSequenceNo": 4,
+      "aliasName": "M_Anode_004",
+      "materialId": "mat_2503_4",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_5",
+      "aliasSequenceNo": 5,
+      "aliasName": "M_Anode_005",
+      "materialId": "mat_2503_5",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_6",
+      "aliasSequenceNo": 6,
+      "aliasName": "M_Anode_006",
+      "materialId": "mat_2503_6",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_7",
+      "aliasSequenceNo": 7,
+      "aliasName": "M_Anode_007",
+      "materialId": "mat_2503_7",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_8",
+      "aliasSequenceNo": 8,
+      "aliasName": "PM_Anode_001",
+      "materialId": "mat_2503_8",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_9",
+      "aliasSequenceNo": 9,
+      "aliasName": "PM_Anode_002",
+      "materialId": "mat_2503_9",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_10",
+      "aliasSequenceNo": 10,
+      "aliasName": "PM_Anode_003",
+      "materialId": "mat_2503_10",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_11",
+      "aliasSequenceNo": 11,
+      "aliasName": "PM_Anode_004",
+      "materialId": "mat_2503_11",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_12",
+      "aliasSequenceNo": 12,
+      "aliasName": "PM_Anode_005",
+      "materialId": "mat_2503_12",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_13",
+      "aliasSequenceNo": 13,
+      "aliasName": "PM_Anode_006",
+      "materialId": "mat_2503_13",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2503_14",
+      "aliasSequenceNo": 14,
+      "aliasName": "PM_Anode_007",
+      "materialId": "mat_2503_14",
+      "registrationDate": "2025-03-28"
+    },
+    {
+      "aliasId": "mat_alias_2505_15",
+      "aliasSequenceNo": 15,
+      "aliasName": "mat_yy_20250213_171717",
+      "materialId": "mat_2505_15",
+      "registrationDate": "2025-05-04"
+    },
+    {
+      "aliasId": "mat_alias_2505_16",
+      "aliasSequenceNo": 16,
+      "aliasName": "mat_yy_20250213_171717",
+      "materialId": "mat_2505_16",
+      "registrationDate": "2025-05-04"
+    },
+    {
+      "aliasId": "mat_alias_2505_17",
+      "aliasSequenceNo": 17,
+      "aliasName": "mat_yy_20250213_171717",
+      "materialId": "mat_2505_17",
+      "registrationDate": "2025-05-04"
+    }
+  ]
+}

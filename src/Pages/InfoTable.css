@@ -1,0 +1,72 @@
+/* InfoTable Component Styles */
+.table-container {
+  width: 97%;
+  overflow-y: auto; /* 세로 스크롤 추가 */
+  max-height: 500px; /* (선택) 최대 높이만 제한하고 넘으면 스크롤 */
+  margin: 20px;
+  background-color: rgb(255, 255, 255);
+}
+
+
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* 고정 테이블 레이아웃을 사용하여 셀 너비 제어 */
+}
+
+.table thead {
+  position: sticky;
+  top: 0;
+  background-color: #1a2b5d;
+  z-index: 1; 
+}
+
+.table th, .table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  word-wrap: break-word; /* 긴 단어를 끊어서 줄바꿈 */
+  overflow-wrap: break-word; /* 모던 브라우저 지원 */
+  word-break: break-all; /* 모든 문자에서 줄바꿈 허용 */
+}
+
+
+.table th {
+  color: white;
+  white-space: pre-wrap; /* 줄바꿈 허용 */
+  word-break: keep-all;  /* 단어 단위로 줄바꿈 */
+  text-align: center;    /* 중앙 정렬 (선택사항) */
+  padding: 8px;          /* 패딩 여유 */
+  line-height: 1.4;      /* 줄 간격 */
+  font-weight: bold;     /* 글씨 두껍게 */
+}
+
+th.small-text {
+  font-size: 0.9em; 
+}
+
+.table-cell {
+  vertical-align: top;
+}
+
+
+
+
+.cell-content {
+  white-space: pre-wrap; /* 공백과 줄바꿈 보존 */
+  max-height: none; /* 높이 제한 없음 */
+  overflow: visible; /* 내용이 넘치더라도 보이게 함 */
+  line-height: 1.4; /* 줄 간격 조정으로 가독성 향상 */
+}
+
+/* 반응형 테이블을 위한 미디어 쿼리 추가 */
+@media screen and (max-width: 500px) {
+  .table {
+    font-size: 14px;
+  }
+  
+  .table th, .table td {
+    padding: 6px;
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "info": [
+    {
+      "Equipment_ID": "EQ_Anode__001",
+      "Equipment_Name": "Ball miller",
+      "Model_number": "NA",
+      "Manufacturer": "NA",
+      "Application_Class_1": "Mixing",
+      "Application_Class_2": "Mechanical mixing",
+      "Application_Class_3": "Grinding"
+    },
+    {
+      "Equipment_ID": "EQ_Anode__002",
+      "Equipment_Name": "Oven",
+      "Model_number": "NA",
+      "Manufacturer": "NA",
+      "Application_Class_1": "Heat treatment",
+      "Application_Class_2": "Slurry heating",
+      "Application_Class_3": "Slurry heating"
+    },
+    {
+      "Equipment_ID": "EQ_Anode__003",
+      "Equipment_Name": "Mortar and pestle",
+      "Model_number": "NA",
+      "Manufacturer": "NA",
+      "Application_Class_1": "Mixing",
+      "Application_Class_2": "Mechanical mixing",
+      "Application_Class_3": "Grinding"
+    },
+    {
+      "Equipment_ID": "EQ_Anode__004",
+      "Equipment_Name": "Pelletizer",
+      "Model_number": "NA",
+      "Manufacturer": "NA",
+      "Application_Class_1": "Binding",
+      "Application_Class_2": "Mechanical binding",
+      "Application_Class_3": "Pelletizing"
+    },
+    {
+      "Equipment_ID": "EQ_Anode__005",
+      "Equipment_Name": "Furnace",
+      "Model_number": "NA",
+      "Manufacturer": "NA",
+      "Application_Class_1": "Heat treatment",
+      "Application_Class_2": "Heat treatment",
+      "Application_Class_3": "Heat treatment"
+    },
+    {
+      "Equipment_ID": "EQ_Anode__006",
+      "Equipment_Name": "Ultrasonic Cleaner",
+      "Model_number": "UC-100",
+      "Manufacturer": "CleanTech",
+      "Application_Class_1": "Cleaning",
+      "Application_Class_2": "Ultrasonic cleaning",
+      "Application_Class_3": "Surface preparation"
+    },
+    {
+      "Equipment_ID": "EQ_Anode__007",
+      "Equipment_Name": "Vacuum Oven",
+      "Model_number": "VO-250",
+      "Manufacturer": "HeatWorks",
+      "Application_Class_1": "Drying",
+      "Application_Class_2": "Vacuum heating",
+      "Application_Class_3": "Solvent removal"
+    },
+    {
+      "Equipment_ID": "EQ_Anode__008",
+      "Equipment_Name": "Hot Plate",
+      "Model_number": "HP-300",
+      "Manufacturer": "ThermoPlus",
+      "Application_Class_1": "Heating",
+      "Application_Class_2": "Surface heating",
+      "Application_Class_3": "Low-temp treatment"
+    },
+    {
+      "Equipment_ID": "EQ_Anode__009",
+      "Equipment_Name": "Magnetic Stirrer",
+      "Model_number": "MS-220",
+      "Manufacturer": "StirMaster",
+      "Application_Class_1": "Mixing",
+      "Application_Class_2": "Solution preparation",
+      "Application_Class_3": "Continuous stirring"
+    },
+    {
+      "Equipment_ID": "EQ_Anode__010",
+      "Equipment_Name": "Hydraulic Press",
+      "Model_number": "HPX-600",
+      "Manufacturer": "PressCore",
+      "Application_Class_1": "Shaping",
+      "Application_Class_2": "Pellet pressing",
+      "Application_Class_3": "Compression molding"
+    }
+  ]
+}

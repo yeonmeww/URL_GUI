@@ -1,0 +1,114 @@
+{
+  "info": [
+    {
+      "Analysis_ID": "A_Anode_001",
+      "Analysis_Name": "XRD",
+      "Analysis_Class_1": "Determination of crystal symmetry",
+      "Analysis_Class_2": "Lattice parameter measurement",
+      "Analysis_Class_3": "Crystallite size determination",
+      "Equipment_ID": "XRD",
+      "Analysis_Purpose": "Crystal structure analysis",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_002",
+      "Analysis_Name": "SEM",
+      "Analysis_Class_1": "Surface morphology",
+      "Analysis_Class_2": "Grain size",
+      "Analysis_Class_3": "Morphology",
+      "Equipment_ID": "SEM",
+      "Analysis_Purpose": "Morphology",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_003",
+      "Analysis_Name": "TEM",
+      "Analysis_Class_1": "Internal structure imaging",
+      "Analysis_Class_2": "Atomic resolution",
+      "Analysis_Class_3": "Lattice imaging",
+      "Equipment_ID": "TEM",
+      "Analysis_Purpose": "Nanostructure observation",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_004",
+      "Analysis_Name": "FTIR",
+      "Analysis_Class_1": "Chemical bonding analysis",
+      "Analysis_Class_2": "Infrared absorption",
+      "Analysis_Class_3": "Functional group detection",
+      "Equipment_ID": "FTIR",
+      "Analysis_Purpose": "Chemical identification",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_005",
+      "Analysis_Name": "TGA",
+      "Analysis_Class_1": "Thermal decomposition",
+      "Analysis_Class_2": "Weight change measurement",
+      "Analysis_Class_3": "Organic content estimation",
+      "Equipment_ID": "TGA",
+      "Analysis_Purpose": "Thermal stability analysis",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_006",
+      "Analysis_Name": "BET",
+      "Analysis_Class_1": "Surface area measurement",
+      "Analysis_Class_2": "Gas adsorption",
+      "Analysis_Class_3": "Porosity analysis",
+      "Equipment_ID": "BET",
+      "Analysis_Purpose": "Surface characterization",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_007",
+      "Analysis_Name": "Raman",
+      "Analysis_Class_1": "Molecular vibration",
+      "Analysis_Class_2": "Raman shift analysis",
+      "Analysis_Class_3": "Bond structure detection",
+      "Equipment_ID": "Raman",
+      "Analysis_Purpose": "Phase identification",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_008",
+      "Analysis_Name": "XPS",
+      "Analysis_Class_1": "Surface chemical states",
+      "Analysis_Class_2": "Elemental composition",
+      "Analysis_Class_3": "Binding energy analysis",
+      "Equipment_ID": "XPS",
+      "Analysis_Purpose": "Surface chemistry",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_009",
+      "Analysis_Name": "EDS",
+      "Analysis_Class_1": "Elemental mapping",
+      "Analysis_Class_2": "Composition detection",
+      "Analysis_Class_3": "Spatial resolution",
+      "Equipment_ID": "EDS",
+      "Analysis_Purpose": "Elemental analysis",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    },
+    {
+      "Analysis_ID": "A_Anode_010",
+      "Analysis_Name": "UV-Vis",
+      "Analysis_Class_1": "Optical absorption",
+      "Analysis_Class_2": "Band gap estimation",
+      "Analysis_Class_3": "Wavelength analysis",
+      "Equipment_ID": "UV-Vis",
+      "Analysis_Purpose": "Optical property evaluation",
+      "Physical_Quantity": "",
+      "Physical_Quantity_Unit": ""
+    }
+  ]
+}

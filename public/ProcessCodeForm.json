@@ -1,0 +1,94 @@
+{
+  "info": [
+    {
+      "Process_ID": "PC_Anode_001",
+      "Process_Name": "Ball milling",
+      "Process_Class_1": "Mixing",
+      "Process_Class_2": "Mechanical mixing",
+      "Process_Class_3": "Grinding",
+      "Equipment_ID": "EQ_Anode__001",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_002",
+      "Process_Name": "Drying",
+      "Process_Class_1": "Heat treatment",
+      "Process_Class_2": "Slurry heating",
+      "Process_Class_3": "Slurry heating",
+      "Equipment_ID": "EQ_Anode__002",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_003",
+      "Process_Name": "Grinding",
+      "Process_Class_1": "Mixing",
+      "Process_Class_2": "Mechanical mixing",
+      "Process_Class_3": "Grinding",
+      "Equipment_ID": "EQ_Anode__003",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_004",
+      "Process_Name": "Sieving",
+      "Process_Class_1": "Mixing",
+      "Process_Class_2": "Mechanical mixing",
+      "Process_Class_3": "Sieving",
+      "Equipment_ID": "NA (hand)",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_005",
+      "Process_Name": "Pelletizing",
+      "Process_Class_1": "Binding",
+      "Process_Class_2": "Mechanical binding",
+      "Process_Class_3": "Pelletizing",
+      "Equipment_ID": "EQ_Anode__004",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_006",
+      "Process_Name": "Sintering",
+      "Process_Class_1": "Heat treatment",
+      "Process_Class_2": "Pellet sintering",
+      "Process_Class_3": "Pellet sintering",
+      "Equipment_ID": "EQ_Anode__005",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_007",
+      "Process_Name": "Coating",
+      "Process_Class_1": "Surface modification",
+      "Process_Class_2": "Chemical coating",
+      "Process_Class_3": "Uniform layer",
+      "Equipment_ID": "EQ_Anode__006",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_008",
+      "Process_Name": "Calcination",
+      "Process_Class_1": "Heat treatment",
+      "Process_Class_2": "High temperature",
+      "Process_Class_3": "Decomposition",
+      "Equipment_ID": "EQ_Anode__007",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_009",
+      "Process_Name": "Slurry Preparation",
+      "Process_Class_1": "Mixing",
+      "Process_Class_2": "Wet mixing",
+      "Process_Class_3": "Viscous blending",
+      "Equipment_ID": "EQ_Anode__008",
+      "Remark": ""
+    },
+    {
+      "Process_ID": "PC_Anode_010",
+      "Process_Name": "Lamination",
+      "Process_Class_1": "Shaping",
+      "Process_Class_2": "Layer stacking",
+      "Process_Class_3": "Pressing",
+      "Equipment_ID": "EQ_Anode__009",
+      "Remark": ""
+    }
+  ]
+}
