@@ -1,0 +1,154 @@
+/* Loggedin.css */
+
+.loggedin-full {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.loggedin-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+/* 헤더 */
+.loggedin-header {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.loggedin-logo {
+    height: 40px;
+    object-fit: contain;
+}
+
+.btn-logout {
+    padding: 8px 20px;
+    background-color: #EBCDCF;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-logout:hover {
+    background-color: #e69ca1;
+}
+
+/* 메인 카드 */
+.loggedin-card {
+    background-color: white;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* 환영 섹션 */
+.welcome-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar {
+    font-size: 56px;
+    background-color: #CCDDED;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-section h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.welcome-sub {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+}
+
+/* 메뉴 그리드 */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 10px;
+    background-color: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    font-size: 14px;
+    color: #333;
+}
+
+.menu-item:hover {
+    background-color: #CCDDED;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-icon {
+    font-size: 28px;
+}
+
+.menu-label {
+    font-weight: 500;
+}
+
+/* 하단 기관 로고 (Login.css 동일) */
+.institution-row-wrapper {
+    background-color: white;
+    padding: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.institution-row {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 30px;
+    width: 100%;
+    max-width: 1600px;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.institution-row img {
+    width: 100%;
+    max-height: 38px;
+    object-fit: contain;
+    opacity: 0.95;
+}
