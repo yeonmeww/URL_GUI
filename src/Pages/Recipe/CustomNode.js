@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Handle, Position } from 'reactflow';
 import nodeStyles from './nodeStyle';
@@ -8,22 +7,26 @@ const CustomNode = ({ id, type, data, selected }) => {
 
   const baseStyle = nodeStyles[type]?.style || {};
   const label = data?.label || nodeStyles[type]?.label || type;
-  const bullets = data?.bullets || []; // 기본값 지정 가능
+  const bullets = data?.bullets || [];
+  const isGroupNode = Boolean(data?.isGroup || data?.isGroupNode);
+  const isActive = Boolean(selected || data?.isSelected);
+  const customNodeStyle = data?.nodeStyle || {};
 
   const style = {
     ...baseStyle,
+    ...customNodeStyle,
     position: 'relative',
-    // border: selected || hovered ? '2px solid #007aff' : '2px solid transparent',
-	border: '2px solid #000000',
-
-    // borderRadius: 8,
-    boxShadow: selected || hovered ? '0 0 10px rgba(255, 0, 0, 0.4)' : 'none',
-    // transition: 'border 0.2s ease, box-shadow 0.2s ease',
+    border: customNodeStyle.border || (isActive ? '3px solid #007aff' : '2px solid #000000'),
+    boxShadow:
+      customNodeStyle.boxShadow ||
+      (isActive || hovered ? '0 0 10px rgba(0, 122, 255, 0.35)' : 'none'),
+    transition: 'border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease',
     padding: 10,
     display: 'flex',
-    flexDirection: 'column', // 세로 정렬
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    cursor: isGroupNode ? 'pointer' : baseStyle.cursor,
   };
 
   return (
@@ -32,9 +35,8 @@ const CustomNode = ({ id, type, data, selected }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* 큰 라벨 */}
       <div style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 8, textAlign: 'center' }}>
-  {label}
+        {label}
       </div>
 
       {bullets.length > 0 && (
@@ -45,19 +47,20 @@ const CustomNode = ({ id, type, data, selected }) => {
         </ul>
       )}
 
-
-      {/* Handles */}
-      <Handle type="target" position={Position.Top} id={`${id}-target-top`} />
-      <Handle type="source" position={Position.Top} id={`${id}-source-top`} />
-      <Handle type="target" position={Position.Bottom} id={`${id}-target-bottom`} />
-      <Handle type="source" position={Position.Bottom} id={`${id}-source-bottom`} />
-      <Handle type="target" position={Position.Left} id={`${id}-target-left`} />
-      <Handle type="source" position={Position.Left} id={`${id}-source-left`} />
-      <Handle type="target" position={Position.Right} id={`${id}-target-right`} />
-      <Handle type="source" position={Position.Right} id={`${id}-source-right`} />
+      {!isGroupNode && (
+        <>
+          <Handle type="target" position={Position.Top} id={`${id}-target-top`} />
+          <Handle type="source" position={Position.Top} id={`${id}-source-top`} />
+          <Handle type="target" position={Position.Bottom} id={`${id}-target-bottom`} />
+          <Handle type="source" position={Position.Bottom} id={`${id}-source-bottom`} />
+          <Handle type="target" position={Position.Left} id={`${id}-target-left`} />
+          <Handle type="source" position={Position.Left} id={`${id}-source-left`} />
+          <Handle type="target" position={Position.Right} id={`${id}-target-right`} />
+          <Handle type="source" position={Position.Right} id={`${id}-source-right`} />
+        </>
+      )}
     </div>
   );
 };
 
 export default CustomNode;
-

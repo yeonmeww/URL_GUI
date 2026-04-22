@@ -6,7 +6,17 @@ import DnDFlow from './DnDFlow';
 import JSONDisplay from './JSONDisplay';
 
 const Recipe = () => {
-  const [selectedRecipeIndex, setSelectedRecipeIndex] = useState(1); // 기본값 1
+  const [selectedRecipeIndex, setSelectedRecipeIndex] = useState(1);
+  const [groupCommand, setGroupCommand] = useState(null);
+  const [groups, setGroups] = useState([]);
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
+
+  const makeGroupCommand = (type) => {
+    setGroupCommand({
+      type,
+      timestamp: Date.now(),
+    });
+  };
 
   return (
     <ReactFlowProvider>
@@ -15,9 +25,20 @@ const Recipe = () => {
           <Sidebar
             selectedRecipeIndex={selectedRecipeIndex}
             onSelectRecipe={setSelectedRecipeIndex}
+            onGroup={() => makeGroupCommand('group')}
+            onUngroup={() => makeGroupCommand('ungroup')}
+            groups={groups}
+            selectedGroupId={selectedGroupId}
+            onSelectGroup={setSelectedGroupId}
           />
 
-          <DnDFlow recipeIndex={selectedRecipeIndex} />
+          <DnDFlow
+            recipeIndex={selectedRecipeIndex}
+            groupCommand={groupCommand}
+            onGroupsChange={setGroups}
+            selectedGroupId={selectedGroupId}
+            onSelectedGroupChange={setSelectedGroupId}
+          />
           <JSONDisplay recipeIndex={selectedRecipeIndex} />
         </div>
       </DnDProvider>
