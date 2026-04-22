@@ -56,7 +56,7 @@ useEffect(() => {
                 };
 
                 const genRes = await axios.post(
-                'http://13.125.96.124:8080/api/v1/recipeInfoGeneral/search',
+                'http://localhost:8080/api/v1/recipeInfoGeneral/search',
                 requestBodyGeneral
                 );
                 setGenData(Array.isArray(genRes.data) ? genRes.data : []);
@@ -98,7 +98,7 @@ useEffect(() => {
         };
 
         const blockRes = await axios.post(
-          'http://13.125.96.124:8080/api/v1/recipeInfoCollected/search',
+          'http://localhost:8080/api/v1/recipeInfoCollected/search',
           requestBodyCollected
         );
 
