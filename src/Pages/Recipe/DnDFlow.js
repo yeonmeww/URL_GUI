@@ -593,8 +593,8 @@ const DnDFlow = ({
           groupId: group.id,
           isSelected,
           nodeStyle: {
-            width: 220,
-            minHeight: 90,
+            width: 260,
+            minHeight: 120,
             border: isSelected ? `4px solid ${group.color}` : `3px solid ${group.color}`,
             borderRadius: 16,
             background: isSelected ? '#eef6ff' : '#fff8e8',
@@ -604,12 +604,13 @@ const DnDFlow = ({
           },
         },
         style: {
-          width: 220,
-          minHeight: 90,
+          width: 260,
+          minHeight: 120,
           zIndex: 50,
           pointerEvents: 'all',
           cursor: 'pointer',
         },
+        selected: isSelected,
         selectable: true,
         draggable: true,
       };
@@ -868,6 +869,8 @@ const DnDFlow = ({
       .filter(Boolean)
       .map((node) => node.data?.label ?? node.type ?? node.id);
 
+    const viewport = getViewport();
+
     setSelectedNode({
       id: selectedGroup.id,
       data: {
@@ -877,12 +880,15 @@ const DnDFlow = ({
         isGroupNode: true,
         groupId: selectedGroup.id,
       },
-      position,
+      position: {
+        x: position.x * viewport.zoom + viewport.x,
+        y: position.y * viewport.zoom + viewport.y,
+      },
     });
     setSelectedNodeIds([]);
     setSelectedBlockId(null);
     setCenter(position.x + 110, position.y + 45, { zoom: 0.8, duration: 250 });
-  }, [selectedGroupId, groups, baseNodes, getGroupPosition, setCenter, setSelectedBlockId, onSelectedGroupChange]);
+  }, [selectedGroupId, groups, baseNodes, getGroupPosition, getViewport, setCenter, setSelectedBlockId, onSelectedGroupChange]);
 
   return (
     <div className="dndflow" style={{ position: 'relative' }}>
@@ -960,8 +966,9 @@ const DnDFlow = ({
               zIndex: 1000,
               fontSize: '14px',
               minWidth: '180px',
+              pointerEvents: 'none',
             }}
-            onClick={(event) => event.stopPropagation()}
+            
           >
             <strong>{selectedNode.data.label}</strong>
             <ul
