@@ -2,6 +2,8 @@ import React, { useRef, useCallback, useEffect, useState } from 'react';
 import {
   ReactFlow,
   addEdge,
+  applyEdgeChanges,
+  applyNodeChanges,
   useNodesState,
   useEdgesState,
   Controls,
@@ -12,12 +14,10 @@ import {
 } from 'reactflow';
 import nodeStyles from './nodeStyle';
 import 'reactflow/dist/style.css';
-import Sidebar from './Sidebar';
 import { useDnD } from './DnDContext';
 import CustomNode from './CustomNode';
-import axios from 'axios';
 import { useNodesInitialized } from 'reactflow';
-
+import recipeGeneralMock from '../../mocks/recipeInfoGeneral.json';
 
 const nodeTypes = {
   custom: CustomNode,
@@ -31,214 +31,133 @@ const nodeTypes = {
 };
 
 const defaultViewport = { x: 0, y: 0, zoom: 0.5 };
+const GROUP_COLORS = ['#ff7b7b', '#7bc7ff', '#9bde7e', '#f7c873', '#c29bff'];
+
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-const DnDFlow = ({ recipeIndex }) => {
-  const nodesInitialized = useNodesInitialized();
-  const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const {
-  screenToFlowPosition,
-  project,
-  fitView,
-  getViewport,
-} = useReactFlow();
-
-
-  const [loading, setLoading] = useState(false);
-
-  const { type } = useDnD();
-
-  const [initialData, setInitialData] = useState({ nodes: [], edges: [] });
-  const [selectedNode, setSelectedNode] = useState(null);
-
-  // Initial Table Data State
-  const [initialTableData, setInitialTableData] = useState([]);
-  const [initialTableHeaders, setInitialTableHeaders] = useState([]);
-
-  // General Table Data State
-  const [generalTableData, setGeneralTableData] = useState([]);
-  const [generalTableHeaders, setGeneralTableHeaders] = useState([]);
-
-  // const makeRecipeId = (recipeIndex) => {
-  //   return `rcp_exp_251121_${recipeIndex}`;
-  // };
-
-  const recipeIdMap = {
-  1: 'rcp_sim_251215_935',
+const recipeIdMap = {
+  1: 'rcp_sim_251215_1',
   2: 'rcp_exp_251215_1038',
   3: 'rcp_exp_251215_1043',
   4: 'rcp_exp_251215_1018',
   5: 'rcp_exp_251215_1060',
 };
 
-const getRecipeId = (recipeIndex) => {
-  return recipeIdMap[recipeIndex] ?? null;
+const getRecipeId = (nextRecipeIndex) => {
+  return recipeIdMap[nextRecipeIndex] ?? null;
 };
-  const recipeLayouts = {
-  rcp_sim_251215_935: [
-    ["Block_1","Block_2","Block_3","Block_4","Block_5","Block_6","Block_7"],
-    ["Block_8","Block_9"],
-    ["Block_10"],
-    ["Block_11","Block_12"],
-    ["Block_13"],
-    ["Block_14"],
-    ["Block_15"],
-  ],
 
+const normalizeRecipeRows = (rowsData) => {
+  return rowsData.map((row) => ({
+    Work_Order_ID: row.wo_id,
+    Recipe_ID: row.rcp_id,
+    Module_ID: row.module_id,
+    Module_No: row.module_no,
+    Block_ID: row.block_id,
+    Block_No: row.block_no,
+    Block_Type: row.block_type,
+    Reference_ID: row.reference_id,
+    Reference_Name: row.reference_id ?? null,
+    Order_Sequence_Number: row.ord_seq_no,
+    Block_Connection_Info: row.block_conn_info,
+  }));
+};
+
+const recipeLayouts = {
+  rcp_sim_251215_1: [
+    ['Block_1', 'Block_2', 'Block_3', 'Block_4', 'Block_5', 'Block_6', 'Block_7'],
+    ['Block_8', 'Block_9'],
+    ['Block_10'],
+    ['Block_11', 'Block_12'],
+    ['Block_13'],
+    ['Block_14'],
+    ['Block_15'],
+  ],
   rcp_exp_251215_1038: [
-    ["Block_1","Block_2","Block_3"],
-    ["Block_4","Block_5"],
-    ["Block_6"],
-    ["Block_7","Block_8","Block_9"],
-    ["Block_10"],
+    ['Block_1', 'Block_2', 'Block_3'],
+    ['Block_4', 'Block_5'],
+    ['Block_6'],
+    ['Block_7', 'Block_8', 'Block_9'],
+    ['Block_10'],
   ],
-
   rcp_exp_251215_1043: [
-    ["Block_1","Block_2","Block_3","Block_4","Block_5","Block_6","Block_7"],
-    ["Block_8"],
-    ["Block_9"],
-    ["Block_10"],
-    ["Block_11"],
-    ["Block_12"],
-    ["Block_13"],
-    ["Block_14","Block_15"],
-    ["Block_16"],
-    ["Block_17"],
-    ["Block_18"],
-    ["Block_19"],
-    ["Block_20","Block_21"],
-    ["Block_22"],
-    ["Block_23"],
-    ["Block_24"],
-    ["Block_25"],
-    ["Block_26","Block_27","Block_28"],
-    ["Block_29"],
-    ["Block_30"],
-    ["Block_31"],
-    ["Block_32"],
-    ["Block_33"],
-    ["Block_34"],
-    ["Block_35"],
-    ["Block_36"],
-    ["Block_37"],
-    ["Block_38"],
-    ["Block_39"],
-    ["Block_40"],
-    ["Block_41"],
+    ['Block_1', 'Block_2', 'Block_3', 'Block_4', 'Block_5', 'Block_6', 'Block_7'],
+    ['Block_8'],
+    ['Block_9'],
+    ['Block_10'],
+    ['Block_11'],
+    ['Block_12'],
+    ['Block_13'],
+    ['Block_14', 'Block_15'],
+    ['Block_16'],
+    ['Block_17'],
+    ['Block_18'],
+    ['Block_19'],
+    ['Block_20', 'Block_21'],
+    ['Block_22'],
+    ['Block_23'],
+    ['Block_24'],
+    ['Block_25'],
+    ['Block_26', 'Block_27', 'Block_28'],
+    ['Block_29'],
+    ['Block_30'],
+    ['Block_31'],
+    ['Block_32'],
+    ['Block_33'],
+    ['Block_34'],
+    ['Block_35'],
+    ['Block_36'],
+    ['Block_37'],
+    ['Block_38'],
+    ['Block_39'],
+    ['Block_40'],
+    ['Block_41'],
   ],
-
-
   rcp_exp_251215_1018: [
-    ["Block_1"],
-    ["Block_2"],
-    ["Block_3"],
-    ["Block_4"],
-    ["Block_7", "Block_14"],
-
+    ['Block_1'],
+    ['Block_2'],
+    ['Block_3'],
+    ['Block_4'],
+    ['Block_7', 'Block_14'],
   ],
-
-  
   rcp_exp_251215_1060: [
-    ["Block_1"],
-    ["Block_2"],
-    ["Block_3"]
+    ['Block_1'],
+    ['Block_2'],
+    ['Block_3'],
   ],
 };
-
-const recipeId = getRecipeId(recipeIndex);
-const rows = recipeLayouts[recipeId] ?? [];
-
-  useEffect(() => {
-  if (!recipeIndex) return;
-  const fetchNodesData = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        'http://13.125.96.124:8080/api/v1/recipeInfoGeneral'
-      );
-
-      const gen_data = response.data;
-      const recipeId = getRecipeId(recipeIndex);
-
-      if (Array.isArray(gen_data)) {
-        const filtered = gen_data.filter(
-          item => item.Recipe_ID === recipeId
-        );
-
-        const processed = generateNodesAndEdges(filtered, recipeIndex);
-
-        setInitialData(processed);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false); 
-    }
-  };
-
-  fetchNodesData();
-}, [recipeIndex]);
-
-
-  useEffect(() => {
-    if (initialData.nodes.length > 0) {
-      setNodes(initialData.nodes);
-      setEdges(initialData.edges);
-    }
-  }, [initialData, setNodes, setEdges]);
-
-  useEffect(() => {
-  if (!nodesInitialized) return;
-
-  fitView({ padding: 0.1, duration: 300 });
-}, [recipeIndex, nodesInitialized, fitView]);
-
-
-
 
 const manualPositionsRecipe4 = {
-  // 왼쪽 세로
-  Block_1:  { x: 0,   y: 0 },
-  Block_2:  { x: 0,   y: 160 },
-  Block_3:  { x: 0,   y: 320 },
-  Block_4:  { x: 0,   y: 480 },
-  Block_7: { x: 0,   y: 640 },
+  Block_1: { x: 0, y: 0 },
+  Block_2: { x: 0, y: 160 },
+  Block_3: { x: 0, y: 320 },
+  Block_4: { x: 0, y: 480 },
+  Block_7: { x: 0, y: 640 },
   Block_14: { x: 260, y: 640 },
-
-  // 오른쪽 상단 분기
-  Block_5:  { x: 620, y: 0 },
-  Block_6:  { x: 880, y: 0 },
-
-  // 중앙 세로
-  Block_8:  { x: 750, y: 160 },
-  Block_9:  { x: 750, y: 320 },
+  Block_5: { x: 620, y: 0 },
+  Block_6: { x: 880, y: 0 },
+  Block_8: { x: 750, y: 160 },
+  Block_9: { x: 750, y: 320 },
   Block_10: { x: 750, y: 480 },
   Block_12: { x: 750, y: 640 },
-
-  // 하단 분기
   Block_11: { x: 530, y: 640 },
   Block_13: { x: 1010, y: 640 },
   Block_15: { x: 1010, y: 780 },
   Block_16: { x: 1010, y: 920 },
 };
 
-
 const manualPositionsRecipe3 = {
-  // 상단 가로
-  Block_1: { x: 0,    y: 0 },
-  Block_2: { x: 260,  y: 0 },
-  Block_3: { x: 520,  y: 0 },
-  Block_4: { x: 780,  y: 0 },
+  Block_1: { x: 0, y: 0 },
+  Block_2: { x: 260, y: 0 },
+  Block_3: { x: 520, y: 0 },
+  Block_4: { x: 780, y: 0 },
   Block_5: { x: 1040, y: 0 },
   Block_6: { x: 1300, y: 0 },
   Block_7: { x: 1560, y: 0 },
 
-  // 메인 세로
-  Block_8:  { x: 780, y: 160 },
-  Block_9:  { x: 780, y: 320 },
+  Block_8: { x: 780, y: 160 },
+  Block_9: { x: 780, y: 320 },
   Block_10: { x: 780, y: 480 },
   Block_11: { x: 780, y: 640 },
   Block_12: { x: 780, y: 800 },
@@ -250,22 +169,17 @@ const manualPositionsRecipe3 = {
   Block_18: { x: 780, y: 1760 },
   Block_19: { x: 780, y: 1920 },
 
-  // 우측
   Block_20: { x: 1670, y: 480 },
   Block_21: { x: 1930, y: 480 },
   Block_22: { x: 1800, y: 640 },
   Block_23: { x: 1800, y: 640 },
   Block_24: { x: 1800, y: 800 },
-
   Block_25: { x: 1800, y: 960 },
   Block_26: { x: 2060, y: 960 },
   Block_27: { x: 2320, y: 960 },
-
   Block_28: { x: 1800, y: 1120 },
   Block_45: { x: 1800, y: 1280 },
 
-
-  //
   Block_29: { x: 1170, y: 1440 },
   Block_30: { x: 1430, y: 1440 },
   Block_31: { x: 1300, y: 1600 },
@@ -273,12 +187,10 @@ const manualPositionsRecipe3 = {
   Block_33: { x: 1300, y: 1920 },
   Block_34: { x: 1300, y: 2080 },
 
-  //
   Block_35: { x: 1040, y: 1920 },
   Block_36: { x: 1040, y: 2080 },
   Block_47: { x: 1040, y: 2240 },
 
-  //
   Block_37: { x: 1170, y: 320 },
   Block_38: { x: 1430, y: 320 },
   Block_39: { x: 1300, y: 480 },
@@ -290,35 +202,31 @@ const manualPositionsRecipe3 = {
   Block_46: { x: 1300, y: 1280 },
 };
 
-
-const generateNodesAndEdges = (blocks, recipeIndex) => {
+const generateNodesAndEdges = (blocks, nextRecipeIndex) => {
   const GAP_X = 260;
   const GAP_Y = 160;
   const GROUP_GAP_X = 600;
 
-  /* =========================
-   * Parse nodes & edges
-   ========================= */
   const nodesMap = {};
-  const edges = [];
+  const parsedEdges = [];
   let manualPositions = {};
 
-  if (recipeIndex === 3) manualPositions = manualPositionsRecipe3;
-  else if (recipeIndex === 4) manualPositions = manualPositionsRecipe4;
+  if (nextRecipeIndex === 3) manualPositions = manualPositionsRecipe3;
+  else if (nextRecipeIndex === 4) manualPositions = manualPositionsRecipe4;
 
-  blocks.forEach(b => {
-    nodesMap[b.Block_ID] = b;
+  blocks.forEach((block) => {
+    nodesMap[block.Block_ID] = block;
 
-    if (!b.Block_Connection_Info) return;
-    const matches = b.Block_Connection_Info.match(/\{([^}]+)\}/g) || [];
+    if (!block.Block_Connection_Info) return;
+    const matches = block.Block_Connection_Info.match(/\{([^}]+)\}/g) || [];
 
-    matches.forEach(raw => {
+    matches.forEach((raw) => {
       const [src, h1, tgt, h2] = raw
         .replace(/[{}]/g, '')
         .split(',')
-        .map(v => v.trim().replace(/block_/i, 'Block_'));
+        .map((value) => value.trim().replace(/block_/i, 'Block_'));
 
-      edges.push({
+      parsedEdges.push({
         src,
         tgt,
         srcHandle: Number(h1),
@@ -328,131 +236,122 @@ const generateNodesAndEdges = (blocks, recipeIndex) => {
   });
 
   const nodeIds = Object.keys(nodesMap);
-
-  /* =========================
-   * Connected Components
-   ========================= */
   const adj = {};
-  nodeIds.forEach(id => (adj[id] = new Set()));
+  nodeIds.forEach((nextNodeId) => {
+    adj[nextNodeId] = new Set();
+  });
 
-  edges.forEach(e => {
-    adj[e.src]?.add(e.tgt);
-    adj[e.tgt]?.add(e.src);
+  parsedEdges.forEach((edge) => {
+    adj[edge.src]?.add(edge.tgt);
+    adj[edge.tgt]?.add(edge.src);
   });
 
   const visited = new Set();
-  const groups = [];
+  const connectedGroups = [];
 
-  nodeIds.forEach(id => {
-    if (visited.has(id)) return;
-    const stack = [id];
-    const group = [];
+  nodeIds.forEach((nextNodeId) => {
+    if (visited.has(nextNodeId)) return;
+    const stack = [nextNodeId];
+    const connectedGroup = [];
 
     while (stack.length) {
-      const cur = stack.pop();
-      if (visited.has(cur)) continue;
-      visited.add(cur);
-      group.push(cur);
-      adj[cur].forEach(n => stack.push(n));
+      const current = stack.pop();
+      if (visited.has(current)) continue;
+      visited.add(current);
+      connectedGroup.push(current);
+      adj[current].forEach((neighbor) => stack.push(neighbor));
     }
-    groups.push(group);
+
+    connectedGroups.push(connectedGroup);
   });
 
-  /* =========================
-   * Auto layout (기존 로직 그대로)
-   ========================= */
   const autoPos = {};
   let baseX = 0;
 
-  groups.forEach(group => {
+  connectedGroups.forEach((connectedGroup) => {
     const localX = {};
     const localY = {};
 
-    const vEdges = edges.filter(
-      e =>
-        group.includes(e.src) &&
-        group.includes(e.tgt) &&
-        ((e.srcHandle === 6 && e.tgtHandle === 12) ||
-         (e.srcHandle === 12 && e.tgtHandle === 6))
+    const vEdges = parsedEdges.filter(
+      (edge) =>
+        connectedGroup.includes(edge.src) &&
+        connectedGroup.includes(edge.tgt) &&
+        ((edge.srcHandle === 6 && edge.tgtHandle === 12) ||
+          (edge.srcHandle === 12 && edge.tgtHandle === 6))
     );
 
     const vAdj = {};
-    group.forEach(id => (vAdj[id] = []));
+    connectedGroup.forEach((nextNodeId) => {
+      vAdj[nextNodeId] = [];
+    });
 
-    vEdges.forEach(e => {
-      if (e.srcHandle === 6) vAdj[e.src].push(e.tgt);
-      else vAdj[e.tgt].push(e.src);
+    vEdges.forEach((edge) => {
+      if (edge.srcHandle === 6) vAdj[edge.src].push(edge.tgt);
+      else vAdj[edge.tgt].push(edge.src);
     });
 
     const hasParent = new Set(
-      vEdges.map(e => (e.srcHandle === 6 ? e.tgt : e.src))
+      vEdges.map((edge) => (edge.srcHandle === 6 ? edge.tgt : edge.src))
     );
 
-    const roots = group.filter(id => !hasParent.has(id));
+    const roots = connectedGroup.filter((nextNodeId) => !hasParent.has(nextNodeId));
 
     let yCursor = 0;
-    roots.forEach(root => {
-      const q = [root];
-      while (q.length) {
-        const cur = q.shift();
-        if (localY[cur] !== undefined) continue;
-        localY[cur] = yCursor++;
-        vAdj[cur].forEach(n => q.push(n));
+    roots.forEach((root) => {
+      const queue = [root];
+      while (queue.length) {
+        const current = queue.shift();
+        if (localY[current] !== undefined) continue;
+        localY[current] = yCursor++;
+        vAdj[current].forEach((neighbor) => queue.push(neighbor));
       }
     });
 
-    const hEdges = edges.filter(
-      e =>
-        group.includes(e.src) &&
-        group.includes(e.tgt) &&
-        ((e.srcHandle === 3 && e.tgtHandle === 9) ||
-         (e.srcHandle === 9 && e.tgtHandle === 3))
+    const hEdges = parsedEdges.filter(
+      (edge) =>
+        connectedGroup.includes(edge.src) &&
+        connectedGroup.includes(edge.tgt) &&
+        ((edge.srcHandle === 3 && edge.tgtHandle === 9) ||
+          (edge.srcHandle === 9 && edge.tgtHandle === 3))
     );
 
-    group.forEach(id => (localX[id] = 0));
+    connectedGroup.forEach((nextNodeId) => {
+      localX[nextNodeId] = 0;
+    });
 
-    hEdges.forEach(e => {
-      if (e.srcHandle === 3) {
-        localX[e.tgt] = localX[e.src] + 1;
-        localY[e.tgt] = localY[e.src];
+    hEdges.forEach((edge) => {
+      if (edge.srcHandle === 3) {
+        localX[edge.tgt] = localX[edge.src] + 1;
+        localY[edge.tgt] = localY[edge.src];
       } else {
-        localX[e.tgt] = localX[e.src] - 1;
-        localY[e.tgt] = localY[e.src];
+        localX[edge.tgt] = localX[edge.src] - 1;
+        localY[edge.tgt] = localY[edge.src];
       }
     });
 
-    group.forEach(id => {
-      autoPos[id] = {
-        x: baseX + localX[id],
-        y: localY[id] ?? 0,
+    connectedGroup.forEach((nextNodeId) => {
+      autoPos[nextNodeId] = {
+        x: baseX + localX[nextNodeId],
+        y: localY[nextNodeId] ?? 0,
       };
     });
 
     baseX += GROUP_GAP_X / GAP_X;
   });
 
-  /* =========================
-   * px 변환
-   ========================= */
-  const xs = Object.values(autoPos).map(p => p.x);
-  const ys = Object.values(autoPos).map(p => p.y);
-
+  const xs = Object.values(autoPos).map((position) => position.x);
+  const ys = Object.values(autoPos).map((position) => position.y);
   const minX = Math.min(...xs);
   const minY = Math.min(...ys);
 
   const autoPositions = {};
-  Object.entries(autoPos).forEach(([id, p]) => {
-    autoPositions[id] = {
-      x: (p.x - minX) * GAP_X,
-      y: (p.y - minY) * GAP_Y,
+  Object.entries(autoPos).forEach(([nextNodeId, position]) => {
+    autoPositions[nextNodeId] = {
+      x: (position.x - minX) * GAP_X,
+      y: (position.y - minY) * GAP_Y,
     };
   });
 
- 
-
-  /* =========================
-   * ReactFlow edges
-   ========================= */
   const handleMap = {
     3: ['right', 'left'],
     9: ['left', 'right'],
@@ -460,24 +359,23 @@ const generateNodesAndEdges = (blocks, recipeIndex) => {
     12: ['top', 'bottom'],
   };
 
-  const rfEdges = edges.map(e => {
-    const h = handleMap[e.srcHandle];
-    if (!h) return null;
+  const rfEdges = parsedEdges
+    .map((edge) => {
+      const handles = handleMap[edge.srcHandle];
+      if (!handles) return null;
 
-    return {
-      id: `e-${e.src}-${e.tgt}`,
-      source: e.src,
-      target: e.tgt,
-      sourceHandle: `${e.src}-source-${h[0]}`,
-      targetHandle: `${e.tgt}-target-${h[1]}`,
-      type: 'smoothstep',
-      markerEnd: { type: MarkerType.ArrowClosed },
-    };
-  }).filter(Boolean);
+      return {
+        id: `e-${edge.src}-${edge.tgt}`,
+        source: edge.src,
+        target: edge.tgt,
+        sourceHandle: `${edge.src}-source-${handles[0]}`,
+        targetHandle: `${edge.tgt}-target-${handles[1]}`,
+        type: 'smoothstep',
+        markerEnd: { type: MarkerType.ArrowClosed },
+      };
+    })
+    .filter(Boolean);
 
-  /* =========================
-   * ReactFlow nodes
-   ========================= */
   const typeMap = {
     M: 'Material',
     P: 'Process',
@@ -487,351 +385,513 @@ const generateNodesAndEdges = (blocks, recipeIndex) => {
     PR: 'Product',
   };
 
-  const rfNodes = blocks.map(b => ({
-    id: b.Block_ID,
-    type: typeMap[b.Block_Type] || 'default',
+  const rfNodes = blocks.map((block) => ({
+    id: block.Block_ID,
+    type: typeMap[block.Block_Type] || 'default',
     position:
-      manualPositions[b.Block_ID] ??
-      autoPositions[b.Block_ID] ??
+      manualPositions[block.Block_ID] ??
+      autoPositions[block.Block_ID] ??
       { x: 0, y: 0 },
-
     data: {
-      label: typeMap[b.Block_Type],
-      bullets: b.Reference_Name ? [b.Reference_Name] : [],
-
+      label: typeMap[block.Block_Type],
+      bullets: block.Reference_Name ? [block.Reference_Name] : [],
     },
-    style: nodeStyles[typeMap[b.Block_Type]]?.style,
+    style: nodeStyles[typeMap[block.Block_Type]]?.style,
   }));
 
   return { nodes: rfNodes, edges: rfEdges };
 };
 
+const DnDFlow = ({
+  recipeIndex,
+  groupCommand,
+  onGroupsChange,
+  selectedGroupId,
+  onSelectedGroupChange,
+}) => {
+  const nodesInitialized = useNodesInitialized();
+  const reactFlowWrapper = useRef(null);
+  const lastHandledGroupCommandRef = useRef(null);
 
+  const [nodes, setNodes] = useNodesState([]);
+  const [edges, setEdges] = useEdgesState([]);
 
+  const { screenToFlowPosition, fitView, getViewport, setCenter } = useReactFlow();
+  const { type, setSelectedBlockId } = useDnD();
 
+  const [loading, setLoading] = useState(false);
+  const [initialData, setInitialData] = useState({ nodes: [], edges: [] });
+  const [baseNodes, setBaseNodes] = useState([]);
+  const [baseEdges, setBaseEdges] = useState([]);
+  const [selectedNode, setSelectedNode] = useState(null);
+  const [selectedNodeIds, setSelectedNodeIds] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [groupSeq, setGroupSeq] = useState(1);
 
-// const generateNodesAndEdges = (data) => {
-//   const GAP_X = 260;
-//   const GAP_Y = 160;
+  const recipeId = getRecipeId(recipeIndex);
+  const hasKnownRecipeLayout = Boolean(recipeLayouts[recipeId]?.length);
 
-//   const typeMap = {
-//     M: 'Material',
-//     P: 'Process',
-//     A: 'Analysis',
-//     R: 'Result',
-//     S: 'Simulation',
-//     PR: 'Product',
-//   };
+  const getGroupPosition = useCallback((nodeIds, fallbackPosition = { x: 0, y: 0 }) => {
+    const memberNodes = baseNodes.filter((node) => nodeIds.includes(node.id));
 
-//   const handleDir = {
-//     3: { dx: 1, dy: 0, sh: 'right', th: 'left' },   // →
-//     9: { dx: -1, dy: 0, sh: 'left', th: 'right' }, // ←
-//     6: { dx: 0, dy: 1, sh: 'bottom', th: 'top' },  // ↓
-//     12:{ dx: 0, dy: -1, sh: 'top', th: 'bottom' }, // ↑
-//   };
+    if (memberNodes.length === 0) {
+      return fallbackPosition;
+    }
 
-//   /* =========================
-//    * 1️⃣ Block_ID 숫자 기준 정렬
-//    ========================= */
-//   const blocks = [...data].sort(
-//     (a, b) =>
-//       Number(a.Block_ID.split('_')[1]) -
-//       Number(b.Block_ID.split('_')[1])
-//   );
+    const total = memberNodes.reduce(
+      (acc, node) => ({
+        x: acc.x + node.position.x,
+        y: acc.y + node.position.y,
+      }),
+      { x: 0, y: 0 }
+    );
 
-//   /* =========================
-//    * 2️⃣ 연결 정보 파싱
-//    ========================= */
-//   const parents = {};
-//   const children = {};
+    return {
+      x: total.x / memberNodes.length,
+      y: total.y / memberNodes.length,
+    };
+  }, [baseNodes]);
 
-//   blocks.forEach(b => {
-//     parents[b.Block_ID] = [];
-//     children[b.Block_ID] = [];
-//   });
+  useEffect(() => {
+    setSelectedNode(null);
+    setSelectedNodeIds([]);
+    setGroups([]);
+    setGroupSeq(1);
+    setSelectedBlockId(null);
+    onSelectedGroupChange?.(null);
+    lastHandledGroupCommandRef.current = null;
+    onGroupsChange?.([]);
+  }, [recipeId, setSelectedBlockId, onGroupsChange, onSelectedGroupChange]);
 
-//   blocks.forEach(b => {
-//     if (!b.Block_Connection_Info) return;
+  useEffect(() => {
+    if (!recipeIndex) return;
 
-//     const matches = b.Block_Connection_Info.match(/\{([^}]+)\}/g) || [];
-//     matches.forEach(raw => {
-//       const [src, sH, tgt] = raw
-//         .replace(/[{}]/g, '')
-//         .split(',')
-//         .map(v => v.trim().replace(/block_/i, 'Block_'));
+    const fetchNodesData = async () => {
+      setLoading(true);
+      try {
+        const normalized = normalizeRecipeRows(recipeGeneralMock);
+        const filtered = normalized.filter((item) => item.Recipe_ID === recipeId);
 
-//       parents[tgt].push({ src, sH: Number(sH) });
-//       children[src].push({ tgt, sH: Number(sH) });
-//     });
-//   });
+        if (filtered.length === 0 && !hasKnownRecipeLayout) {
+          setInitialData({ nodes: [], edges: [] });
+          return;
+        }
 
-//   /* =========================
-//    * 3️⃣ 좌표 관리
-//    ========================= */
-//   const pos = {};
-//   const occupied = new Set();
+        const processed = generateNodesAndEdges(filtered, recipeIndex);
+        setInitialData(processed);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-//   const key = (c, r) => `${c},${r}`;
-//   const isUsed = (c, r) => occupied.has(key(c, r));
-//   const occupy = (c, r) => occupied.add(key(c, r));
+    fetchNodesData();
+  }, [recipeIndex, recipeId, hasKnownRecipeLayout]);
 
-//   /* =========================
-//    * 4️⃣ 부모 먼저 배치 (세로 체인)
-//    ========================= */
-//   let currentRow = 0;
+  useEffect(() => {
+    setBaseNodes(initialData.nodes ?? []);
+    setBaseEdges(initialData.edges ?? []);
+  }, [initialData]);
 
-//   blocks.forEach(b => {
-//     const id = b.Block_ID;
-//     if (pos[id]) return;
+  useEffect(() => {
+    if (!nodesInitialized) return;
+    fitView({ padding: 0.1, duration: 300 });
+  }, [recipeIndex, nodesInitialized, fitView]);
 
-//     // 부모 없는 노드 → 세로 체인
-//     if (parents[id].length === 0) {
-//       pos[id] = { col: 0, row: currentRow };
-//       occupy(0, currentRow);
-//       currentRow += 1;
-//     }
-//   });
+  const onNodesChange = useCallback((changes) => {
+    setNodes((currentNodes) => applyNodeChanges(changes, currentNodes));
 
-//   /* =========================
-//    * 5️⃣ 부모 기준 방향별 자식 배치 (핵심)
-//    ========================= */
-//   blocks.forEach(b => {
-//     const pid = b.Block_ID;
-//     const parentPos = pos[pid];
-//     if (!parentPos) return;
+    setBaseNodes((prevNodes) => {
+      const baseNodeChanges = changes.filter((change) =>
+        prevNodes.some((node) => node.id === change.id)
+      );
 
-//     const grouped = {
-//       left: [],
-//       right: [],
-//       top: [],
-//       bottom: [],
-//     };
+      return baseNodeChanges.length > 0
+        ? applyNodeChanges(baseNodeChanges, prevNodes)
+        : prevNodes;
+    });
 
-//     (children[pid] || []).forEach(({ tgt, sH }) => {
-//       if (sH === 3) grouped.right.push(tgt);
-//       if (sH === 9) grouped.left.push(tgt);
-//       if (sH === 6) grouped.bottom.push(tgt);
-//       if (sH === 12) grouped.top.push(tgt);
-//     });
+    setGroups((prevGroups) =>
+      prevGroups.map((group) => {
+        const positionChange = changes.find(
+          (change) =>
+            change.id === group.id &&
+            change.type === 'position' &&
+            change.position
+        );
 
-//     /* ⬅ 왼쪽 (가로 1:1) */
-//     grouped.left.forEach(tgt => {
-//       if (pos[tgt]) return;
+        if (!positionChange) {
+          return group;
+        }
 
-//       const col = parentPos.col - 1;
-//       const row = parentPos.row;
+        return {
+          ...group,
+          position: positionChange.position,
+        };
+      })
+    );
+  }, [setNodes]);
 
-//       pos[tgt] = { col, row };
-//       occupy(col, row);
-//     });
+  const onEdgesChange = useCallback((changes) => {
+    setEdges((currentEdges) => applyEdgeChanges(changes, currentEdges));
 
-//     /* ➡ 오른쪽 (세로 스택) */
-//     if (grouped.right.length > 0) {
-//       const baseCol = parentPos.col + 1;
-//       const startRow =
-//         parentPos.row - Math.floor((grouped.right.length - 1) / 2);
+    setBaseEdges((prevEdges) => {
+      const baseEdgeChanges = changes.filter(
+        (change) =>
+          !String(change.id).startsWith('group-edge-') &&
+          prevEdges.some((edge) => edge.id === change.id)
+      );
 
-//       grouped.right.forEach((tgt, i) => {
-//         if (pos[tgt]) return;
+      return baseEdgeChanges.length > 0
+        ? applyEdgeChanges(baseEdgeChanges, prevEdges)
+        : prevEdges;
+    });
+  }, [setEdges]);
 
-//         let row = startRow + i;
-//         while (isUsed(baseCol, row)) row++;
+  useEffect(() => {
+    const groupedNodeIdToGroup = new Map();
 
-//         pos[tgt] = { col: baseCol, row };
-//         occupy(baseCol, row);
-//       });
-//     }
+    groups.forEach((group) => {
+      group.nodeIds.forEach((nodeId) => {
+        groupedNodeIdToGroup.set(nodeId, group);
+      });
+    });
 
-//     /* ⬇ 아래 (세로 체인) */
-//     grouped.bottom.forEach((tgt, i) => {
-//       if (pos[tgt]) return;
-
-//       let row = parentPos.row + 1 + i;
-//       while (isUsed(parentPos.col, row)) row++;
-
-//       pos[tgt] = { col: parentPos.col, row };
-//       occupy(parentPos.col, row);
-//     });
-
-//     /* ⬆ 위 */
-//     grouped.top.forEach((tgt, i) => {
-//       if (pos[tgt]) return;
-
-//       let row = parentPos.row - 1 - i;
-//       while (isUsed(parentPos.col, row)) row--;
-
-//       pos[tgt] = { col: parentPos.col, row };
-//       occupy(parentPos.col, row);
-//     });
-//   });
-
-//   /* =========================
-//    * 6️⃣ px 좌표 변환
-//    ========================= */
-//   const cols = Object.values(pos).map(p => p.col);
-//   const rows = Object.values(pos).map(p => p.row);
-
-//   const minCol = Math.min(...cols);
-//   const minRow = Math.min(...rows);
-
-//   const positions = {};
-//   Object.entries(pos).forEach(([id, p]) => {
-//     positions[id] = {
-//       x: (p.col - minCol) * GAP_X,
-//       y: (p.row - minRow) * GAP_Y,
-//     };
-//   });
-
-//   /* =========================
-//    * 7️⃣ Edge 생성
-//    ========================= */
-//   const edges = [];
-//   Object.entries(parents).forEach(([tgt, plist]) => {
-//     plist.forEach(({ src, sH }) => {
-//       const dir = handleDir[sH];
-//       if (!dir) return;
-
-//       edges.push({
-//         id: `e-${src}-${tgt}`,
-//         source: src,
-//         target: tgt,
-//         type: 'smoothstep',
-//         sourceHandle: `${src}-source-${dir.sh}`,
-//         targetHandle: `${tgt}-target-${dir.th}`,
-//         markerEnd: { type: MarkerType.ArrowClosed },
-//       });
-//     });
-//   });
-
-//   /* =========================
-//    * 8️⃣ Node 생성
-//    ========================= */
-//   const nodes = blocks.map(b => {
-//     const t = typeMap[b.Block_Type] || 'default';
-//     return {
-//       id: b.Block_ID,
-//       type: t,
-//       position: positions[b.Block_ID],
-//       data: {
-//         label: t,
-//         bullets: [b.Reference_Name || '(no reference)'],
-//       },
-//       style: nodeStyles[t]?.style ?? nodeStyles.default.style,
-//     };
-//   });
-
-//   return { nodes, edges };
-// };
-
-
-
-
-
-
-  const onConnect = useCallback(
-    (params) => {
-      // Create a default connection
-      const newEdge = {
-        ...params,
-        type: 'smoothstep',
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          width: 20,
-          height: 20,
-          color: '#222',
+    const visibleNodes = baseNodes
+      .filter((node) => !groupedNodeIdToGroup.has(node.id))
+      .map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          isGroup: false,
+          isSelected: selectedNodeIds.includes(node.id),
         },
-        style: { strokeWidth: 2 },
-        sourceHandle: `${params.source}-source-bottom`,
-        targetHandle: `${params.target}-target-top`,
+        style: {
+          ...node.style,
+          ...(selectedNodeIds.includes(node.id)
+            ? { boxShadow: '0 0 0 4px rgba(0,123,255,0.35)' }
+            : {}),
+        },
+      }));
+
+    const collapsedGroupNodes = groups.map((group) => {
+      const position = group.position ?? getGroupPosition(group.nodeIds);
+      const isSelected = selectedGroupId === group.id;
+      const memberLabels = (group.originalNodes ?? [])
+        .map((node) => node.data?.label ?? node.type ?? node.id);
+
+      return {
+        id: group.collapsedNodeId ?? group.id,
+        type: 'Process',
+        position,
+        data: {
+          label: group.label,
+          bullets: memberLabels.slice(0, 3),
+          isGroup: true,
+          isGroupNode: true,
+          groupId: group.id,
+          isSelected,
+          nodeStyle: {
+            width: 260,
+            minHeight: 120,
+            border: isSelected ? `4px solid ${group.color}` : `3px solid ${group.color}`,
+            borderRadius: 16,
+            background: isSelected ? '#eef6ff' : '#fff8e8',
+            boxShadow: isSelected
+              ? '0 0 0 5px rgba(0,123,255,0.35)'
+              : '0px 4px 4px rgba(0, 0, 0, 0.25)',
+          },
+        },
+        style: {
+          width: 260,
+          minHeight: 120,
+          zIndex: 50,
+          pointerEvents: 'all',
+          cursor: 'pointer',
+        },
+        selected: isSelected,
+        selectable: true,
+        draggable: true,
       };
-      
-      setEdges((eds) => addEdge(newEdge, eds));
-    },
-    []
-  );
+    });
+
+    const visibleEdgesMap = new Map();
+
+    baseEdges.forEach((edge) => {
+      const sourceGroup = groupedNodeIdToGroup.get(edge.source);
+      const targetGroup = groupedNodeIdToGroup.get(edge.target);
+
+      if (sourceGroup && targetGroup && sourceGroup.id === targetGroup.id) {
+        return;
+      }
+
+      const mappedSource = sourceGroup?.collapsedNodeId ?? sourceGroup?.id ?? edge.source;
+      const mappedTarget = targetGroup?.collapsedNodeId ?? targetGroup?.id ?? edge.target;
+      const isCollapsedEdge = mappedSource !== edge.source || mappedTarget !== edge.target;
+      const edgeKey = `${mappedSource}->${mappedTarget}`;
+
+      if (isCollapsedEdge && visibleEdgesMap.has(edgeKey)) {
+        return;
+      }
+
+      visibleEdgesMap.set(
+        edgeKey,
+        isCollapsedEdge
+          ? {
+              id: `group-edge-${edgeKey}`,
+              source: mappedSource,
+              target: mappedTarget,
+              sourceHandle: `${mappedSource}-source-bottom`,
+              targetHandle: `${mappedTarget}-target-top`,
+              type: 'smoothstep',
+              markerEnd: { type: MarkerType.ArrowClosed },
+            }
+          : edge
+      );
+    });
+
+    setNodes([...visibleNodes, ...collapsedGroupNodes]);
+    setEdges(Array.from(visibleEdgesMap.values()));
+  }, [baseNodes, baseEdges, groups, selectedNodeIds, selectedGroupId, getGroupPosition, setNodes, setEdges]);
+
+  useEffect(() => {
+    if (!onGroupsChange) return;
+
+    const nextGroupInfos = groups.map((group) => ({
+      id: group.id,
+      label: group.label,
+      color: group.color,
+      members: group.nodeIds.map((nodeId) => {
+        const node = group.originalNodes?.find((item) => item.id === nodeId)
+          ?? baseNodes.find((item) => item.id === nodeId);
+        return {
+          id: node?.id ?? nodeId,
+          label: node?.data?.label ?? node?.type ?? 'Node',
+        };
+      }),
+    }));
+
+    onGroupsChange(nextGroupInfos);
+  }, [groups, baseNodes, onGroupsChange]);
+
+  const onConnect = useCallback((params) => {
+    const newEdge = {
+      ...params,
+      type: 'smoothstep',
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 20,
+        height: 20,
+        color: '#222',
+      },
+      style: { strokeWidth: 2 },
+      sourceHandle: `${params.source}-source-bottom`,
+      targetHandle: `${params.target}-target-top`,
+    };
+
+    setBaseEdges((prevEdges) => addEdge(newEdge, prevEdges));
+  }, []);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
-  const onDrop = useCallback(
-    (event) => {
-      event.preventDefault();
-      if (!type) return;
+  const onDrop = useCallback((event) => {
+    event.preventDefault();
+    if (!type) return;
 
-      const position = screenToFlowPosition({ x: event.clientX, y: event.clientY });
+    const position = screenToFlowPosition({ x: event.clientX, y: event.clientY });
 
-      const newNode = {
-        id: getId(),
-        type,
-        position,
-        data: { label: nodeStyles[type]?.label },
-        style: nodeStyles[type]?.style ?? nodeStyles.default.style,
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Top,
-      };
+    const newNode = {
+      id: getId(),
+      type,
+      position,
+      data: { label: nodeStyles[type]?.label },
+      style: nodeStyles[type]?.style ?? nodeStyles.default?.style,
+      sourcePosition: Position.Bottom,
+      targetPosition: Position.Top,
+    };
 
-      const node = document.getElementById(newNode.id);
-      const nodeRect = node ? node.getBoundingClientRect() : { width: 150, height: 50 };
-      const adjustedPosition = {
-        x: position.x - nodeRect.width / 2,
-        y: position.y - nodeRect.height / 2,
-      };
+    const node = document.getElementById(newNode.id);
+    const nodeRect = node ? node.getBoundingClientRect() : { width: 150, height: 50 };
+    const adjustedPosition = {
+      x: position.x - nodeRect.width / 2,
+      y: position.y - nodeRect.height / 2,
+    };
 
-      newNode.position = adjustedPosition;
-      setNodes((nds) => nds.concat(newNode));
-    },
-    [screenToFlowPosition, type]
-  );
-
-
-  const { setSelectedBlockId } = useDnD();
-
-  // const onNodeClick = useCallback((event, node) => {
-  //   event.stopPropagation();
-  //   const viewport = getViewport();
-  //   setSelectedNode({
-  //     id: node.id,
-  //     data: node.data,
-  //     position: {
-  //       x: node.position.x * viewport.zoom + viewport.x,
-  //       y: node.position.y * viewport.zoom + viewport.y,
-  //     },
-  //   });
-  // }, [getViewport]);
+    newNode.position = adjustedPosition;
+    setBaseNodes((prevNodes) => prevNodes.concat(newNode));
+  }, [screenToFlowPosition, type]);
 
   const onNodeClick = useCallback((event, node) => {
-  event.stopPropagation();
-  const viewport = getViewport();
-  console.log("node.idnode.idnode.idnode.id", node.id)
-  setSelectedBlockId(node.id); // Block_ID 저장
+    event.stopPropagation();
 
-  setSelectedNode({
-    id: node.id,
-    data: node.data,
-    position: {
-      x: node.position.x * viewport.zoom + viewport.x,
-      y: node.position.y * viewport.zoom + viewport.y,
-    },
-  });
-}, [getViewport, setSelectedBlockId]);
+    const isMultiSelect = event.ctrlKey || event.metaKey || event.shiftKey;
+    const isGroupNode = Boolean(node.data?.isGroup || node.data?.isGroupNode);
+    const viewport = getViewport();
+
+    if (isGroupNode) {
+      setSelectedBlockId(null);
+      onSelectedGroupChange?.(node.data?.groupId ?? node.id);
+      setSelectedNodeIds([]);
+      setSelectedNode({
+        id: node.id,
+        data: node.data,
+        position: {
+          x: node.position.x * viewport.zoom + viewport.x,
+          y: node.position.y * viewport.zoom + viewport.y,
+        },
+      });
+    } else {
+      onSelectedGroupChange?.(null);
+      setSelectedBlockId(node.id);
+      setSelectedNode({
+        id: node.id,
+        data: node.data,
+        position: {
+          x: node.position.x * viewport.zoom + viewport.x,
+          y: node.position.y * viewport.zoom + viewport.y,
+        },
+      });
+      setSelectedNodeIds((prev) => {
+        if (!isMultiSelect) {
+          return [node.id];
+        }
+
+        if (prev.includes(node.id)) {
+          return prev.filter((nextId) => nextId !== node.id);
+        }
+
+        return [...prev, node.id];
+      });
+    }
+  }, [getViewport, onSelectedGroupChange, setSelectedBlockId]);
 
   const onEdgeClick = useCallback((event, edge) => {
-    console.log('🟥 Edge clicked:', edge);
+    console.log('Edge clicked:', edge);
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = () => {
-      setSelectedNode(null);
+  const onPaneClick = useCallback(() => {
+    setSelectedNode(null);
+    setSelectedNodeIds([]);
+    setSelectedBlockId(null);
+    onSelectedGroupChange?.(null);
+  }, [setSelectedBlockId, onSelectedGroupChange]);
+
+  const handleGroupSelected = useCallback(() => {
+    const groupedNodeIds = new Set(groups.flatMap((group) => group.nodeIds));
+    const selectedBaseNodeIds = selectedNodeIds.filter(
+      (nodeId) =>
+        baseNodes.some((node) => node.id === nodeId) &&
+        !groupedNodeIds.has(nodeId)
+    );
+
+    if (selectedBaseNodeIds.length < 2) {
+      alert('두 개 이상의 노드를 선택하세요.');
+      return;
+    }
+
+    const newGroup = {
+      id: `group_${groupSeq}`,
+      label: `Group ${groupSeq}`,
+      color: GROUP_COLORS[(groupSeq - 1) % GROUP_COLORS.length],
+      nodeIds: selectedBaseNodeIds,
+      originalNodes: baseNodes
+        .filter((node) => selectedBaseNodeIds.includes(node.id))
+        .map((node) => ({ ...node, data: { ...node.data }, style: { ...node.style } })),
+      originalEdges: baseEdges
+        .filter(
+          (edge) =>
+            selectedBaseNodeIds.includes(edge.source) ||
+            selectedBaseNodeIds.includes(edge.target)
+        )
+        .map((edge) => ({ ...edge })),
+      collapsedNodeId: `group_${groupSeq}`,
+      position: getGroupPosition(selectedBaseNodeIds),
     };
-    window.addEventListener('click', handleClickOutside);
-    return () => window.removeEventListener('click', handleClickOutside);
-  }, []);
+
+    setGroups((prev) => [...prev, newGroup]);
+    setGroupSeq((prev) => prev + 1);
+    setSelectedNode(null);
+    setSelectedBlockId(null);
+    setSelectedNodeIds([]);
+    onSelectedGroupChange?.(newGroup.id);
+  }, [selectedNodeIds, groups, groupSeq, baseNodes, getGroupPosition, setSelectedBlockId, onSelectedGroupChange]);
+
+  const handleUngroupSelected = useCallback(() => {
+    const selectedGroupIds = selectedGroupId
+      ? [selectedGroupId]
+      : selectedNodeIds.filter((nodeId) =>
+          groups.some((group) => group.id === nodeId)
+        );
+
+    if (selectedGroupIds.length === 0) {
+      alert('Ungroup할 그룹 노드를 선택하세요.');
+      return;
+    }
+
+    setGroups((prevGroups) =>
+      prevGroups.filter((group) => !selectedGroupIds.includes(group.id))
+    );
+    setSelectedNode(null);
+    setSelectedBlockId(null);
+    setSelectedNodeIds([]);
+    onSelectedGroupChange?.(null);
+  }, [selectedGroupId, selectedNodeIds, groups, setSelectedBlockId, onSelectedGroupChange]);
+
+  useEffect(() => {
+    if (!groupCommand) return;
+    if (lastHandledGroupCommandRef.current === groupCommand.timestamp) return;
+
+    lastHandledGroupCommandRef.current = groupCommand.timestamp;
+
+    if (groupCommand.type === 'group') {
+      handleGroupSelected();
+    } else if (groupCommand.type === 'ungroup') {
+      handleUngroupSelected();
+    }
+  }, [groupCommand, handleGroupSelected, handleUngroupSelected]);
+
+  useEffect(() => {
+    if (!selectedGroupId) return;
+
+    const selectedGroup = groups.find((group) => group.id === selectedGroupId);
+    if (!selectedGroup) {
+      onSelectedGroupChange?.(null);
+      return;
+    }
+
+    const position = selectedGroup.position ?? getGroupPosition(selectedGroup.nodeIds);
+    const memberLabels = selectedGroup.nodeIds
+      .map((nodeId) => baseNodes.find((node) => node.id === nodeId))
+      .filter(Boolean)
+      .map((node) => node.data?.label ?? node.type ?? node.id);
+
+    const viewport = getViewport();
+
+    setSelectedNode({
+      id: selectedGroup.id,
+      data: {
+        label: selectedGroup.label,
+        bullets: memberLabels,
+        isGroup: true,
+        isGroupNode: true,
+        groupId: selectedGroup.id,
+      },
+      position: {
+        x: position.x * viewport.zoom + viewport.x,
+        y: position.y * viewport.zoom + viewport.y,
+      },
+    });
+    setSelectedNodeIds([]);
+    setSelectedBlockId(null);
+    setCenter(position.x + 110, position.y + 45, { zoom: 0.8, duration: 250 });
+  }, [selectedGroupId, groups, baseNodes, getGroupPosition, getViewport, setCenter, setSelectedBlockId, onSelectedGroupChange]);
 
   return (
     <div className="dndflow" style={{ position: 'relative' }}>
-      {/* <Sidebar /> */}
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
         {loading && (
           <div
@@ -850,6 +910,7 @@ const generateNodesAndEdges = (blocks, recipeIndex) => {
             로딩중...
           </div>
         )}
+
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -861,11 +922,10 @@ const generateNodesAndEdges = (blocks, recipeIndex) => {
           onDragOver={onDragOver}
           onNodeClick={onNodeClick}
           onEdgeClick={onEdgeClick}
+          onPaneClick={onPaneClick}
           defaultViewport={defaultViewport}
           minZoom={0.1}
           maxZoom={4}
-          // fitView
-          // fitViewOptions={{ padding: 0.1 }}
           style={{ backgroundColor: '#F7F9FB', height: '100vh', width: '100%' }}
           connectionLineComponent={(props) => (
             <g>
@@ -876,7 +936,14 @@ const generateNodesAndEdges = (blocks, recipeIndex) => {
                 strokeWidth={1.5}
                 className="animated"
               />
-              <circle cx={props.toX} cy={props.toY} fill="#fff" r={3} stroke="#222" strokeWidth={1.5} />
+              <circle
+                cx={props.toX}
+                cy={props.toY}
+                fill="#fff"
+                r={3}
+                stroke="#222"
+                strokeWidth={1.5}
+              />
             </g>
           )}
         >
@@ -899,24 +966,24 @@ const generateNodesAndEdges = (blocks, recipeIndex) => {
               zIndex: 1000,
               fontSize: '14px',
               minWidth: '180px',
+              pointerEvents: 'none',
             }}
-            onClick={(e) => e.stopPropagation()}
+            
           >
             <strong>{selectedNode.data.label}</strong>
-           <ul
-            style={{
-              marginTop: '6px',
-              paddingLeft: '20px',
-              fontSize: '18px',      
-              lineHeight: '1.8',
-              fontWeight: '500',
-            }}
-          >
-            {selectedNode.data.bullets?.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-
+            <ul
+              style={{
+                marginTop: '6px',
+                paddingLeft: '20px',
+                fontSize: '18px',
+                lineHeight: '1.8',
+                fontWeight: '500',
+              }}
+            >
+              {selectedNode.data.bullets?.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
           </div>
         )}
       </div>

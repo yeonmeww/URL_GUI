@@ -1,0 +1,50 @@
+[
+  {
+    "wo_id": "wo251215_1",
+    "rcp_id": "rcp_sim_251215_1",
+    "module_id": "Module_1",
+    "module_no": 1,
+    "block_id": "Block_1",
+    "block_no": 1,
+    "block_type": "M",
+    "reference_id": "mat_1",
+    "ord_seq_no": 1,
+    "block_conn_info": null
+  },
+  {
+    "wo_id": "wo251215_1",
+    "rcp_id": "rcp_sim_251215_1",
+    "module_id": "Module_1",
+    "module_no": 1,
+    "block_id": "Block_2",
+    "block_no": 2,
+    "block_type": "S",
+    "reference_id": "sim_1",
+    "ord_seq_no": 2,
+    "block_conn_info": "{Block_1,3,Block_2,9}"
+  },
+  {
+    "wo_id": "wo251215_1",
+    "rcp_id": "rcp_sim_251215_1",
+    "module_id": "Module_1",
+    "module_no": 1,
+    "block_id": "Block_3",
+    "block_no": 3,
+    "block_type": "R",
+    "reference_id": null,
+    "ord_seq_no": 3,
+    "block_conn_info": "{Block_2,3,Block_3,9}"
+  },
+  {
+    "wo_id": "wo251215_1",
+    "rcp_id": "rcp_sim_251215_1",
+    "module_id": "Module_1",
+    "module_no": 1,
+    "block_id": "Block_4",
+    "block_no": 4,
+    "block_type": "R",
+    "reference_id": null,
+    "ord_seq_no": 4,
+    "block_conn_info": "{Block_2,3,Block_4,9}"
+  }
+]
