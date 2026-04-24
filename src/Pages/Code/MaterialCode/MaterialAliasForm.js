@@ -14,7 +14,7 @@ const MaterialAliasForm = () => {
         if (loading || !hasMore) return;
         setLoading(true);
         try {
-            const response = await axios.get('http://13.125.96.124:8080/api/v1/materialAlias', {
+            const response = await axios.get('http://localhost:8080/api/v1/materialAlias', {
                 params: { page, limit }
             }); 
             const newFetchedData = response.data;

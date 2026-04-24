@@ -7,7 +7,7 @@ const ProcessAliasForm = () => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        axios.get('http://13.125.96.124:8080/api/v1/processAlias')
+        axios.get('http://localhost:8080/api/v1/processAlias')
             .then(function (res){
                 if (res.data && res.data.data) {
                     setRows(res.data.data);

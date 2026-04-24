@@ -13,7 +13,7 @@ const AnalysisCodeForm = () => {
         setLoading(true);
         try {
             // 1. API URL을 'analysisCodeView'로 수정
-            const response = await axios.get('http://13.125.96.124:8080/api/v1/analysisCodeView');
+            const response = await axios.get('http://localhost:8080/api/v1/analysisCodeView');
             const newFetchedData = response.data;
 
             if (Array.isArray(newFetchedData)) {
