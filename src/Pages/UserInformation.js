@@ -11,7 +11,7 @@ const UserInformation = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get('http://13.125.96.124:8080/api/v1/user');
+                const response = await axios.get('http://localhost:8080/api/v1/user');
                 const userData = response.data;
                 const processedData = Array.isArray(userData) ? userData : [userData];
 

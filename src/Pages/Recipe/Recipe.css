@@ -24,6 +24,73 @@
   overflow: hidden; /* 스크롤 절대 금지 */
 }
 
+.json-display-container .SearchBox-content {
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.json-display-container .SearchBox-box {
+  flex: 0 0 auto;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.json-display-container .SearchBox-form {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 16px 20px;
+  align-items: center;
+}
+
+.json-display-container .info-form-group {
+  flex: 0 0 auto;
+  min-width: 0;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.json-display-container .form-input {
+  width: 180px;
+  min-width: 180px;
+}
+
+.json-display-container .form-input input,
+.json-display-container .form-input select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.json-display-container .button-content {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin-top: 0;
+  flex: 0 0 auto;
+  align-items: center;
+  align-self: center;
+}
+
+.json-display-search-row {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 
 
 .gen-text-header, .block-text-header {

@@ -15,7 +15,7 @@ const EquipmentCode = () => {
 
         setLoading(true);
         try {
-            const response = await axios.get('http://13.125.96.124:8080/api/v1/equipmentCode', {
+            const response = await axios.get('http://localhost:8080/api/v1/equipmentCode', {
                 params: { page, limit }
             });
 

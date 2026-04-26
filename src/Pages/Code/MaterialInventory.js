@@ -11,7 +11,7 @@ const MaterialInventory = () => {
     const fetchVocData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://13.125.96.124:8080/api/v1/vocInfo', {
+            const response = await axios.get('http://localhost:8080/api/v1/vocInfo', {
                 headers: {
                     'Accept': '*/*'
                 }
