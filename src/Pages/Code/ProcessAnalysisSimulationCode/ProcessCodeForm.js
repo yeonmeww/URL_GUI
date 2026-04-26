@@ -11,7 +11,7 @@ const ProcessCodeForm = () => {
         setLoading(true); // 로딩 시작
         try {
             // 1. API URL을 'processCodeView'로 수정하고, 페이지네이션 파라미터 제거
-            const response = await axios.get('http://13.125.96.124:8080/api/v1/processCodeView');
+            const response = await axios.get('http://localhost:8080/api/v1/processCodeView');
 
             // 2. 전체 데이터를 한 번에 받아 state에 저장
             if (Array.isArray(response.data)) {

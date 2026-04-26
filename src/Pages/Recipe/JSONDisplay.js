@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDnD } from './DnDContext';
 import axios from 'axios';
+import SearchBox from '../SearchBox';
+import './Recipe.css';
 
 
 const JSONDisplay = ({ recipeIndex }) => {
@@ -19,12 +21,14 @@ const getRecipeId = (recipeIndex) => {
 };
 
 const recipeId = getRecipeId(recipeIndex);
+const searchFields = ['Recipe_ID'];
 
 
   const [loading, setLoading] = useState(false);
 
   const [genData, setGenData] = useState([]);
   const [blockData, setBlockData] = useState([]);
+  const [searchBoxData, setSearchBoxData] = useState({});
 
   const [genHeaders, setGenHeaders] = useState([]);
   const [blockHeaders, setBlockHeaders] = useState([]);
@@ -56,7 +60,7 @@ useEffect(() => {
                 };
 
                 const genRes = await axios.post(
-                'http://13.125.96.124:8080/api/v1/recipeInfoGeneral/search',
+                'http://localhost:8080/api/v1/recipeInfoGeneral/search',
                 requestBodyGeneral
                 );
                 setGenData(Array.isArray(genRes.data) ? genRes.data : []);
@@ -98,7 +102,7 @@ useEffect(() => {
         };
 
         const blockRes = await axios.post(
-          'http://13.125.96.124:8080/api/v1/recipeInfoCollected/search',
+          'http://localhost:8080/api/v1/recipeInfoCollected/search',
           requestBodyCollected
         );
 
@@ -199,6 +203,19 @@ const genColumnWidths = {
 
     return (
         <div className="json-display-container" style={{ padding: '20px', overflowX: 'auto' }}>
+            <div className="json-display-search-row">
+                <SearchBox
+                    SearchBoxData={searchBoxData}
+                    setSearchBoxData={setSearchBoxData}
+                    fields={searchFields}
+                    buttonConfig={{
+                        showSearch: true,
+                        showSave: false,
+                        showDelete: false,
+                        showDownload: false
+                    }}
+                />
+            </div>
 
             <div className='gen-text-header'>
                 <h3>General Recipe Information</h3>
